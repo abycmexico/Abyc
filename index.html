@@ -655,18 +655,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a class="mail" href="mailto:abycmexico@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18v12H3Z"/><path d="m3 7 9 6 9-6"/></svg>abycmexico@gmail.com</a>
     </div>
 
-    <form name="contacto" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="contact-form" onsubmit="return handleContactSubmit(event)">
-      <input type="hidden" name="form-name" value="contacto">
-      <p style="display:none;"><label>No llenar: <input name="bot-field"></label></p>
-      <div class="form-row">
-        <input type="text" name="nombre" placeholder="Tu nombre" required>
-        <input type="text" name="contacto" placeholder="Teléfono o correo" required>
-      </div>
-      <textarea name="mensaje" rows="4" placeholder="Cuéntanos qué necesitas" required></textarea>
-      <button type="submit" class="form-submit">Enviar mensaje</button>
-      <p id="formStatus" class="form-status"></p>
-    </form>
-
     <div class="grid-3">
       <div class="card"><h3>Diagnóstico gratis</h3><p>Quieres saber en qué estás fallando.</p></div>
       <div class="card"><h3>Cotización</h3><p>Quieres precio de gestión, campañas o consultoría.</p></div>
@@ -1148,32 +1136,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const stageInnerEl = document.querySelector('.stage-inner');
   stageInnerEl.addEventListener('mousemove', handleCursor);
   stageInnerEl.addEventListener('mouseleave', hideCursorLines);
-
-  function handleContactSubmit(e){
-    e.preventDefault();
-    const form = e.target;
-    const btn = form.querySelector('.form-submit');
-    const status = form.querySelector('#formStatus');
-    const data = new FormData(form);
-    btn.disabled = true;
-    status.textContent = 'Enviando...';
-    status.className = 'form-status';
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(data).toString()
-    }).then(() => {
-      status.textContent = 'Gracias, te contactaremos pronto.';
-      status.className = 'form-status ok';
-      form.reset();
-      btn.disabled = false;
-    }).catch(() => {
-      status.textContent = 'Hubo un error. Escríbenos por WhatsApp mejor.';
-      status.className = 'form-status err';
-      btn.disabled = false;
-    });
-    return false;
-  }
 
   function toggleFaq(){
     const el = document.getElementById('faq');
