@@ -67,16 +67,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   header .logo img{height:26px;width:auto;}
   header .motto{position:absolute;left:50%;transform:translateX(-50%);color:var(--gray);font-size:12.5px;font-style:italic;}
   @media (max-width:760px){header .motto{display:none;}}
-  .layout{display:flex;gap:0;align-items:flex-start;justify-content:space-between;max-width:1320px;margin:0 auto;padding:64px 40px 90px;}
-  .layout .content{flex:0 1 720px;min-width:0;}
-  .layout .sidebar{flex:0 0 220px;position:sticky;top:40px;padding-left:36px;border-left:1px solid var(--line);margin-left:auto;}
-  .sidebar h4{font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:#b3b3b3;margin-bottom:20px;font-weight:700;}
-  .sidebar a.rec-card{display:block;padding:0 0 18px;margin-bottom:18px;border-bottom:1px solid var(--line);}
-  .sidebar a.rec-card:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-  .sidebar a.rec-card span{display:block;font-size:13px;font-weight:600;line-height:1.5;color:#444;transition:color .15s;}
-  .sidebar a.rec-card:hover span{color:var(--ink);}
-  .sidebar a.rec-card .rec-num{display:block;font-size:10px;color:var(--yellow);font-weight:800;margin-bottom:4px;letter-spacing:1px;}
-  @media (max-width:900px){.layout{flex-direction:column;gap:36px;}.layout .content{flex:none;width:100%;}.layout .sidebar{position:static;width:100%;flex:none;border-left:none;border-top:1px solid var(--line);padding-left:0;padding-top:24px;}}
+  .top-strip{max-width:720px;margin:0 auto;padding:28px 24px 0;}
+  .top-strip h4{font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:#b3b3b3;margin-bottom:12px;font-weight:700;}
+  .top-strip .strip-links{display:flex;gap:28px;flex-wrap:wrap;}
+  .top-strip .strip-links a{font-size:12.5px;font-weight:600;color:#888;border-bottom:1px solid transparent;transition:color .15s,border-color .15s;padding-bottom:2px;}
+  .top-strip .strip-links a:hover{color:var(--ink);border-color:var(--yellow);}
+  .bottom-recs{max-width:720px;margin:56px auto 0;padding:32px 24px 0;border-top:1.5px solid var(--line);}
+  .bottom-recs h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:20px;font-weight:700;}
+  .bottom-recs .rec-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+  .bottom-recs a.rec-card{display:block;border:1.5px solid var(--line);border-radius:14px;padding:16px;transition:border-color .15s;}
+  .bottom-recs a.rec-card:hover{border-color:var(--yellow);}
+  .bottom-recs a.rec-card .rec-num{display:block;font-size:10px;color:var(--yellow);font-weight:800;margin-bottom:6px;letter-spacing:1px;}
+  .bottom-recs a.rec-card span:last-child{display:block;font-size:13.5px;font-weight:700;line-height:1.4;color:#222;}
+  @media (max-width:720px){.bottom-recs .rec-grid{grid-template-columns:1fr;}.top-strip .strip-links{gap:16px;}}
 </style>
 </head>
 <body>
@@ -91,9 +94,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a class="back" href="https://abycagency.com/#ideas">← Volver a AbyC</a>
 </header>
 
+<div class="top-strip">
+  <h4>Otros artículos que te pueden interesar</h4>
+  <div class="strip-links">
+      <a href="/blog/como-perder-leads-sin-darte-cuenta.html">Cómo perder leads sin darte cuenta</a>
+      <a href="/blog/la-ia-no-reemplaza-tu-estrategia.html">La IA no reemplaza tu estrategia</a>
+      <a href="/blog/por-que-la-prueba-social-vende-mas.html">Por qué la prueba social vende más que un mejor producto</a>
+  </div>
+</div>
 <main>
-  <div class="layout">
-    <div class="content">
+
   <span class="tag">Ideas</span>
   <h1>El error más caro en Meta Ads</h1>
   <p class="meta">Por Adán Limones Ambriz · AbyC</p>
@@ -126,14 +136,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a class="mail" href="mailto:abycmexico@gmail.com">Correo</a>
     </div>
   </div>
-    </div>
-    <aside class="sidebar">
-      <h4>También te puede interesar</h4>
+    <div class="bottom-recs">
+  <h4>También te puede interesar</h4>
+  <div class="rec-grid">
       <a class="rec-card" href="/blog/como-perder-leads-sin-darte-cuenta.html"><span class="rec-num">01</span><span>Cómo perder leads sin darte cuenta</span></a>
       <a class="rec-card" href="/blog/la-ia-no-reemplaza-tu-estrategia.html"><span class="rec-num">02</span><span>La IA no reemplaza tu estrategia</span></a>
       <a class="rec-card" href="/blog/por-que-la-prueba-social-vende-mas.html"><span class="rec-num">03</span><span>Por qué la prueba social vende más que un mejor producto</span></a>
-    </aside>
   </div>
+</div>
 </main>
 
 <footer>© 2026 AbyC. Nada se comunica al azar.</footer>
