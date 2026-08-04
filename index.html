@@ -660,12 +660,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="grid-3">
-      <div class="card"><h3>Diagnóstico gratis</h3><p>Quieres saber en qué estás fallando.</p></div>
-      <div class="card"><h3>Cotización</h3><p>Quieres precio de gestión, campañas o consultoría.</p></div>
-      <div class="card"><h3>Curso IA</h3><p>Quieres aprender a producir anuncios con IA.</p></div>
-      <div class="card"><h3>Comunicación en crisis</h3><p>Necesitas control del mensaje ya, con urgencia.</p></div>
-      <div class="card"><h3>Capacitación</h3><p>Quieres formar a tu equipo de marketing.</p></div>
-      <div class="card"><h3>Dudas generales</h3><p>No sabes qué necesitas. Te ayudamos a definirlo.</p></div>
+      <div class="card clickable" onclick="openContactModal('diagnostico')"><h3>Diagnóstico gratis</h3><p>Quieres saber en qué estás fallando.</p></div>
+      <div class="card clickable" onclick="openContactModal('cotizacion')"><h3>Cotización</h3><p>Quieres precio de gestión, campañas o consultoría.</p></div>
+      <div class="card clickable" onclick="openContactModal('cursoia')"><h3>Curso IA</h3><p>Quieres aprender a producir anuncios con IA.</p></div>
+      <div class="card clickable" onclick="openContactModal('crisiscontacto')"><h3>Comunicación en crisis</h3><p>Necesitas control del mensaje ya, con urgencia.</p></div>
+      <div class="card clickable" onclick="openContactModal('capacitacioncontacto')"><h3>Capacitación</h3><p>Quieres formar a tu equipo de marketing.</p></div>
+      <div class="card clickable" onclick="openContactModal('dudas')"><h3>Dudas generales</h3><p>No sabes qué necesitas. Te ayudamos a definirlo.</p></div>
     </div>
     <span class="close-panel" onclick="closePanels()">Cerrar ✕</span>
   </div>
@@ -743,6 +743,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="cta-group">
       <a class="wa" href="https://wa.me/525615056334" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>WhatsApp</a>
       <a class="mail" href="mailto:abycmexico@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18v12H3Z"/><path d="m3 7 9 6 9-6"/></svg>Correo</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="contactModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeContactModal()">✕</button>
+    <h3 id="contactModalTitle"></h3>
+    <p id="contactModalDesc"></p>
+    <div class="cta-group">
+      <a class="wa" id="contactModalWa" href="#" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>WhatsApp</a>
+      <a class="mail" id="contactModalMail" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18v12H3Z"/><path d="m3 7 9 6 9-6"/></svg>Correo</a>
     </div>
   </div>
 </div>
@@ -941,6 +953,67 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if(e.target.id==='serviceModal') closeServiceModal();
   });
 
+  const contactDetails = {
+    diagnostico: {
+      title:'Diagnóstico gratis',
+      desc:'Revisamos tu estrategia actual, vemos a tu competencia y te decimos qué le falta a tu marketing. Sin costo, sin compromiso.',
+      waMsg:'Hola, quiero mi diagnóstico gratuito de marketing.',
+      mailSubject:'Diagnóstico gratuito',
+      mailBody:'Hola, quiero mi diagnóstico gratuito de marketing. Les comparto un poco de contexto sobre mi negocio:'
+    },
+    cotizacion: {
+      title:'Cotización',
+      desc:'Cuéntanos qué necesitas (gestión, campañas o consultoría) y te armamos una cotización a la medida de tu negocio.',
+      waMsg:'Hola, quiero una cotización de sus servicios.',
+      mailSubject:'Solicitud de cotización',
+      mailBody:'Hola, quiero una cotización. Esto es lo que necesito:'
+    },
+    cursoia: {
+      title:'Curso IA',
+      desc:'Aprende a producir anuncios con inteligencia artificial: video listo para publicar y sistema de leads armado en una sola sesión.',
+      waMsg:'Hola, quiero información sobre el Curso IA.',
+      mailSubject:'Información sobre el Curso IA',
+      mailBody:'Hola, quiero más información sobre el Curso IA de anuncios.'
+    },
+    crisiscontacto: {
+      title:'Comunicación en crisis',
+      desc:'Si necesitas control del mensaje ya, con urgencia, este es el canal más rápido para contactarnos.',
+      waMsg:'Hola, tengo una crisis de comunicación y necesito ayuda urgente.',
+      mailSubject:'Urgente: comunicación en crisis',
+      mailBody:'Hola, tengo una situación de crisis de comunicación y necesito apoyo urgente. Contexto:'
+    },
+    capacitacioncontacto: {
+      title:'Capacitación',
+      desc:'Formamos a tu equipo de marketing, de emprendedores a grandes empresas, en estrategia, IA y ejecución real.',
+      waMsg:'Hola, quiero información sobre capacitación para mi equipo.',
+      mailSubject:'Capacitación de equipo',
+      mailBody:'Hola, quiero capacitar a mi equipo de marketing. Esto es lo que buscamos:'
+    },
+    dudas: {
+      title:'Dudas generales',
+      desc:'No sabes exactamente qué necesitas, y está bien. Cuéntanos tu situación y te ayudamos a definirlo.',
+      waMsg:'Hola, tengo una duda sobre sus servicios.',
+      mailSubject:'Duda general',
+      mailBody:'Hola, tengo la siguiente duda:'
+    }
+  };
+
+  function openContactModal(key){
+    const data = contactDetails[key];
+    if(!data) return;
+    document.getElementById('contactModalTitle').textContent = data.title;
+    document.getElementById('contactModalDesc').textContent = data.desc;
+    document.getElementById('contactModalWa').href = 'https://wa.me/525615056334?text=' + encodeURIComponent(data.waMsg);
+    document.getElementById('contactModalMail').href = 'mailto:abycmexico@gmail.com?subject=' + encodeURIComponent(data.mailSubject) + '&body=' + encodeURIComponent(data.mailBody);
+    document.getElementById('contactModal').classList.add('show');
+  }
+  function closeContactModal(){
+    document.getElementById('contactModal').classList.remove('show');
+  }
+  document.getElementById('contactModal').addEventListener('click', e=>{
+    if(e.target.id==='contactModal') closeContactModal();
+  });
+
   function detectTarget(text){
     text = text.toLowerCase();
     for(const key in keywords){
@@ -1000,6 +1073,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       keywords:['como los contacto','como hablo con ustedes','numero de whatsapp','correo de contacto','como me comunico'],
       q:'¿Cómo los contacto?',
       a:'Por WhatsApp al +52 56 1505 6334 o al correo abycmexico@gmail.com.'
+    },
+    {
+      keywords:['prueba social','testimonios','reseñas'],
+      q:'¿Qué es la prueba social y por qué importa?',
+      a:'Es el sesgo por el que confiamos más en lo que dicen otros clientes que en lo que dice la marca. Funciona mejor con testimonios específicos que con cifras grandes sin contexto. <a href="/blog/por-que-la-prueba-social-vende-mas.html">Leer el artículo completo →</a>'
+    },
+    {
+      keywords:['anclaje','orden de precios','como poner mis precios','efecto ancla'],
+      q:'¿Cómo debo ordenar mis precios?',
+      a:'El primer precio que ve tu cliente se convierte en su punto de referencia. Mostrar primero la opción más completa hace que las demás se sientan más razonables. <a href="/blog/el-precio-que-ve-primero-tu-cliente.html">Leer el artículo completo →</a>'
+    },
+    {
+      keywords:['reciprocidad','dar algo gratis','regalar antes de vender'],
+      q:'¿Funciona dar algo gratis antes de vender?',
+      a:'Sí, un regalo de valor real genera más conversión que un descuento, porque aumenta el valor percibido en vez de reducirlo. <a href="/blog/por-que-dar-algo-gratis-vende-mas.html">Leer el artículo completo →</a>'
+    },
+    {
+      keywords:['urgencia falsa','urgencia real','escasez falsa','quedan pocos'],
+      q:'¿Cómo uso bien la urgencia en mis campañas?',
+      a:'La urgencia real existe fuera del anuncio. La urgencia falsa se fabrica solo dentro de él, y a la larga daña la confianza en tu marca. <a href="/blog/urgencia-real-vs-urgencia-falsa.html">Leer el artículo completo →</a>'
+    },
+    {
+      keywords:['comentario negativo','queja publica','mala reseña','sesgo de negatividad'],
+      q:'¿Cómo manejo un comentario negativo público?',
+      a:'Un solo comentario negativo pesa más que muchos positivos por el sesgo de negatividad. La clave es responder rápido, en el mismo canal, con una solución concreta. <a href="/blog/un-comentario-negativo-pesa-mas.html">Leer el artículo completo →</a>'
+    },
+    {
+      keywords:['storytelling','historia de marca','narrativa politica'],
+      q:'¿Por qué importa el storytelling en marketing y política?',
+      a:'Una historia se recuerda y convence más que un dato aislado, porque el cerebro procesa mejor las narrativas que las estadísticas sueltas. <a href="/blog/por-que-una-buena-historia-gana-mas.html">Leer el artículo completo →</a>'
+    },
+    {
+      keywords:['mera exposicion','repeticion de marca','frecuencia publicitaria'],
+      q:'¿Vale más la repetición o la creatividad en publicidad?',
+      a:'La presencia constante suele generar más confianza que un solo anuncio brillante. La familiaridad se traduce en confianza con el tiempo. <a href="/blog/por-que-la-repeticion-vende-mas.html">Leer el artículo completo →</a>'
+    },
+    {
+      keywords:['aversion a la perdida','no te quedes sin','llamado a la accion'],
+      q:'¿Cómo escribo un mejor llamado a la acción?',
+      a:'Enmarcar un beneficio como una posible pérdida suele convertir más que enmarcarlo como una ganancia, porque duele más perder que alegra ganar. <a href="/blog/no-te-quedes-sin-esto-vende-mas.html">Leer el artículo completo →</a>'
     }
   ];
 
@@ -1010,7 +1123,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   function openFaq(item){
     document.getElementById('faqQuestion').textContent = item.q;
-    document.getElementById('faqAnswer').textContent = item.a;
+    document.getElementById('faqAnswer').innerHTML = item.a;
     document.getElementById('faqModal').classList.add('show');
   }
   function closeFaq(){
