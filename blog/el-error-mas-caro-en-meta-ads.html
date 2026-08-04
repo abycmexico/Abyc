@@ -61,6 +61,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cta-group .wa{background:var(--yellow);color:var(--ink);}
   .cta-group .mail{border:1.5px solid var(--line);color:var(--ink);}
   footer{border-top:1.5px solid var(--line);padding:24px 32px;color:var(--gray);font-size:12.5px;text-align:center;}
+
+  header{position:relative;}
+  header .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:2px;font-size:15px;}
+  header .logo img{height:26px;width:auto;}
+  header .motto{position:absolute;left:50%;transform:translateX(-50%);color:var(--gray);font-size:12.5px;font-style:italic;}
+  @media (max-width:760px){header .motto{display:none;}}
+  .layout{display:flex;gap:40px;align-items:flex-start;max-width:960px;margin:0 auto;padding:60px 24px 80px;}
+  .layout .content{flex:1 1 auto;min-width:0;}
+  .layout .sidebar{flex:0 0 260px;position:sticky;top:32px;}
+  .sidebar h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:16px;}
+  .sidebar a.rec-card{display:block;border:1.5px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;transition:border-color .15s;}
+  .sidebar a.rec-card:hover{border-color:var(--yellow);}
+  .sidebar a.rec-card span{display:block;font-size:14px;font-weight:700;line-height:1.4;}
+  @media (max-width:860px){.layout{flex-direction:column;}.layout .sidebar{position:static;width:100%;flex:none;}}
 </style>
 </head>
 <body>
@@ -70,11 +84,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 <header>
-  <span class="brand">ABYC</span>
+  <a class="logo" href="https://abycagency.com/#ideas"><img src="https://abycagency.com/og-image.png" alt="AbyC"> ABYC</a>
+  <div class="motto">Nada se comunica al azar.</div>
   <a class="back" href="https://abycagency.com/#ideas">← Volver a AbyC</a>
 </header>
 
 <main>
+  <div class="layout">
+    <div class="content">
   <span class="tag">Ideas</span>
   <h1>El error más caro en Meta Ads</h1>
   <p class="meta">Por Adán Limones Ambriz · AbyC</p>
@@ -106,6 +123,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a class="wa" href="https://wa.me/525615056334" target="_blank">WhatsApp</a>
       <a class="mail" href="mailto:abycmexico@gmail.com">Correo</a>
     </div>
+  </div>
+    </div>
+    <aside class="sidebar">
+      <h4>También te puede interesar</h4>
+      <a class="rec-card" href="/blog/como-perder-leads-sin-darte-cuenta.html"><span>Cómo perder leads sin darte cuenta</span></a>
+      <a class="rec-card" href="/blog/la-ia-no-reemplaza-tu-estrategia.html"><span>La IA no reemplaza tu estrategia</span></a>
+      <a class="rec-card" href="/blog/por-que-la-prueba-social-vende-mas.html"><span>Por qué la prueba social vende más que un mejor producto</span></a>
+    </aside>
   </div>
 </main>
 
