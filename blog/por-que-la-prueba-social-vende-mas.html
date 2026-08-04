@@ -92,14 +92,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   header .logo img{height:26px;width:auto;}
   header .motto{position:absolute;left:50%;transform:translateX(-50%);color:var(--gray);font-size:12.5px;font-style:italic;}
   @media (max-width:760px){header .motto{display:none;}}
-  .layout{display:flex;gap:40px;align-items:flex-start;max-width:960px;margin:0 auto;padding:60px 24px 80px;}
-  .layout .content{flex:1 1 auto;min-width:0;}
-  .layout .sidebar{flex:0 0 260px;position:sticky;top:32px;}
-  .sidebar h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:16px;}
-  .sidebar a.rec-card{display:block;border:1.5px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;transition:border-color .15s;}
-  .sidebar a.rec-card:hover{border-color:var(--yellow);}
-  .sidebar a.rec-card span{display:block;font-size:14px;font-weight:700;line-height:1.4;}
-  @media (max-width:860px){.layout{flex-direction:column;}.layout .sidebar{position:static;width:100%;flex:none;}}
+  .layout{display:flex;gap:64px;align-items:flex-start;max-width:1180px;margin:0 auto;padding:64px 24px 90px;}
+  .layout .content{flex:0 1 720px;min-width:0;}
+  .layout .sidebar{flex:0 0 200px;position:sticky;top:40px;padding-left:32px;border-left:1px solid var(--line);}
+  .sidebar h4{font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:#b3b3b3;margin-bottom:20px;font-weight:700;}
+  .sidebar a.rec-card{display:block;padding:0 0 18px;margin-bottom:18px;border-bottom:1px solid var(--line);}
+  .sidebar a.rec-card:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+  .sidebar a.rec-card span{display:block;font-size:13px;font-weight:600;line-height:1.5;color:#444;transition:color .15s;}
+  .sidebar a.rec-card:hover span{color:var(--ink);}
+  .sidebar a.rec-card .rec-num{display:block;font-size:10px;color:var(--yellow);font-weight:800;margin-bottom:4px;letter-spacing:1px;}
+  @media (max-width:900px){.layout{flex-direction:column;gap:36px;}.layout .content{flex:none;width:100%;}.layout .sidebar{position:static;width:100%;flex:none;border-left:none;border-top:1px solid var(--line);padding-left:0;padding-top:24px;}}
 </style>
 </head>
 <body>
@@ -159,9 +161,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <aside class="sidebar">
       <h4>También te puede interesar</h4>
-      <a class="rec-card" href="/blog/como-perder-leads-sin-darte-cuenta.html"><span>Cómo perder leads sin darte cuenta</span></a>
-      <a class="rec-card" href="/blog/el-error-mas-caro-en-meta-ads.html"><span>El error más caro en Meta Ads</span></a>
-      <a class="rec-card" href="/blog/la-ia-no-reemplaza-tu-estrategia.html"><span>La IA no reemplaza tu estrategia</span></a>
+      <a class="rec-card" href="/blog/como-perder-leads-sin-darte-cuenta.html"><span class="rec-num">01</span><span>Cómo perder leads sin darte cuenta</span></a>
+      <a class="rec-card" href="/blog/el-error-mas-caro-en-meta-ads.html"><span class="rec-num">02</span><span>El error más caro en Meta Ads</span></a>
+      <a class="rec-card" href="/blog/la-ia-no-reemplaza-tu-estrategia.html"><span class="rec-num">03</span><span>La IA no reemplaza tu estrategia</span></a>
     </aside>
   </div>
 </main>
