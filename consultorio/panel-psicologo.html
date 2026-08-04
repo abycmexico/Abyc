@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Mi panel | Consultorio AbyC</title>
+<link rel="icon" type="image/png" href="https://abycagency.com/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{--yellow:#FFCC33;--yellow-soft:#FFE38A;--ink:#111111;--gray:#7a7a7a;--line:#ececec;--err:#c62828;--ok:#2e7d32;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#fff;color:var(--ink);font-family:'Montserrat',Arial,sans-serif;font-weight:500;}
+  a{color:inherit;text-decoration:none;}
+  header{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;border-bottom:1.5px solid var(--line);position:sticky;top:0;background:#fff;z-index:10;}
+  header .logo{display:flex;align-items:center;gap:10px;}
+  header img{height:24px;}
+  header .logo span{font-weight:800;letter-spacing:2px;font-size:14px;}
+  header .right{display:flex;align-items:center;gap:14px;}
+  header .quien{font-size:13px;color:var(--gray);}
+  header button{background:none;border:1.5px solid var(--line);border-radius:20px;padding:8px 16px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;}
+  header button:hover{border-color:var(--yellow);}
+  nav.tabs{display:flex;gap:4px;padding:0 32px;border-bottom:1.5px solid var(--line);overflow-x:auto;}
+  nav.tabs button{background:none;border:none;padding:14px 18px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--gray);border-bottom:2.5px solid transparent;white-space:nowrap;}
+  nav.tabs button.active{color:var(--ink);border-bottom-color:var(--yellow);}
+  main{max-width:820px;margin:0 auto;padding:36px 24px 90px;}
+  section{display:none;}
+  section.active{display:block;}
+  h2{font-size:21px;margin-bottom:6px;}
+  p.sub{color:var(--gray);font-size:13.5px;margin-bottom:26px;line-height:1.6;}
+  .card{border:1.5px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:12px;}
+  .card.flex{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .card h3{font-size:15px;margin-bottom:3px;}
+  .card p{font-size:13px;color:var(--gray);line-height:1.5;}
+  .empty{color:var(--gray);font-size:13.5px;text-align:center;padding:34px 0;border:1.5px dashed var(--line);border-radius:14px;}
+  label{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;}
+  input,select,textarea{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:14px;background:#fff;color:var(--ink);}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--yellow);}
+  textarea{resize:vertical;min-height:120px;line-height:1.6;}
+  .fila{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:14px;}
+  .btn{padding:11px 20px;border-radius:24px;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:inherit;white-space:nowrap;}
+  .btn-primary{background:var(--yellow);color:var(--ink);}
+  .btn-primary:hover{background:var(--yellow-soft);}
+  .btn-ghost{background:none;border:1.5px solid var(--line);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--yellow);}
+  .btn-danger{background:none;border:1.5px solid var(--line);color:var(--err);}
+  .btn:disabled{opacity:.5;cursor:default;}
+  .msg{font-size:13px;margin-top:12px;min-height:17px;}
+  .msg.err{color:var(--err);}
+  .msg.ok{color:var(--ok);}
+  .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:4px 9px;border-radius:20px;}
+  .tag.confirmada{background:#D4EDDA;color:#2e7d32;}
+  .tag.pendiente_pago{background:#FFF3CD;color:#8a6d1a;}
+  .tag.completada{background:#E7E7E7;color:#555;}
+  .tag.cancelada{background:#F8D7DA;color:#c62828;}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:50;align-items:center;justify-content:center;padding:20px;}
+  .modal-bg.show{display:flex;}
+  .modal{background:#fff;border-radius:18px;padding:28px;max-width:520px;width:100%;max-height:88vh;overflow:auto;}
+  .modal h3{font-size:18px;margin-bottom:4px;}
+  .modal .modal-sub{font-size:13px;color:var(--gray);margin-bottom:20px;}
+  .modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;}
+  .invite-box{background:#FAFAFA;border:1.5px solid var(--line);border-radius:12px;padding:14px;margin-top:14px;font-size:12.5px;word-break:break-all;line-height:1.6;}
+  @media(max-width:640px){
+    .fila{grid-template-columns:1fr 1fr;}
+    header{padding:16px 20px;}
+    nav.tabs{padding:0 16px;}
+    header .quien{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="https://abycagency.com/og-image.png" alt="AbyC">
+    <span>CONSULTORIO ABYC</span>
+  </div>
+  <div class="right">
+    <span class="quien" id="quien"></span>
+    <button id="btnSalir">Cerrar sesión</button>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="active" data-tab="citas">Mis citas</button>
+  <button data-tab="disponibilidad">Disponibilidad</button>
+  <button data-tab="pacientes">Mis pacientes</button>
+</nav>
+
+<main>
+
+  <section id="tab-citas" class="active">
+    <h2>Próximas citas</h2>
+    <p class="sub">Aquí aparecen las sesiones que tus pacientes agendaron contigo.</p>
+    <div id="listaCitas"><p class="empty">Cargando...</p></div>
+
+    <h2 style="margin-top:40px;">Historial</h2>
+    <p class="sub">Sesiones que ya ocurrieron.</p>
+    <div id="listaHistorial"><p class="empty">Cargando...</p></div>
+  </section>
+
+  <section id="tab-disponibilidad">
+    <h2>Tu disponibilidad</h2>
+    <p class="sub">Define los bloques de horario en que atiendes cada semana. Tus pacientes solo podrán agendar dentro de estos bloques, en espacios de 50 minutos.</p>
+
+    <div class="card">
+      <div class="fila">
+        <div>
+          <label for="dia">Día</label>
+          <select id="dia">
+            <option value="1">Lunes</option>
+            <option value="2">Martes</option>
+            <option value="3">Miércoles</option>
+            <option value="4">Jueves</option>
+            <option value="5">Viernes</option>
+            <option value="6">Sábado</option>
+            <option value="0">Domingo</option>
+          </select>
+        </div>
+        <div>
+          <label for="horaInicio">Desde</label>
+          <input type="time" id="horaInicio" value="09:00">
+        </div>
+        <div>
+          <label for="horaFin">Hasta</label>
+          <input type="time" id="horaFin" value="14:00">
+        </div>
+        <button class="btn btn-primary" id="btnAgregarBloque">Agregar</button>
+      </div>
+      <p class="msg" id="msgDisp"></p>
+    </div>
+
+    <div id="listaDisponibilidad" style="margin-top:20px;"><p class="empty">Cargando...</p></div>
+  </section>
+
+  <section id="tab-pacientes">
+    <h2>Mis pacientes</h2>
+    <p class="sub">Da de alta a tus pacientes y compárteles su liga de registro. Solo ellos podrán ver tu agenda.</p>
+
+    <button class="btn btn-primary" id="btnNuevoPaciente">Invitar paciente</button>
+
+    <div id="listaPacientes" style="margin-top:24px;"><p class="empty">Cargando...</p></div>
+  </section>
+
+</main>
+
+<div class="modal-bg" id="modalInvitar">
+  <div class="modal">
+    <h3>Invitar paciente</h3>
+    <p class="modal-sub">Comparte esta liga con tu paciente para que cree su cuenta y pueda agendar contigo.</p>
+    <div class="invite-box" id="ligaInvitacion"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="cerrarModal('modalInvitar')">Cerrar</button>
+      <button class="btn btn-primary" id="btnCopiarLiga">Copiar liga</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalNotas">
+  <div class="modal">
+    <h3>Notas de sesión</h3>
+    <p class="modal-sub" id="notasSub"></p>
+    <textarea id="notasTexto" placeholder="Escribe aquí tus notas privadas de esta sesión. Solo tú puedes verlas."></textarea>
+    <p class="msg" id="msgNotas"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="cerrarModal('modalNotas')">Cancelar</button>
+      <button class="btn btn-primary" id="btnGuardarNotas">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://uxbpfyeahqpertamhdxt.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_xaaA4lYAQZjdcMFRhMGtuQ_fvIeJKv7';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const DIAS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+let yo = null;
+
+/* ---------- arranque: exigir sesión válida y aprobada ---------- */
+async function iniciar(){
+  const { data: { session } } = await sb.auth.getSession();
+  if(!session){ location.href = '/consultorio/login.html'; return; }
+
+  const { data: psi } = await sb.from('psicologos')
+    .select('*').eq('id', session.user.id).maybeSingle();
+
+  if(!psi || psi.estado !== 'aprobado'){
+    await sb.auth.signOut();
+    location.href = '/consultorio/login.html';
+    return;
+  }
+
+  yo = psi;
+  document.getElementById('quien').textContent = psi.nombre;
+  cargarCitas();
+  cargarDisponibilidad();
+  cargarPacientes();
+}
+
+document.getElementById('btnSalir').addEventListener('click', async ()=>{
+  await sb.auth.signOut();
+  location.href = '/consultorio/login.html';
+});
+
+/* ---------- pestañas ---------- */
+document.querySelectorAll('nav.tabs button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('main section').forEach(s=>s.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById('tab-' + b.dataset.tab).classList.add('active');
+  });
+});
+
+/* ---------- modales ---------- */
+function abrirModal(id){ document.getElementById(id).classList.add('show'); }
+function cerrarModal(id){ document.getElementById(id).classList.remove('show'); }
+window.cerrarModal = cerrarModal;
+document.querySelectorAll('.modal-bg').forEach(m=>{
+  m.addEventListener('click', e=>{ if(e.target === m) m.classList.remove('show'); });
+});
+
+/* ---------- disponibilidad ---------- */
+async function cargarDisponibilidad(){
+  const cont = document.getElementById('listaDisponibilidad');
+  const { data, error } = await sb.from('disponibilidad')
+    .select('*').eq('psicologo_id', yo.id).eq('activo', true)
+    .order('dia_semana').order('hora_inicio');
+
+  if(error){ cont.innerHTML = `<p class="empty">Error: ${error.message}</p>`; return; }
+  if(!data.length){ cont.innerHTML = '<p class="empty">Todavía no defines horarios. Agrega tu primer bloque arriba.</p>'; return; }
+
+  cont.innerHTML = data.map(d=>`
+    <div class="card flex">
+      <div>
+        <h3>${DIAS[d.dia_semana]}</h3>
+        <p>${d.hora_inicio.slice(0,5)} a ${d.hora_fin.slice(0,5)}</p>
+      </div>
+      <button class="btn btn-danger" onclick="borrarBloque('${d.id}')">Quitar</button>
+    </div>
+  `).join('');
+}
+
+document.getElementById('btnAgregarBloque').addEventListener('click', async ()=>{
+  const msg = document.getElementById('msgDisp');
+  const dia = parseInt(document.getElementById('dia').value, 10);
+  const ini = document.getElementById('horaInicio').value;
+  const fin = document.getElementById('horaFin').value;
+
+  msg.className = 'msg';
+  if(!ini || !fin){ msg.textContent = 'Falta la hora de inicio o de fin.'; msg.className='msg err'; return; }
+  if(fin <= ini){ msg.textContent = 'La hora de fin debe ser posterior a la de inicio.'; msg.className='msg err'; return; }
+
+  const { error } = await sb.from('disponibilidad').insert({
+    psicologo_id: yo.id, dia_semana: dia, hora_inicio: ini, hora_fin: fin
+  });
+
+  if(error){ msg.textContent = 'Error al guardar: ' + error.message; msg.className='msg err'; return; }
+  msg.textContent = 'Bloque agregado.'; msg.className = 'msg ok';
+  cargarDisponibilidad();
+});
+
+async function borrarBloque(id){
+  if(!confirm('¿Quitar este bloque de tu disponibilidad?')) return;
+  const { error } = await sb.from('disponibilidad').update({activo:false}).eq('id', id);
+  if(error){ alert('Error: ' + error.message); return; }
+  cargarDisponibilidad();
+}
+window.borrarBloque = borrarBloque;
+
+/* ---------- pacientes ---------- */
+async function cargarPacientes(){
+  const cont = document.getElementById('listaPacientes');
+  const { data, error } = await sb.from('pacientes')
+    .select('*').eq('psicologo_id', yo.id).order('creado_en', {ascending:false});
+
+  if(error){ cont.innerHTML = `<p class="empty">Error: ${error.message}</p>`; return; }
+  if(!data.length){ cont.innerHTML = '<p class="empty">Todavía no tienes pacientes registrados.</p>'; return; }
+
+  cont.innerHTML = data.map(p=>`
+    <div class="card">
+      <h3>${escapar(p.nombre)}</h3>
+      <p>${escapar(p.correo)} · desde ${new Date(p.creado_en).toLocaleDateString('es-MX')}</p>
+    </div>
+  `).join('');
+}
+
+document.getElementById('btnNuevoPaciente').addEventListener('click', ()=>{
+  const liga = `${location.origin}/consultorio/registro-paciente.html?p=${yo.id}`;
+  document.getElementById('ligaInvitacion').textContent = liga;
+  abrirModal('modalInvitar');
+});
+
+document.getElementById('btnCopiarLiga').addEventListener('click', async ()=>{
+  const btn = document.getElementById('btnCopiarLiga');
+  try{
+    await navigator.clipboard.writeText(document.getElementById('ligaInvitacion').textContent);
+    btn.textContent = 'Copiada';
+    setTimeout(()=>btn.textContent='Copiar liga', 1800);
+  }catch(e){
+    btn.textContent = 'Copia manual';
+  }
+});
+
+/* ---------- citas ---------- */
+async function cargarCitas(){
+  const contProx = document.getElementById('listaCitas');
+  const contHist = document.getElementById('listaHistorial');
+
+  const { data, error } = await sb.from('citas')
+    .select('*, pacientes(nombre, correo)')
+    .eq('psicologo_id', yo.id)
+    .order('fecha_hora', {ascending:true});
+
+  if(error){
+    contProx.innerHTML = `<p class="empty">Error: ${error.message}</p>`;
+    contHist.innerHTML = '';
+    return;
+  }
+
+  const ahora = new Date();
+  const proximas = data.filter(c=> new Date(c.fecha_hora) >= ahora && c.estado !== 'cancelada');
+  const pasadas  = data.filter(c=> new Date(c.fecha_hora) <  ahora || c.estado === 'cancelada').reverse();
+
+  contProx.innerHTML = proximas.length
+    ? proximas.map(c=>tarjetaCita(c, true)).join('')
+    : '<p class="empty">No tienes citas próximas.</p>';
+
+  contHist.innerHTML = pasadas.length
+    ? pasadas.map(c=>tarjetaCita(c, false)).join('')
+    : '<p class="empty">Todavía no hay sesiones pasadas.</p>';
+}
+
+function tarjetaCita(c, esProxima){
+  const f = new Date(c.fecha_hora);
+  const fecha = f.toLocaleDateString('es-MX', {weekday:'long', day:'numeric', month:'long'});
+  const hora  = f.toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
+  const nombre = c.pacientes ? escapar(c.pacientes.nombre) : 'Paciente';
+  const puedeEntrar = esProxima && c.estado === 'confirmada' && dentroDeVentana(f);
+
+  return `
+    <div class="card flex">
+      <div>
+        <h3>${nombre} <span class="tag ${c.estado}">${etiquetaEstado(c.estado)}</span></h3>
+        <p>${fecha} · ${hora} · ${c.duracion_minutos} min</p>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        ${puedeEntrar && c.daily_room_url ? `<a class="btn btn-primary" href="${c.daily_room_url}" target="_blank">Entrar a la sesión</a>` : ''}
+        <button class="btn btn-ghost" onclick="abrirNotas('${c.id}','${nombre.replace(/'/g,"\\'")}','${fecha}')">Notas</button>
+      </div>
+    </div>
+  `;
+}
+
+function etiquetaEstado(e){
+  return {pendiente_pago:'Pendiente de pago', confirmada:'Confirmada', completada:'Completada', cancelada:'Cancelada'}[e] || e;
+}
+
+// La sala se habilita 10 min antes y hasta 2 h después del inicio
+function dentroDeVentana(fecha){
+  const ahora = Date.now();
+  return ahora >= fecha.getTime() - 10*60*1000 && ahora <= fecha.getTime() + 120*60*1000;
+}
+
+/* ---------- notas de sesión ---------- */
+let citaNotasActual = null;
+
+async function abrirNotas(citaId, nombre, fecha){
+  citaNotasActual = citaId;
+  document.getElementById('notasSub').textContent = `${nombre} · ${fecha}`;
+  document.getElementById('msgNotas').textContent = '';
+  document.getElementById('notasTexto').value = '';
+  abrirModal('modalNotas');
+
+  const { data } = await sb.from('notas_sesion')
+    .select('contenido').eq('cita_id', citaId).maybeSingle();
+  if(data) document.getElementById('notasTexto').value = data.contenido || '';
+}
+window.abrirNotas = abrirNotas;
+
+document.getElementById('btnGuardarNotas').addEventListener('click', async ()=>{
+  const msg = document.getElementById('msgNotas');
+  const contenido = document.getElementById('notasTexto').value;
+  msg.className = 'msg'; msg.textContent = 'Guardando...';
+
+  const { data: existente } = await sb.from('notas_sesion')
+    .select('id').eq('cita_id', citaNotasActual).maybeSingle();
+
+  const res = existente
+    ? await sb.from('notas_sesion').update({contenido}).eq('id', existente.id)
+    : await sb.from('notas_sesion').insert({cita_id:citaNotasActual, psicologo_id:yo.id, contenido});
+
+  if(res.error){ msg.textContent = 'Error: ' + res.error.message; msg.className='msg err'; return; }
+  msg.textContent = 'Notas guardadas.'; msg.className = 'msg ok';
+});
+
+/* ---------- util ---------- */
+function escapar(t){
+  const d = document.createElement('div');
+  d.textContent = t == null ? '' : t;
+  return d.innerHTML;
+}
+
+iniciar();
+</script>
+
+</body>
+</html>
