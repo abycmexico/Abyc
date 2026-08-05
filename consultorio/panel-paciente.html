@@ -27,6 +27,8 @@
   .psi-box{border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:34px;background:#FAFAFA;}
   .psi-box .et{font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gray);font-weight:700;margin-bottom:4px;}
   .psi-box .nom{font-size:16px;font-weight:700;}
+  .psi-box .datos-sesion{font-size:12.5px;color:var(--gray);margin-top:5px;}
+  .politicas{border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:34px;font-size:12.5px;color:#555;line-height:1.7;}
   .card{border:1.5px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
   .card h3{font-size:15px;margin-bottom:3px;}
   .card p{font-size:13px;color:var(--gray);}
@@ -75,7 +77,10 @@
   <div class="psi-box">
     <div class="et">Tu psicólogo</div>
     <div class="nom" id="nombrePsicologo">Cargando...</div>
+    <div class="datos-sesion" id="datosSesion"></div>
   </div>
+
+  <div class="politicas" id="politicasBox" style="display:none;"></div>
 
   <h2>Agenda tu sesión</h2>
   <p class="sub">Elige el día y la hora que prefieras dentro de la disponibilidad de tu psicólogo.</p>
@@ -105,8 +110,19 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const DIAS_CORTO = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-const DURACION = 50;      // minutos por sesión
-const DIAS_VISTA = 21;    // cuántos días adelante se pueden agendar
+// Valores por defecto: se sobrescriben con la configuración del psicólogo
+let cfg = {
+  duracion_sesion: 50,
+  precio_sesion: 0,
+  moneda: 'MXN',
+  descanso_entre_sesiones: 0,
+  anticipacion_minima_horas: 12,
+  dias_max_anticipacion: 30,
+  horas_minimas_cancelar: 24,
+  politica_cancelacion: null,
+  politicas_generales: null,
+  nombre_consultorio: null
+};
 
 let yo = null;             // registro del paciente
 let disponibilidad = [];   // bloques del psicólogo
@@ -131,11 +147,43 @@ async function iniciar(){
 
   const { data: psi } = await sb.from('psicologos_publicos')
     .select('nombre').eq('id', pac.psicologo_id).maybeSingle();
-  document.getElementById('nombrePsicologo').textContent = psi ? psi.nombre : 'No disponible';
+
+  const { data: conf } = await sb.from('configuracion')
+    .select('*').eq('psicologo_id', pac.psicologo_id).maybeSingle();
+  if(conf) cfg = { ...cfg, ...conf };
+
+  const nombrePsi = psi ? psi.nombre : 'No disponible';
+  document.getElementById('nombrePsicologo').textContent =
+    cfg.nombre_consultorio ? cfg.nombre_consultorio : nombrePsi;
+
+  pintarDatosSesion();
 
   await cargarDisponibilidad();
   await cargarCitas();
   pintarDias();
+}
+
+// Muestra al paciente la duración, el precio y las políticas vigentes.
+function pintarDatosSesion(){
+  const cont = document.getElementById('datosSesion');
+  if(!cont) return;
+
+  const partes = [`${cfg.duracion_sesion} minutos por sesión`];
+  if(cfg.precio_sesion > 0){
+    partes.push(`$${Number(cfg.precio_sesion).toLocaleString('es-MX')} ${cfg.moneda}`);
+  }
+  cont.innerHTML = partes.join(' · ');
+
+  const pol = document.getElementById('politicasBox');
+  if(pol){
+    const textos = [];
+    if(cfg.politica_cancelacion) textos.push(`<strong>Cancelaciones:</strong> ${escapar(cfg.politica_cancelacion)}`);
+    if(cfg.politicas_generales)  textos.push(escapar(cfg.politicas_generales));
+    if(textos.length){
+      pol.innerHTML = textos.join('<br><br>');
+      pol.style.display = 'block';
+    }
+  }
 }
 
 document.getElementById('btnSalir').addEventListener('click', async ()=>{
@@ -208,7 +256,7 @@ function pintarDias(){
   hoy.setHours(0,0,0,0);
 
   let html = '';
-  for(let i=0; i<DIAS_VISTA; i++){
+  for(let i=0; i<cfg.dias_max_anticipacion; i++){
     const d = new Date(hoy);
     d.setDate(hoy.getDate() + i);
     // solo días en que el psicólogo tiene bloques
@@ -239,6 +287,7 @@ window.elegirDia = elegirDia;
 function espaciosDelDia(fecha){
   const bloques = disponibilidad.filter(b=> b.dia_semana === fecha.getDay());
   const espacios = [];
+  const paso = cfg.duracion_sesion + cfg.descanso_entre_sesiones;
 
   bloques.forEach(b=>{
     const [hi, mi] = b.hora_inicio.split(':').map(Number);
@@ -250,9 +299,9 @@ function espaciosDelDia(fecha){
     fin.setHours(hf, mf, 0, 0);
 
     // El espacio solo cuenta si la sesión completa cabe antes del fin del bloque
-    while(cursor.getTime() + DURACION*60000 <= fin.getTime()){
+    while(cursor.getTime() + cfg.duracion_sesion*60000 <= fin.getTime()){
       espacios.push(new Date(cursor));
-      cursor.setMinutes(cursor.getMinutes() + DURACION);
+      cursor.setMinutes(cursor.getMinutes() + paso);
     }
   });
 
@@ -262,21 +311,32 @@ function espaciosDelDia(fecha){
 function pintarHoras(){
   const cont = document.getElementById('horas');
   const espacios = espaciosDelDia(diaSel);
-  const ahora = Date.now();
+
+  // No se puede agendar con menos de la anticipación mínima configurada
+  const limite = Date.now() + cfg.anticipacion_minima_horas * 3600000;
 
   if(!espacios.length){
     cont.innerHTML = '<p class="empty" style="grid-column:1/-1;">No hay horarios ese día.</p>';
     return;
   }
 
-  cont.innerHTML = espacios.map(e=>{
+  const html = espacios.map(e=>{
     const t = e.getTime();
-    const ocupado = citasOcupadas.includes(t);
-    const pasado  = t <= ahora;
+    const ocupado   = citasOcupadas.includes(t);
+    const muyPronto = t < limite;
     const hhmm = e.toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
-    return `<button class="hora-btn" ${ocupado||pasado ? 'disabled' : ''}
+    return `<button class="hora-btn" ${ocupado||muyPronto ? 'disabled' : ''}
               onclick="elegirHora(this, ${t})">${hhmm}</button>`;
   }).join('');
+
+  const disponibles = espacios.filter(e=>{
+    const t = e.getTime();
+    return !citasOcupadas.includes(t) && t >= limite;
+  }).length;
+
+  cont.innerHTML = html + (disponibles === 0
+    ? `<p class="empty" style="grid-column:1/-1;margin-top:12px;">Ese día ya no tiene horarios disponibles${cfg.anticipacion_minima_horas > 0 ? ` (se agenda con al menos ${cfg.anticipacion_minima_horas} h de anticipación)` : ''}.</p>`
+    : '');
 }
 
 function elegirHora(btn, timestamp){
@@ -315,7 +375,8 @@ document.getElementById('btnAgendar').addEventListener('click', async ()=>{
     psicologo_id: yo.psicologo_id,
     paciente_id: yo.id,
     fecha_hora: horaSel.toISOString(),
-    duracion_minutos: DURACION,
+    duracion_minutos: cfg.duracion_sesion,
+    precio: cfg.precio_sesion,
     estado: 'pendiente_pago'
   });
 
@@ -335,6 +396,12 @@ document.getElementById('btnAgendar').addEventListener('click', async ()=>{
   await cargarCitas();
   pintarHoras();
 });
+
+function escapar(t){
+  const d = document.createElement('div');
+  d.textContent = t == null ? '' : t;
+  return d.innerHTML;
+}
 
 iniciar();
 </script>

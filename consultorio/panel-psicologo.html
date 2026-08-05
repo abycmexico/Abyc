@@ -41,6 +41,14 @@
   .filtros{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
   .chip{border:1.5px solid var(--line);background:none;border-radius:20px;padding:8px 15px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--gray);}
   .chip.sel{border-color:var(--yellow);background:#FFFBF0;color:var(--ink);}
+  .bloque{border:1.5px solid var(--line);border-radius:16px;padding:22px 24px;margin-bottom:18px;}
+  .bloque h3{font-size:14px;margin-bottom:2px;}
+  .bloque .bh{font-size:12px;color:var(--gray);margin-bottom:18px;line-height:1.6;}
+  .rejilla{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .campo{margin-bottom:0;}
+  textarea.alto{min-height:130px;}
+  .barra-guardar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:4px;}
+  @media(max-width:640px){.rejilla{grid-template-columns:1fr;}}
   label{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;}
   input,select,textarea{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:14px;background:#fff;color:var(--ink);}
   input:focus,select:focus,textarea:focus{outline:none;border-color:var(--yellow);}
@@ -93,6 +101,7 @@
   <button class="active" data-tab="citas">Mis citas</button>
   <button data-tab="disponibilidad">Disponibilidad</button>
   <button data-tab="pacientes">Mis pacientes</button>
+  <button data-tab="config">Configuración</button>
 </nav>
 
 <main>
@@ -150,6 +159,87 @@
     <div id="listaPacientes" style="margin-top:24px;"><p class="empty">Cargando...</p></div>
   </section>
 
+  <section id="tab-config">
+    <h2>Configuración del consultorio</h2>
+    <p class="sub">Estos ajustes definen cómo se agendan tus sesiones. Los cambios aplican a las citas nuevas: las que ya están agendadas conservan la duración y el precio con que se hicieron.</p>
+
+    <form id="formConfig">
+      <div class="bloque">
+        <h3>Tu consultorio</h3>
+        <p class="bh">Así verá tu paciente el espacio donde agenda.</p>
+        <div class="campo">
+          <label for="nombreConsultorio">Nombre del consultorio</label>
+          <input type="text" id="nombreConsultorio" placeholder="Ej. Consultorio de la Dra. Ana Ruiz">
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3>Sesión</h3>
+        <p class="bh">Duración y costo de cada consulta.</p>
+        <div class="rejilla">
+          <div class="campo">
+            <label for="duracionSesion">Duración (minutos)</label>
+            <input type="number" id="duracionSesion" min="15" max="240" step="5" required>
+          </div>
+          <div class="campo">
+            <label for="precioSesion">Precio por sesión (MXN)</label>
+            <input type="number" id="precioSesion" min="0" step="50" required>
+          </div>
+          <div class="campo">
+            <label for="toleranciaMinutos">Tolerancia de retardo (minutos)</label>
+            <input type="number" id="toleranciaMinutos" min="0" max="60" step="5">
+          </div>
+          <div class="campo">
+            <label for="descansoEntre">Descanso entre sesiones (minutos)</label>
+            <input type="number" id="descansoEntre" min="0" max="120" step="5">
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3>Reglas de agenda</h3>
+        <p class="bh">Con cuánta anticipación se puede agendar y qué tan lejos.</p>
+        <div class="rejilla">
+          <div class="campo">
+            <label for="anticipacionMinima">Anticipación mínima (horas)</label>
+            <input type="number" id="anticipacionMinima" min="0" max="168" step="1">
+          </div>
+          <div class="campo">
+            <label for="diasMaxAnticipacion">Se puede agendar hasta (días)</label>
+            <input type="number" id="diasMaxAnticipacion" min="1" max="180" step="1">
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3>Cancelación</h3>
+        <p class="bh">Con cuánto tiempo puede cancelar un paciente sin penalización, y qué pasa si no lo hace.</p>
+        <div class="campo" style="margin-bottom:16px;">
+          <label for="horasMinimasCancelar">Horas mínimas para cancelar</label>
+          <input type="number" id="horasMinimasCancelar" min="0" max="168" step="1">
+        </div>
+        <div class="campo">
+          <label for="politicaCancelacion">Política de cancelación</label>
+          <textarea id="politicaCancelacion" placeholder="Ej. Las cancelaciones con menos de 24 horas de anticipación se cobran completas."></textarea>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3>Políticas generales</h3>
+        <p class="bh">Encuadre, confidencialidad, formas de pago. Tu paciente puede consultarlas en su portal.</p>
+        <div class="campo">
+          <label for="politicasGenerales">Políticas del consultorio</label>
+          <textarea id="politicasGenerales" class="alto" placeholder="Escribe aquí el encuadre que compartes con tus pacientes."></textarea>
+        </div>
+      </div>
+
+      <div class="barra-guardar">
+        <p class="msg" id="msgConfig"></p>
+        <button type="submit" class="btn btn-primary" id="btnGuardarConfig">Guardar configuración</button>
+      </div>
+    </form>
+  </section>
+
 </main>
 
 <div class="modal-bg" id="modalInvitar">
@@ -192,6 +282,7 @@ async function iniciar(){
   cargarCitas();
   cargarDisponibilidad();
   cargarPacientes();
+  cargarConfig();
 }
 
 document.getElementById('btnSalir').addEventListener('click', async ()=>{
@@ -399,6 +490,102 @@ function dentroDeVentana(fecha){
   const ahora = Date.now();
   return ahora >= fecha.getTime() - 10*60*1000 && ahora <= fecha.getTime() + 120*60*1000;
 }
+
+/* ---------- configuración ---------- */
+let config = null;
+
+const CAMPOS_CONFIG = {
+  nombreConsultorio:    'nombre_consultorio',
+  duracionSesion:       'duracion_sesion',
+  precioSesion:         'precio_sesion',
+  toleranciaMinutos:    'tolerancia_minutos',
+  descansoEntre:        'descanso_entre_sesiones',
+  anticipacionMinima:   'anticipacion_minima_horas',
+  diasMaxAnticipacion:  'dias_max_anticipacion',
+  horasMinimasCancelar: 'horas_minimas_cancelar',
+  politicaCancelacion:  'politica_cancelacion',
+  politicasGenerales:   'politicas_generales'
+};
+
+async function cargarConfig(){
+  const { data, error } = await sb.from('configuracion')
+    .select('*').eq('psicologo_id', yo.id).maybeSingle();
+
+  if(error){
+    document.getElementById('msgConfig').textContent = 'No se pudo cargar: ' + error.message;
+    document.getElementById('msgConfig').className = 'msg err';
+    return;
+  }
+
+  // Si por alguna razón no existe la fila, se crea con los valores por defecto.
+  if(!data){
+    const { data: nueva } = await sb.from('configuracion')
+      .insert({ psicologo_id: yo.id }).select().maybeSingle();
+    config = nueva;
+  } else {
+    config = data;
+  }
+
+  if(!config) return;
+
+  Object.entries(CAMPOS_CONFIG).forEach(([idInput, columna])=>{
+    const el = document.getElementById(idInput);
+    if(el) el.value = config[columna] ?? '';
+  });
+}
+
+document.getElementById('formConfig').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const btn = document.getElementById('btnGuardarConfig');
+  const msg = document.getElementById('msgConfig');
+  btn.disabled = true;
+  msg.className = 'msg';
+  msg.textContent = 'Guardando...';
+
+  const numero = (id, porDefecto)=>{
+    const v = parseInt(document.getElementById(id).value, 10);
+    return isNaN(v) ? porDefecto : v;
+  };
+
+  const cambios = {
+    nombre_consultorio:        vacioNull(document.getElementById('nombreConsultorio').value),
+    duracion_sesion:           numero('duracionSesion', 50),
+    precio_sesion:             parseFloat(document.getElementById('precioSesion').value) || 0,
+    tolerancia_minutos:        numero('toleranciaMinutos', 10),
+    descanso_entre_sesiones:   numero('descansoEntre', 0),
+    anticipacion_minima_horas: numero('anticipacionMinima', 12),
+    dias_max_anticipacion:     numero('diasMaxAnticipacion', 30),
+    horas_minimas_cancelar:    numero('horasMinimasCancelar', 24),
+    politica_cancelacion:      vacioNull(document.getElementById('politicaCancelacion').value),
+    politicas_generales:       vacioNull(document.getElementById('politicasGenerales').value),
+    actualizado_en:            new Date().toISOString()
+  };
+
+  if(cambios.duracion_sesion < 15 || cambios.duracion_sesion > 240){
+    msg.textContent = 'La duración debe estar entre 15 y 240 minutos.';
+    msg.className = 'msg err';
+    btn.disabled = false;
+    return;
+  }
+
+  const { error } = await sb.from('configuracion')
+    .update(cambios).eq('psicologo_id', yo.id);
+
+  if(error){
+    msg.textContent = 'No se pudo guardar: ' + error.message;
+    msg.className = 'msg err';
+    btn.disabled = false;
+    return;
+  }
+
+  config = { ...config, ...cambios };
+  msg.textContent = 'Configuración guardada.';
+  msg.className = 'msg ok';
+  btn.disabled = false;
+  setTimeout(()=>{ if(msg.textContent==='Configuración guardada.') msg.textContent=''; }, 3000);
+});
+
+function vacioNull(v){ const t=(v||'').trim(); return t==='' ? null : t; }
 
 /* ---------- util ---------- */
 function escapar(t){
