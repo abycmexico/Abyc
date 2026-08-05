@@ -36,6 +36,11 @@
   .card h3{font-size:15px;margin-bottom:3px;}
   .card p{font-size:13px;color:var(--gray);line-height:1.5;}
   .empty{color:var(--gray);font-size:13.5px;text-align:center;padding:34px 0;border:1.5px dashed var(--line);border-radius:14px;}
+  a.card{transition:border-color .15s;}
+  a.card:hover{border-color:var(--yellow);}
+  .filtros{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+  .chip{border:1.5px solid var(--line);background:none;border-radius:20px;padding:8px 15px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--gray);}
+  .chip.sel{border-color:var(--yellow);background:#FFFBF0;color:var(--ink);}
   label{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;}
   input,select,textarea{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:14px;background:#fff;color:var(--ink);}
   input:focus,select:focus,textarea:focus{outline:none;border-color:var(--yellow);}
@@ -159,18 +164,6 @@
   </div>
 </div>
 
-<div class="modal-bg" id="modalNotas">
-  <div class="modal">
-    <h3>Notas de sesión</h3>
-    <p class="modal-sub" id="notasSub"></p>
-    <textarea id="notasTexto" placeholder="Escribe aquí tus notas privadas de esta sesión. Solo tú puedes verlas."></textarea>
-    <p class="msg" id="msgNotas"></p>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="cerrarModal('modalNotas')">Cancelar</button>
-      <button class="btn btn-primary" id="btnGuardarNotas">Guardar</button>
-    </div>
-  </div>
-</div>
 
 <script>
 const SUPABASE_URL = 'https://uxbpfyeahqpertamhdxt.supabase.co';
@@ -273,20 +266,61 @@ async function borrarBloque(id){
 window.borrarBloque = borrarBloque;
 
 /* ---------- pacientes ---------- */
+let pacientesCache = [];
+let filtroPacientes = 'activo';
+
 async function cargarPacientes(){
   const cont = document.getElementById('listaPacientes');
   const { data, error } = await sb.from('pacientes')
-    .select('*').eq('psicologo_id', yo.id).order('creado_en', {ascending:false});
+    .select('*').eq('psicologo_id', yo.id).order('nombre');
 
-  if(error){ cont.innerHTML = `<p class="empty">Error: ${error.message}</p>`; return; }
-  if(!data.length){ cont.innerHTML = '<p class="empty">Todavía no tienes pacientes registrados.</p>'; return; }
+  if(error){ cont.innerHTML = `<p class="empty">Error: ${escapar(error.message)}</p>`; return; }
+  pacientesCache = data || [];
+  pintarPacientes();
+}
 
-  cont.innerHTML = data.map(p=>`
-    <div class="card">
-      <h3>${escapar(p.nombre)}</h3>
-      <p>${escapar(p.correo)} · desde ${new Date(p.creado_en).toLocaleDateString('es-MX')}</p>
-    </div>
+function pintarPacientes(){
+  const cont = document.getElementById('listaPacientes');
+
+  const activos   = pacientesCache.filter(p=> (p.estado||'activo') === 'activo');
+  const inactivos = pacientesCache.filter(p=> (p.estado||'activo') === 'inactivo');
+  const lista = filtroPacientes === 'activo' ? activos : inactivos;
+
+  const filtros = `
+    <div class="filtros">
+      <button class="chip ${filtroPacientes==='activo'?'sel':''}" onclick="filtrarPacientes('activo')">Activos (${activos.length})</button>
+      <button class="chip ${filtroPacientes==='inactivo'?'sel':''}" onclick="filtrarPacientes('inactivo')">Inactivos (${inactivos.length})</button>
+    </div>`;
+
+  if(!pacientesCache.length){
+    cont.innerHTML = '<p class="empty">Todavía no tienes pacientes registrados. Usa el botón de arriba para invitar al primero.</p>';
+    return;
+  }
+
+  if(!lista.length){
+    cont.innerHTML = filtros + `<p class="empty">No tienes pacientes ${filtroPacientes === 'activo' ? 'activos' : 'inactivos'}.</p>`;
+    return;
+  }
+
+  cont.innerHTML = filtros + lista.map(p=>`
+    <a class="card flex" href="/consultorio/expediente.html?id=${p.id}">
+      <div>
+        <h3>${escapar(p.nombre)}</h3>
+        <p>${escapar(p.correo)}${p.motivo_consulta ? ' · ' + escapar(recortar(p.motivo_consulta, 60)) : ''}</p>
+      </div>
+      <span class="btn btn-ghost">Ver expediente</span>
+    </a>
   `).join('');
+}
+
+function filtrarPacientes(estado){
+  filtroPacientes = estado;
+  pintarPacientes();
+}
+window.filtrarPacientes = filtrarPacientes;
+
+function recortar(t, n){
+  return t.length > n ? t.slice(0,n) + '...' : t;
 }
 
 document.getElementById('btnNuevoPaciente').addEventListener('click', ()=>{
@@ -350,7 +384,7 @@ function tarjetaCita(c, esProxima){
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         ${puedeEntrar && c.daily_room_url ? `<a class="btn btn-primary" href="${c.daily_room_url}" target="_blank">Entrar a la sesión</a>` : ''}
-        <button class="btn btn-ghost" onclick="abrirNotas('${c.id}','${nombre.replace(/'/g,"\\'")}','${fecha}')">Notas</button>
+        ${c.paciente_id ? `<a class="btn btn-ghost" href="/consultorio/expediente.html?id=${c.paciente_id}">Expediente</a>` : ''}
       </div>
     </div>
   `;
@@ -365,38 +399,6 @@ function dentroDeVentana(fecha){
   const ahora = Date.now();
   return ahora >= fecha.getTime() - 10*60*1000 && ahora <= fecha.getTime() + 120*60*1000;
 }
-
-/* ---------- notas de sesión ---------- */
-let citaNotasActual = null;
-
-async function abrirNotas(citaId, nombre, fecha){
-  citaNotasActual = citaId;
-  document.getElementById('notasSub').textContent = `${nombre} · ${fecha}`;
-  document.getElementById('msgNotas').textContent = '';
-  document.getElementById('notasTexto').value = '';
-  abrirModal('modalNotas');
-
-  const { data } = await sb.from('notas_sesion')
-    .select('contenido').eq('cita_id', citaId).maybeSingle();
-  if(data) document.getElementById('notasTexto').value = data.contenido || '';
-}
-window.abrirNotas = abrirNotas;
-
-document.getElementById('btnGuardarNotas').addEventListener('click', async ()=>{
-  const msg = document.getElementById('msgNotas');
-  const contenido = document.getElementById('notasTexto').value;
-  msg.className = 'msg'; msg.textContent = 'Guardando...';
-
-  const { data: existente } = await sb.from('notas_sesion')
-    .select('id').eq('cita_id', citaNotasActual).maybeSingle();
-
-  const res = existente
-    ? await sb.from('notas_sesion').update({contenido}).eq('id', existente.id)
-    : await sb.from('notas_sesion').insert({cita_id:citaNotasActual, psicologo_id:yo.id, contenido});
-
-  if(res.error){ msg.textContent = 'Error: ' + res.error.message; msg.className='msg err'; return; }
-  msg.textContent = 'Notas guardadas.'; msg.className = 'msg ok';
-});
 
 /* ---------- util ---------- */
 function escapar(t){
