@@ -76,6 +76,23 @@
   .modal .modal-sub{font-size:13px;color:var(--gray);margin-bottom:20px;}
   .modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;}
   .invite-box{background:#FAFAFA;border:1.5px solid var(--line);border-radius:12px;padding:14px;margin-top:14px;font-size:12.5px;word-break:break-all;line-height:1.6;}
+  .btn-danger{background:none;border:1.5px solid var(--line);color:var(--err);}
+  .btn-danger:hover{border-color:var(--err);}
+  .btn-danger-solid{background:var(--err);color:#fff;}
+  .btn-danger-solid:hover{background:#a81f1f;}
+  .card .motivo{font-size:12.5px;color:#666;margin-top:6px;font-style:italic;}
+  .modal label{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;}
+  .dias{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;margin-bottom:18px;}
+  .dia-chip{flex:0 0 auto;border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;cursor:pointer;text-align:center;min-width:74px;}
+  .dia-chip.sel{border-color:var(--yellow);background:#FFFBF0;}
+  .dia-chip .dn{font-size:10.5px;text-transform:uppercase;letter-spacing:.8px;color:var(--gray);font-weight:700;}
+  .dia-chip .df{font-size:17px;font-weight:800;margin-top:2px;}
+  .dia-chip .dm{font-size:10.5px;color:var(--gray);}
+  .horas{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;}
+  .hora-btn{border:1.5px solid var(--line);border-radius:10px;padding:12px 6px;font-size:13.5px;font-weight:700;cursor:pointer;background:#fff;font-family:inherit;color:var(--ink);}
+  .hora-btn:hover:not(:disabled){border-color:var(--yellow);}
+  .hora-btn.sel{border-color:var(--yellow);background:var(--yellow);}
+  .hora-btn:disabled{opacity:.35;cursor:default;text-decoration:line-through;}
   @media(max-width:640px){
     .fila{grid-template-columns:1fr 1fr;}
     header{padding:16px 20px;}
@@ -250,6 +267,34 @@
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="cerrarModal('modalInvitar')">Cerrar</button>
       <button class="btn btn-primary" id="btnCopiarLiga">Copiar liga</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalCancelar">
+  <div class="modal">
+    <h3>Cancelar sesión</h3>
+    <p class="modal-sub" id="cancelarSub"></p>
+    <label for="motivoCancelar">Motivo (opcional)</label>
+    <textarea id="motivoCancelar" placeholder="Se guardará en el registro de la cita."></textarea>
+    <p class="msg" id="msgCancelar"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="cerrarModal('modalCancelar')">Volver</button>
+      <button class="btn btn-danger-solid" id="btnConfirmarCancelar">Sí, cancelar sesión</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalReprogramar">
+  <div class="modal">
+    <h3>Reprogramar sesión</h3>
+    <p class="modal-sub" id="reprogramarSub"></p>
+    <div class="dias" id="diasRepro"></div>
+    <div class="horas" id="horasRepro"><p class="empty" style="grid-column:1/-1;">Selecciona un día.</p></div>
+    <p class="msg" id="msgReprogramar"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="cerrarModal('modalReprogramar')">Volver</button>
+      <button class="btn btn-primary" id="btnConfirmarReprogramar" disabled>Mover la sesión</button>
     </div>
   </div>
 </div>
@@ -466,16 +511,27 @@ function tarjetaCita(c, esProxima){
   const hora  = f.toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
   const nombre = c.pacientes ? escapar(c.pacientes.nombre) : 'Paciente';
   const puedeEntrar = esProxima && c.estado === 'confirmada' && dentroDeVentana(f);
+  const modificable = esProxima && c.estado !== 'cancelada' && f > new Date();
+
+  let detalle = `${fecha} · ${hora} · ${c.duracion_minutos} min`;
+  if(c.reprogramada_desde) detalle += ' · reprogramada';
+  if(c.estado === 'cancelada' && c.cancelada_por){
+    detalle += ` · canceló el ${c.cancelada_por}`;
+    if(c.fuera_de_politica) detalle += ' (fuera de política)';
+  }
 
   return `
     <div class="card flex">
       <div>
         <h3>${nombre} <span class="tag ${c.estado}">${etiquetaEstado(c.estado)}</span></h3>
-        <p>${fecha} · ${hora} · ${c.duracion_minutos} min</p>
+        <p>${detalle}</p>
+        ${c.motivo_cancelacion ? `<p class="motivo">Motivo: ${escapar(c.motivo_cancelacion)}</p>` : ''}
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         ${puedeEntrar && c.daily_room_url ? `<a class="btn btn-primary" href="${c.daily_room_url}" target="_blank">Entrar a la sesión</a>` : ''}
         ${c.paciente_id ? `<a class="btn btn-ghost" href="/consultorio/expediente.html?id=${c.paciente_id}">Expediente</a>` : ''}
+        ${modificable ? `<button class="btn btn-ghost" onclick="abrirReprogramar('${c.id}')">Reprogramar</button>` : ''}
+        ${modificable ? `<button class="btn btn-danger" onclick="abrirCancelar('${c.id}')">Cancelar</button>` : ''}
       </div>
     </div>
   `;
@@ -586,6 +642,226 @@ document.getElementById('formConfig').addEventListener('submit', async (e)=>{
 });
 
 function vacioNull(v){ const t=(v||'').trim(); return t==='' ? null : t; }
+
+/* ---------- cancelar / reprogramar ---------- */
+const DIAS_CORTO = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+let citaCancelar = null;
+let citaReprogramar = null;
+let diaSelRepro = null;
+let horaSelRepro = null;
+let bloquesDisp = [];
+let ocupadas = [];
+
+async function cargarAgendaParaRepro(){
+  const { data: disp } = await sb.from('disponibilidad')
+    .select('*').eq('psicologo_id', yo.id).eq('activo', true);
+  bloquesDisp = disp || [];
+
+  const { data: cits } = await sb.from('citas')
+    .select('fecha_hora').eq('psicologo_id', yo.id)
+    .in('estado', ['pendiente_pago','confirmada'])
+    .gte('fecha_hora', new Date().toISOString());
+  ocupadas = (cits||[]).map(c=> new Date(c.fecha_hora).getTime());
+}
+
+async function abrirCancelar(citaId){
+  const { data: c } = await sb.from('citas')
+    .select('*, pacientes(nombre)').eq('id', citaId).maybeSingle();
+  if(!c) return;
+  citaCancelar = c;
+
+  const f = new Date(c.fecha_hora);
+  document.getElementById('cancelarSub').textContent =
+    (c.pacientes ? c.pacientes.nombre + ' · ' : '') +
+    capitalizar(f.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'})) +
+    ' · ' + f.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+
+  document.getElementById('motivoCancelar').value = '';
+  document.getElementById('msgCancelar').textContent = '';
+  abrirModal('modalCancelar');
+}
+window.abrirCancelar = abrirCancelar;
+
+document.getElementById('btnConfirmarCancelar').addEventListener('click', async ()=>{
+  const btn = document.getElementById('btnConfirmarCancelar');
+  const msg = document.getElementById('msgCancelar');
+  btn.disabled = true;
+  msg.className = 'msg';
+  msg.textContent = 'Cancelando...';
+
+  const { data, error } = await sb.rpc('cancelar_cita', {
+    p_cita_id: citaCancelar.id,
+    p_motivo: document.getElementById('motivoCancelar').value.trim() || null
+  });
+
+  if(error){
+    msg.textContent = 'No se pudo cancelar: ' + error.message;
+    msg.className = 'msg err';
+    btn.disabled = false;
+    return;
+  }
+
+  const r = Array.isArray(data) ? data[0] : data;
+  if(!r || !r.ok){
+    msg.textContent = r ? r.mensaje : 'No se pudo cancelar.';
+    msg.className = 'msg err';
+    btn.disabled = false;
+    return;
+  }
+
+  msg.textContent = r.mensaje;
+  msg.className = 'msg ok';
+  btn.disabled = false;
+  cargarCitas();
+  setTimeout(()=>cerrarModal('modalCancelar'), 1300);
+});
+
+async function abrirReprogramar(citaId){
+  const { data: c } = await sb.from('citas')
+    .select('*, pacientes(nombre)').eq('id', citaId).maybeSingle();
+  if(!c) return;
+  citaReprogramar = c;
+  diaSelRepro = null;
+  horaSelRepro = null;
+
+  await cargarAgendaParaRepro();
+
+  const f = new Date(c.fecha_hora);
+  document.getElementById('reprogramarSub').textContent =
+    (c.pacientes ? c.pacientes.nombre + ' · ' : '') + 'actualmente ' +
+    capitalizar(f.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'})) +
+    ' · ' + f.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+
+  document.getElementById('msgReprogramar').textContent = '';
+  document.getElementById('btnConfirmarReprogramar').disabled = true;
+  document.getElementById('horasRepro').innerHTML =
+    '<p class="empty" style="grid-column:1/-1;">Selecciona un día.</p>';
+
+  pintarDiasRepro();
+  abrirModal('modalReprogramar');
+}
+window.abrirReprogramar = abrirReprogramar;
+
+function pintarDiasRepro(){
+  const cont = document.getElementById('diasRepro');
+  const hoy = new Date();
+  hoy.setHours(0,0,0,0);
+  const maxDias = (config && config.dias_max_anticipacion) ? config.dias_max_anticipacion : 30;
+
+  let html = '';
+  for(let i=0; i<maxDias; i++){
+    const d = new Date(hoy);
+    d.setDate(hoy.getDate() + i);
+    if(!bloquesDisp.some(b=> b.dia_semana === d.getDay())) continue;
+    html += `
+      <div class="dia-chip" data-fecha="${d.toISOString()}" onclick="elegirDiaRepro(this)">
+        <div class="dn">${DIAS_CORTO[d.getDay()]}</div>
+        <div class="df">${d.getDate()}</div>
+        <div class="dm">${MESES[d.getMonth()]}</div>
+      </div>`;
+  }
+  cont.innerHTML = html || '<p class="empty" style="width:100%;">No tienes horarios publicados.</p>';
+}
+
+function elegirDiaRepro(el){
+  document.querySelectorAll('#diasRepro .dia-chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  diaSelRepro = new Date(el.dataset.fecha);
+  horaSelRepro = null;
+  document.getElementById('btnConfirmarReprogramar').disabled = true;
+  pintarHorasRepro();
+}
+window.elegirDiaRepro = elegirDiaRepro;
+
+function espaciosDelDia(fecha){
+  const dur = (config && config.duracion_sesion) ? config.duracion_sesion : 50;
+  const desc = (config && config.descanso_entre_sesiones) ? config.descanso_entre_sesiones : 0;
+  const paso = dur + desc;
+  const espacios = [];
+
+  bloquesDisp.filter(b=> b.dia_semana === fecha.getDay()).forEach(b=>{
+    const [hi,mi] = b.hora_inicio.split(':').map(Number);
+    const [hf,mf] = b.hora_fin.split(':').map(Number);
+    const cursor = new Date(fecha); cursor.setHours(hi,mi,0,0);
+    const fin = new Date(fecha);    fin.setHours(hf,mf,0,0);
+    while(cursor.getTime() + dur*60000 <= fin.getTime()){
+      espacios.push(new Date(cursor));
+      cursor.setMinutes(cursor.getMinutes() + paso);
+    }
+  });
+  return espacios.sort((a,b)=>a-b);
+}
+
+function pintarHorasRepro(){
+  const cont = document.getElementById('horasRepro');
+  const espacios = espaciosDelDia(diaSelRepro);
+  const ahora = Date.now();
+  const actual = new Date(citaReprogramar.fecha_hora).getTime();
+
+  if(!espacios.length){
+    cont.innerHTML = '<p class="empty" style="grid-column:1/-1;">No hay horarios ese día.</p>';
+    return;
+  }
+
+  cont.innerHTML = espacios.map(e=>{
+    const t = e.getTime();
+    const ocupado  = ocupadas.includes(t) && t !== actual;
+    const pasado   = t <= ahora;
+    const esActual = t === actual;
+    const hhmm = e.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+    return `<button class="hora-btn" ${ocupado||pasado||esActual ? 'disabled' : ''}
+              onclick="elegirHoraRepro(this, ${t})">${hhmm}</button>`;
+  }).join('');
+}
+
+function elegirHoraRepro(btn, timestamp){
+  document.querySelectorAll('#horasRepro .hora-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  horaSelRepro = new Date(timestamp);
+  document.getElementById('btnConfirmarReprogramar').disabled = false;
+}
+window.elegirHoraRepro = elegirHoraRepro;
+
+document.getElementById('btnConfirmarReprogramar').addEventListener('click', async ()=>{
+  const btn = document.getElementById('btnConfirmarReprogramar');
+  const msg = document.getElementById('msgReprogramar');
+  if(!horaSelRepro) return;
+
+  btn.disabled = true;
+  msg.className = 'msg';
+  msg.textContent = 'Moviendo la sesión...';
+
+  const { data, error } = await sb.rpc('reprogramar_cita', {
+    p_cita_id: citaReprogramar.id,
+    p_nueva_fecha: horaSelRepro.toISOString()
+  });
+
+  if(error){
+    msg.textContent = 'No se pudo reprogramar: ' + error.message;
+    msg.className = 'msg err';
+    btn.disabled = false;
+    return;
+  }
+
+  const r = Array.isArray(data) ? data[0] : data;
+  if(!r || !r.ok){
+    msg.textContent = r ? r.mensaje : 'No se pudo reprogramar.';
+    msg.className = 'msg err';
+    btn.disabled = false;
+    await cargarAgendaParaRepro();
+    pintarHorasRepro();
+    return;
+  }
+
+  msg.textContent = r.mensaje;
+  msg.className = 'msg ok';
+  cargarCitas();
+  setTimeout(()=>cerrarModal('modalReprogramar'), 1200);
+});
+
+function capitalizar(t){ return t.charAt(0).toUpperCase() + t.slice(1); }
 
 /* ---------- util ---------- */
 function escapar(t){

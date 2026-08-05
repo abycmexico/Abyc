@@ -29,6 +29,22 @@
   .psi-box .nom{font-size:16px;font-weight:700;}
   .psi-box .datos-sesion{font-size:12.5px;color:var(--gray);margin-top:5px;}
   .politicas{border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:34px;font-size:12.5px;color:#555;line-height:1.7;}
+  .acciones{display:flex;gap:8px;flex-wrap:wrap;}
+  .btn-danger{background:none;border:1.5px solid var(--line);color:var(--err);}
+  .btn-danger:hover{border-color:var(--err);}
+  .btn-danger-solid{background:var(--err);color:#fff;}
+  .btn-danger-solid:hover{background:#a81f1f;}
+  .aviso-politica{font-size:12px;color:#8a6d1a;margin-top:6px;}
+  .aviso-caja{background:#FFF3CD;border-radius:10px;padding:12px 14px;font-size:12.5px;color:#8a6d1a;line-height:1.6;margin-bottom:16px;}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:50;align-items:center;justify-content:center;padding:20px;}
+  .modal-bg.show{display:flex;}
+  .modal{background:#fff;border-radius:18px;padding:28px;max-width:560px;width:100%;max-height:88vh;overflow:auto;}
+  .modal h3{font-size:19px;margin-bottom:3px;}
+  .modal .modal-sub{font-size:13px;color:var(--gray);margin-bottom:20px;}
+  .modal label{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;}
+  .modal textarea{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:14px;resize:vertical;min-height:80px;line-height:1.6;}
+  .modal textarea:focus{outline:none;border-color:var(--yellow);}
+  .modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;flex-wrap:wrap;}
   .card{border:1.5px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
   .card h3{font-size:15px;margin-bottom:3px;}
   .card p{font-size:13px;color:var(--gray);}
@@ -102,6 +118,35 @@
   <p class="sub">Sesiones anteriores.</p>
   <div id="listaHistorial"><p class="empty">Cargando...</p></div>
 </main>
+
+<div class="modal-bg" id="modalCancelar">
+  <div class="modal">
+    <h3>Cancelar sesión</h3>
+    <p class="modal-sub" id="cancelarSub"></p>
+    <div id="avisoPolitica" class="aviso-caja" style="display:none;"></div>
+    <label for="motivoCancelar">Motivo (opcional)</label>
+    <textarea id="motivoCancelar" placeholder="Puedes indicar por qué cancelas."></textarea>
+    <p class="msg" id="msgCancelar"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="cerrarModal('modalCancelar')">Volver</button>
+      <button class="btn btn-danger-solid" id="btnConfirmarCancelar">Sí, cancelar sesión</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalReprogramar">
+  <div class="modal">
+    <h3>Reprogramar sesión</h3>
+    <p class="modal-sub" id="reprogramarSub"></p>
+    <div class="dias" id="diasRepro"></div>
+    <div class="horas" id="horasRepro"><p class="empty" style="grid-column:1/-1;">Selecciona un día.</p></div>
+    <p class="msg" id="msgReprogramar"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="cerrarModal('modalReprogramar')">Volver</button>
+      <button class="btn btn-primary" id="btnConfirmarReprogramar" disabled>Mover la sesión</button>
+    </div>
+  </div>
+</div>
 
 <script>
 const SUPABASE_URL = 'https://uxbpfyeahqpertamhdxt.supabase.co';
@@ -208,11 +253,11 @@ async function cargarCitas(){
   const pasadas  = (mias||[]).filter(c=> new Date(c.fecha_hora) <  ahora || c.estado === 'cancelada').reverse();
 
   document.getElementById('listaProximas').innerHTML = proximas.length
-    ? proximas.map(tarjeta).join('')
+    ? proximas.map(c=>tarjeta(c, true)).join('')
     : '<p class="empty">No tienes sesiones agendadas.</p>';
 
   document.getElementById('listaHistorial').innerHTML = pasadas.length
-    ? pasadas.map(tarjeta).join('')
+    ? pasadas.map(c=>tarjeta(c, false)).join('')
     : '<p class="empty">Todavía no hay sesiones anteriores.</p>';
 
   // Ocupación del psicólogo: sus citas activas futuras.
@@ -223,20 +268,37 @@ async function cargarCitas(){
   citasOcupadas = (ocupadas||[]).map(c=> new Date(c.fecha_hora).getTime());
 }
 
-function tarjeta(c){
+function tarjeta(c, esProxima){
   const f = new Date(c.fecha_hora);
   const fecha = f.toLocaleDateString('es-MX', {weekday:'long', day:'numeric', month:'long'});
   const hora  = f.toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
   const puedeEntrar = c.estado === 'confirmada' && dentroDeVentana(f);
+  const modificable = esProxima && c.estado !== 'cancelada' && f > new Date();
+
+  // Aviso si cancelar ahora quedaría fuera de política
+  const horasFaltantes = (f.getTime() - Date.now()) / 3600000;
+  const fueraDePolitica = horasFaltantes < cfg.horas_minimas_cancelar;
+
+  let detalle = `${c.duracion_minutos} minutos`;
+  if(c.reprogramada_desde) detalle += ' · reprogramada';
+  if(c.estado === 'cancelada' && c.fuera_de_politica) detalle += ' · fuera de política';
+
   return `
     <div class="card">
       <div>
-        <h3>${fecha} · ${hora} <span class="tag ${c.estado}">${etiqueta(c.estado)}</span></h3>
-        <p>${c.duracion_minutos} minutos</p>
+        <h3>${capitalizar(fecha)} · ${hora} <span class="tag ${c.estado}">${etiqueta(c.estado)}</span></h3>
+        <p>${detalle}</p>
+        ${modificable && fueraDePolitica && cfg.horas_minimas_cancelar > 0
+          ? `<p class="aviso-politica">Cancelar ahora queda fuera de la política (${cfg.horas_minimas_cancelar} h de anticipación).</p>`
+          : ''}
       </div>
-      ${puedeEntrar && c.daily_room_url
-        ? `<a class="btn btn-primary" href="${c.daily_room_url}" target="_blank">Entrar a la sesión</a>`
-        : ''}
+      <div class="acciones">
+        ${puedeEntrar && c.daily_room_url
+          ? `<a class="btn btn-primary" href="${c.daily_room_url}" target="_blank">Entrar a la sesión</a>`
+          : ''}
+        ${modificable ? `<button class="btn btn-ghost" onclick="abrirReprogramar('${c.id}')">Reprogramar</button>` : ''}
+        ${modificable ? `<button class="btn btn-danger" onclick="abrirCancelar('${c.id}')">Cancelar</button>` : ''}
+      </div>
     </div>`;
 }
 
@@ -396,6 +458,209 @@ document.getElementById('btnAgendar').addEventListener('click', async ()=>{
   await cargarCitas();
   pintarHoras();
 });
+
+/* ---------- cancelar ---------- */
+let citaCancelar = null;
+
+function abrirModal(id){ document.getElementById(id).classList.add('show'); }
+function cerrarModal(id){ document.getElementById(id).classList.remove('show'); }
+window.cerrarModal = cerrarModal;
+document.querySelectorAll('.modal-bg').forEach(m=>{
+  m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('show'); });
+});
+
+async function abrirCancelar(citaId){
+  const { data: c } = await sb.from('citas').select('*').eq('id', citaId).maybeSingle();
+  if(!c) return;
+  citaCancelar = c;
+
+  const f = new Date(c.fecha_hora);
+  document.getElementById('cancelarSub').textContent =
+    capitalizar(f.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'})) +
+    ' · ' + f.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+
+  const horasFaltantes = (f.getTime() - Date.now()) / 3600000;
+  const aviso = document.getElementById('avisoPolitica');
+  if(horasFaltantes < cfg.horas_minimas_cancelar && cfg.horas_minimas_cancelar > 0){
+    aviso.innerHTML = `Faltan menos de ${cfg.horas_minimas_cancelar} horas para tu sesión.` +
+      (cfg.politica_cancelacion ? ' ' + escapar(cfg.politica_cancelacion) : ' Esta cancelación quedará registrada como fuera de política.');
+    aviso.style.display = 'block';
+  } else {
+    aviso.style.display = 'none';
+  }
+
+  document.getElementById('motivoCancelar').value = '';
+  document.getElementById('msgCancelar').textContent = '';
+  abrirModal('modalCancelar');
+}
+window.abrirCancelar = abrirCancelar;
+
+document.getElementById('btnConfirmarCancelar').addEventListener('click', async ()=>{
+  const btn = document.getElementById('btnConfirmarCancelar');
+  const msg = document.getElementById('msgCancelar');
+  btn.disabled = true;
+  msg.className = 'msg';
+  msg.textContent = 'Cancelando...';
+
+  const motivo = document.getElementById('motivoCancelar').value.trim() || null;
+
+  const { data, error } = await sb.rpc('cancelar_cita', {
+    p_cita_id: citaCancelar.id,
+    p_motivo: motivo
+  });
+
+  if(error){
+    msg.textContent = 'No se pudo cancelar: ' + error.message;
+    msg.className = 'msg err';
+    btn.disabled = false;
+    return;
+  }
+
+  const r = Array.isArray(data) ? data[0] : data;
+  if(!r || !r.ok){
+    msg.textContent = r ? r.mensaje : 'No se pudo cancelar.';
+    msg.className = 'msg err';
+    btn.disabled = false;
+    return;
+  }
+
+  msg.textContent = r.mensaje;
+  msg.className = r.fuera_politica ? 'msg err' : 'msg ok';
+  btn.disabled = false;
+
+  await cargarCitas();
+  if(diaSel) pintarHoras();
+  setTimeout(()=>cerrarModal('modalCancelar'), 1600);
+});
+
+/* ---------- reprogramar ---------- */
+let citaReprogramar = null;
+let diaSelRepro = null;
+let horaSelRepro = null;
+
+async function abrirReprogramar(citaId){
+  const { data: c } = await sb.from('citas').select('*').eq('id', citaId).maybeSingle();
+  if(!c) return;
+  citaReprogramar = c;
+  diaSelRepro = null;
+  horaSelRepro = null;
+
+  const f = new Date(c.fecha_hora);
+  document.getElementById('reprogramarSub').textContent =
+    'Actualmente: ' + capitalizar(f.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'})) +
+    ' · ' + f.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+
+  document.getElementById('msgReprogramar').textContent = '';
+  document.getElementById('btnConfirmarReprogramar').disabled = true;
+  document.getElementById('horasRepro').innerHTML =
+    '<p class="empty" style="grid-column:1/-1;">Selecciona un día.</p>';
+
+  pintarDiasRepro();
+  abrirModal('modalReprogramar');
+}
+window.abrirReprogramar = abrirReprogramar;
+
+function pintarDiasRepro(){
+  const cont = document.getElementById('diasRepro');
+  const hoy = new Date();
+  hoy.setHours(0,0,0,0);
+
+  let html = '';
+  for(let i=0; i<cfg.dias_max_anticipacion; i++){
+    const d = new Date(hoy);
+    d.setDate(hoy.getDate() + i);
+    if(!disponibilidad.some(b=> b.dia_semana === d.getDay())) continue;
+    html += `
+      <div class="dia-chip" data-fecha="${d.toISOString()}" onclick="elegirDiaRepro(this)">
+        <div class="dn">${DIAS_CORTO[d.getDay()]}</div>
+        <div class="df">${d.getDate()}</div>
+        <div class="dm">${MESES[d.getMonth()]}</div>
+      </div>`;
+  }
+  cont.innerHTML = html || '<p class="empty" style="width:100%;">No hay horarios publicados.</p>';
+}
+
+function elegirDiaRepro(el){
+  document.querySelectorAll('#diasRepro .dia-chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  diaSelRepro = new Date(el.dataset.fecha);
+  horaSelRepro = null;
+  document.getElementById('btnConfirmarReprogramar').disabled = true;
+  pintarHorasRepro();
+}
+window.elegirDiaRepro = elegirDiaRepro;
+
+function pintarHorasRepro(){
+  const cont = document.getElementById('horasRepro');
+  const espacios = espaciosDelDia(diaSelRepro);
+  const limite = Date.now() + cfg.anticipacion_minima_horas * 3600000;
+  const actual = new Date(citaReprogramar.fecha_hora).getTime();
+
+  if(!espacios.length){
+    cont.innerHTML = '<p class="empty" style="grid-column:1/-1;">No hay horarios ese día.</p>';
+    return;
+  }
+
+  cont.innerHTML = espacios.map(e=>{
+    const t = e.getTime();
+    // El horario actual de esta cita no cuenta como ocupado
+    const ocupado   = citasOcupadas.includes(t) && t !== actual;
+    const muyPronto = t < limite;
+    const esActual  = t === actual;
+    const hhmm = e.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+    return `<button class="hora-btn" ${ocupado||muyPronto||esActual ? 'disabled' : ''}
+              onclick="elegirHoraRepro(this, ${t})">${hhmm}</button>`;
+  }).join('');
+}
+
+function elegirHoraRepro(btn, timestamp){
+  document.querySelectorAll('#horasRepro .hora-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  horaSelRepro = new Date(timestamp);
+  document.getElementById('btnConfirmarReprogramar').disabled = false;
+}
+window.elegirHoraRepro = elegirHoraRepro;
+
+document.getElementById('btnConfirmarReprogramar').addEventListener('click', async ()=>{
+  const btn = document.getElementById('btnConfirmarReprogramar');
+  const msg = document.getElementById('msgReprogramar');
+  if(!horaSelRepro) return;
+
+  btn.disabled = true;
+  msg.className = 'msg';
+  msg.textContent = 'Moviendo la sesión...';
+
+  const { data, error } = await sb.rpc('reprogramar_cita', {
+    p_cita_id: citaReprogramar.id,
+    p_nueva_fecha: horaSelRepro.toISOString()
+  });
+
+  if(error){
+    msg.textContent = 'No se pudo reprogramar: ' + error.message;
+    msg.className = 'msg err';
+    btn.disabled = false;
+    return;
+  }
+
+  const r = Array.isArray(data) ? data[0] : data;
+  if(!r || !r.ok){
+    msg.textContent = r ? r.mensaje : 'No se pudo reprogramar.';
+    msg.className = 'msg err';
+    btn.disabled = false;
+    await cargarCitas();
+    pintarHorasRepro();
+    return;
+  }
+
+  msg.textContent = r.mensaje;
+  msg.className = 'msg ok';
+
+  await cargarCitas();
+  if(diaSel) pintarHoras();
+  setTimeout(()=>cerrarModal('modalReprogramar'), 1200);
+});
+
+function capitalizar(t){ return t.charAt(0).toUpperCase() + t.slice(1); }
 
 function escapar(t){
   const d = document.createElement('div');
