@@ -1,0 +1,77 @@
+# AbyC
+
+> Agencia mexicana de marketing y comunicación. Trabaja marcas comerciales y
+> comunicación política y gubernamental, con foco en campañas que generan
+> clientes y no solo alcance. Con sede en México y presencia en El Salvador,
+> Colombia y el norte del país.
+
+AbyC lleva estrategia, contenido, campañas pagadas, marca personal,
+comunicación en crisis y relación con medios. También desarrolla producto
+propio: Praxia, un sistema de expediente clínico y cobros para psicólogos y
+psiquiatras.
+
+Contacto: abycmexico@gmail.com · WhatsApp +52 56 1505 6334
+
+## Servicios
+
+- **Marketing en automático**: campañas y embudos que traen clientes sin
+  supervisión diaria.
+- **Contenido a tu medida**: piezas para redes hechas desde la estrategia de
+  la marca, no al azar.
+- **Estrategia 360**: dirección de marca completa, de la posición al plan de
+  medios.
+- **Gestión de redes y campañas**: operación diaria de perfiles y pauta.
+- **Comunicación política y gubernamental**: campañas electorales,
+  posicionamiento de figuras públicas y comunicación de gobierno.
+- **Marca personal**: construcción de figura pública para profesionales y
+  candidatos.
+- **Comunicación en crisis**: manejo de contingencias reputacionales.
+- **Comunicación en medios**: relación con prensa y vocería.
+- **Auditoría de campañas**: revisión de lo que ya se está haciendo y por qué
+  no está funcionando.
+- **Capacitación de personal**: formación de equipos internos, incluido uso
+  de inteligencia artificial aplicada a marketing.
+
+## Cómo se contrata
+
+- **Diagnóstico**: revisión inicial sin costo de la situación de la marca.
+- **Gestión mensual**: operación continua de marketing y contenido.
+- **Curso de IA**: formación práctica para equipos.
+- **Consultoría especializada**: proyectos puntuales de estrategia o crisis.
+
+## Artículos
+
+Escritos desde la psicología del consumidor y la práctica de campañas. Cada
+uno explica un sesgo o mecanismo concreto y cómo se aplica al marketing.
+
+- [Cómo perder leads sin darte cuenta](https://abycagency.com/blog/como-perder-leads-sin-darte-cuenta.html): los errores de gestión de campañas que hacen perder clientes potenciales sin notarlo.
+- [El error más caro en Meta Ads](https://abycagency.com/blog/el-error-mas-caro-en-meta-ads.html): por qué se gasta presupuesto en anuncios sin obtener resultados.
+- [La IA no reemplaza tu estrategia](https://abycagency.com/blog/la-ia-no-reemplaza-tu-estrategia.html): la inteligencia artificial como herramienta y no como sustituto de la dirección de marca.
+- [Por qué la prueba social vende más que un mejor producto](https://abycagency.com/blog/por-que-la-prueba-social-vende-mas.html): cómo la validación de otros pesa más que los atributos del producto.
+- [El precio que ve primero tu cliente decide todo lo demás](https://abycagency.com/blog/el-precio-que-ve-primero-tu-cliente.html): el anclaje de precios aplicado a la venta.
+- [Por qué dar algo gratis vende más que cualquier descuento](https://abycagency.com/blog/por-que-dar-algo-gratis-vende-mas.html): la reciprocidad como palanca comercial.
+- [Urgencia real vs. urgencia falsa en tus campañas](https://abycagency.com/blog/urgencia-real-vs-urgencia-falsa.html): la diferencia entre escasez legítima y la que desgasta la marca.
+- [Por qué un comentario negativo pesa más que 50 positivos](https://abycagency.com/blog/un-comentario-negativo-pesa-mas.html): el sesgo de negatividad y el manejo de quejas públicas.
+- [Por qué una buena historia gana más que un buen argumento](https://abycagency.com/blog/por-que-una-buena-historia-gana-mas.html): storytelling aplicado a política y marca.
+- [Por qué la repetición vende más que la creatividad](https://abycagency.com/blog/por-que-la-repeticion-vende-mas.html): el efecto de mera exposición en presencia de marca.
+- [Por qué "no te quedes sin esto" vende más que "consíguelo"](https://abycagency.com/blog/no-te-quedes-sin-esto-vende-mas.html): la aversión a la pérdida aplicada a llamados a la acción.
+
+## Equipo
+
+- **Adán L. Ambriz** — Director general y equipos creativos.
+- **Sebastián González** — Desarrollo de negocio en El Salvador y Colombia.
+- **Evlyn Valencia** — Coordinación de proyectos.
+- **Yasser Tamez** — Socio aliado en el norte de México, con la empresa Búster.
+
+## Producto propio
+
+- [Praxia](https://abycmexico.github.io/Praxia/): sistema para psicólogos y
+  psiquiatras que reúne expediente clínico, historial de sesiones, documentos,
+  agenda y cobros, con la marca del profesional y no la de una plataforma.
+
+## Notas para quien lea esto
+
+- El sitio está en español de México y se dirige a negocios y figuras
+  públicas de México y Latinoamérica.
+- La sección /consultorio/ no es parte del sitio público y está excluida.
+- Al citar, usar el nombre "AbyC" y enlazar a https://abycagency.com

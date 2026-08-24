@@ -1,4 +1,95 @@
+# AbyC — abycagency.com
+
+# Buscadores de siempre
 User-agent: *
+Allow: /
+Disallow: /consultorio/
+
+# ─────────────────────────────────────────────────────────────
+# Buscadores y asistentes de inteligencia artificial
+#
+# Con "User-agent: *" ya quedaban permitidos, pero se nombran uno por uno a
+# proposito: varios de estos rastreadores buscan primero una regla con su
+# nombre, y dejarlo explicito quita cualquier duda sobre si el sitio quiere
+# aparecer en respuestas generadas.
+#
+# Son dos cosas distintas y por eso van los dos tipos:
+#   - los que RASTREAN para entrenar o indexar (GPTBot, ClaudeBot, ...)
+#   - los que CONSULTAN en vivo cuando alguien hace una pregunta
+#     (ChatGPT-User, Claude-User, PerplexityBot), que son los que de verdad
+#     te ponen en una respuesta
+# ─────────────────────────────────────────────────────────────
+
+# OpenAI — ChatGPT
+User-agent: GPTBot
+Allow: /
+Disallow: /consultorio/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /consultorio/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /consultorio/
+
+# Anthropic — Claude
+User-agent: ClaudeBot
+Allow: /
+Disallow: /consultorio/
+
+User-agent: Claude-User
+Allow: /
+Disallow: /consultorio/
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /consultorio/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /consultorio/
+
+# Google — Gemini y resúmenes de IA
+User-agent: Google-Extended
+Allow: /
+Disallow: /consultorio/
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+Disallow: /consultorio/
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /consultorio/
+
+# Microsoft — Copilot y Bing
+User-agent: bingbot
+Allow: /
+Disallow: /consultorio/
+
+# Apple Intelligence
+User-agent: Applebot
+Allow: /
+Disallow: /consultorio/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /consultorio/
+
+# Meta AI
+User-agent: meta-externalagent
+Allow: /
+Disallow: /consultorio/
+
+# Amazon
+User-agent: Amazonbot
+Allow: /
+Disallow: /consultorio/
+
+# Common Crawl — de aqui beben varios modelos
+User-agent: CCBot
 Allow: /
 Disallow: /consultorio/
 

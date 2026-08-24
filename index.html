@@ -477,6 +477,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .answers, footer{position:relative;z-index:1;}
 
+  .ver-todos{
+    display:inline-block;margin-top:22px;font-size:13.5px;font-weight:700;
+    color:var(--ink);border-bottom:2px solid var(--yellow);padding-bottom:2px;
+  }
+  .ver-todos:hover{border-bottom-color:var(--ink);}
+
   /* La mención de Praxia. Discreta a propósito: en gris, chica, y separada
      por una línea. Quien viene por la agencia pasa de largo sin que le
      estorbe; quien tiene curiosidad la encuentra. */
@@ -721,6 +727,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a class="card" href="/blog/por-que-la-repeticion-vende-mas.html"><h3>Por qué la repetición vende más que la creatividad</h3><p>El efecto de mera exposición aplicado a presencia de marca.</p></a>
       <a class="card" href="/blog/no-te-quedes-sin-esto-vende-mas.html"><h3>Por qué "no te quedes sin esto" vende más que "consíguelo"</h3><p>La aversión a la pérdida aplicada a tus llamados a la acción.</p></a>
     </div>
+
+    <!-- Enlace al índice del blog. Sin él, los buscadores solo llegan a los
+         artículos por el sitemap; con él pueden navegar hasta ellos, que es
+         como entienden que hay una sección y no once páginas sueltas. -->
+    <a class="ver-todos" href="/blog/">Ver todos los artículos →</a>
+
     <span class="close-panel" onclick="closePanels()">Cerrar ✕</span>
   </div>
 
