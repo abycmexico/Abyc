@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Artículos de marketing y psicología del consumidor | AbyC</title>
-<meta name="description" content="Artículos sobre psicología del consumidor aplicada al marketing: prueba social, anclaje de precios, aversión a la pérdida, sesgo de negatividad y storytelling. Escritos por AbyC, agencia mexicana de marketing y comunicación.">
+<meta name="description" content="Artículos sobre psicología del consumidor aplicada al marketing y a la comunicación política: prueba social, anclaje de precios, aversión a la pérdida, autoridad, desinformación y storytelling. Escritos por Adán Limones Ambriz, director de AbyC.">
 <meta name="author" content="Adán Limones Ambriz">
 <link rel="canonical" href="https://abycagency.com/blog/">
 
@@ -21,12 +21,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
-<!-- Blog completo en datos estructurados. Sirve para dos cosas: que Google
-     entienda que esto es una colección de artículos y no una página suelta,
-     y que un modelo de lenguaje pueda leer de un jalón de qué trata cada uno
-     sin abrir los once. -->
+<!-- El blog completo en datos estructurados: que Google entienda que esto es
+     una colección y no una página suelta, y que un modelo pueda leer de qué
+     trata cada artículo sin abrir los catorce. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -35,6 +34,11 @@
   "name": "Artículos de AbyC",
   "description": "Psicología del consumidor aplicada al marketing y a la comunicación política.",
   "inLanguage": "es-MX",
+  "author": {
+    "@type": "Person",
+    "@id": "https://abycagency.com/adan-limones-ambriz.html#persona",
+    "name": "Adán Limones Ambriz"
+  },
   "publisher": {
     "@type": "Organization",
     "name": "AbyC",
@@ -60,8 +64,6 @@
 }
 </script>
 
-<!-- Migas de pan: le dicen al buscador dónde vive esta página dentro del
-     sitio, y salen como ruta en los resultados. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -74,185 +76,288 @@
 </script>
 
 <style>
-  :root{--yellow:#FFCC33;--yellow-soft:#FFE38A;--ink:#111111;--gray:#7a7a7a;--line:#ececec;}
+  :root{
+    --yellow:#FFCC33;--yellow-soft:#FFE38A;--ink:#111111;
+    --gray:#6e6e6e;--line:#ececec;--crema:#FFF9EC;
+  }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{background:#fff;color:var(--ink);font-family:'Montserrat',Arial,sans-serif;font-weight:500;}
   a{color:inherit;text-decoration:none;}
-  header{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:24px 32px;border-bottom:1.5px solid var(--line);
+
+  /* ---------- barra y cabecera ---------- */
+  .barra{background:var(--crema);padding:11px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+  .barra span{font-size:11.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);}
+  .barra a{font-size:11.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;}
+  .barra a:hover{color:#000;}
+
+  header{padding:34px 32px 26px;text-align:center;border-bottom:1.5px solid var(--line);}
+  header .marca{font-size:26px;font-weight:900;letter-spacing:3px;display:inline-block;}
+  header nav{margin-top:16px;display:flex;gap:26px;justify-content:center;flex-wrap:wrap;}
+  header nav a{font-size:12.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gray);}
+  header nav a:hover{color:var(--ink);}
+
+  /* ---------- título de sección ---------- */
+  .titulo-seccion{
+    max-width:1180px;margin:0 auto;padding:40px 24px 8px;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
   }
-  header .brand{font-weight:800;letter-spacing:2px;font-size:15px;}
-  header .back{font-size:13px;color:#6e6e6e;}
-  header .back:hover{color:var(--ink);}
-  main{max-width:860px;margin:0 auto;padding:56px 24px 80px;}
-  .tag{
-    display:inline-block;background:var(--yellow);color:var(--ink);font-weight:700;
-    font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;
-    border-radius:20px;margin-bottom:20px;
+  .titulo-seccion .lema{font-size:13.5px;font-weight:700;line-height:1.4;max-width:230px;}
+  .titulo-seccion h1{font-size:clamp(30px,5vw,46px);font-weight:900;letter-spacing:-.5px;text-transform:uppercase;}
+  .titulo-seccion .contacto{font-size:11.5px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--gray);}
+  .titulo-seccion .contacto:hover{color:var(--ink);}
+
+  /* ---------- rejilla ---------- */
+  .rejilla{
+    max-width:1180px;margin:0 auto;padding:26px 24px 70px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:26px 22px;
   }
-  h1{font-size:clamp(28px,4.4vw,42px);font-weight:800;line-height:1.16;letter-spacing:-.6px;margin-bottom:16px;}
-  .intro{font-size:16.5px;line-height:1.7;color:#5c5c5c;max-width:620px;margin-bottom:44px;}
-  .lista{display:grid;gap:16px;}
-  article{
-    border:1.5px solid var(--line);border-radius:18px;padding:24px 26px;
-    transition:border-color .2s ease, transform .2s ease;
+
+  .pieza{display:flex;flex-direction:column;}
+
+  /* La portada de cada artículo se dibuja con color y tipografía, no con
+     foto: no hay fotos de los artículos, y un banco de imágenes genérico se
+     nota y abarata. Cada tema tiene su color, así que la sección se lee de
+     un vistazo aunque no se lean los títulos. */
+  .portada{
+    aspect-ratio:4/5;border-radius:2px;padding:22px;
+    display:flex;flex-direction:column;justify-content:space-between;
+    position:relative;overflow:hidden;
+    transition:transform .25s ease;
   }
-  article:hover{border-color:var(--yellow);transform:translateY(-2px);}
-  article h2{font-size:19px;font-weight:800;line-height:1.3;margin-bottom:8px;letter-spacing:-.2px;}
-  article p{font-size:14.5px;line-height:1.65;color:#5c5c5c;}
-  article time{display:block;font-size:11.5px;font-weight:700;color:#6e6e6e;text-transform:uppercase;letter-spacing:.6px;margin-top:12px;}
+  .pieza:hover .portada{transform:translateY(-4px);}
+  .portada .num{
+    font-size:78px;font-weight:900;line-height:.8;letter-spacing:-4px;
+    opacity:.22;align-self:flex-end;
+  }
+  .portada .concepto{
+    font-size:19px;font-weight:800;line-height:1.22;letter-spacing:-.3px;
+  }
+  .portada .disciplina{
+    font-size:10px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;
+    opacity:.72;margin-bottom:9px;
+  }
+
+  /* Cinco familias de color, una por tipo de mecanismo. */
+  .c-persuasion{background:#FFCC33;color:#111;}
+  .c-crisis{background:#111;color:#FFF9EC;}
+  /* Texto oscuro y no blanco: sobre este naranja, el blanco se queda en 3.03
+     de contraste y la etiqueta de arriba, que es chica, pide 4.5. Con tinta
+     sube a 6 y el color de marca se conserva igual. */
+  .c-conversion{background:#F26A4B;color:#111;}
+  .c-estrategia{background:#1F4B4A;color:#FFF9EC;}
+  .c-politica{background:#FFE38A;color:#111;}
+
+  .etiquetas{display:flex;gap:6px;margin:13px 0 9px;flex-wrap:wrap;}
+  .etiqueta{
+    font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+    padding:4px 9px;border-radius:20px;background:#F4F4F1;color:#4a4a4a;
+  }
+
+  .pieza h2{font-size:16px;font-weight:800;line-height:1.32;letter-spacing:-.2px;}
+  .pieza:hover h2{text-decoration:underline;text-underline-offset:3px;}
+  .pieza time{display:block;font-size:11px;font-weight:700;color:var(--gray);margin-top:8px;letter-spacing:.4px;}
+
+  /* ---------- pie ---------- */
   footer{
-    border-top:1.5px solid var(--line);padding:28px 32px;
-    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
-    font-size:13px;color:#6e6e6e;
+    border-top:1.5px solid var(--line);padding:34px 32px;text-align:center;
+    font-size:13px;color:var(--gray);
   }
-  footer a{font-weight:700;}
-  footer a:hover{color:var(--ink);}
-  @media(max-width:560px){
-    header{padding:18px 20px;}
-    main{padding:40px 20px 60px;}
+  footer .firma{margin-bottom:12px;font-size:13.5px;color:var(--ink);}
+  footer .firma a{font-weight:800;border-bottom:2px solid var(--yellow);}
+  footer .enlaces a{font-weight:700;}
+  footer .enlaces a:hover{color:var(--ink);}
+
+  @media(max-width:1000px){ .rejilla{grid-template-columns:repeat(3,1fr);} }
+  @media(max-width:720px){
+    .rejilla{grid-template-columns:repeat(2,1fr);gap:22px 16px;}
+    .portada{padding:16px;}
+    .portada .num{font-size:54px;}
+    .portada .concepto{font-size:15px;}
+    .pieza h2{font-size:14px;}
+    header{padding:24px 20px 20px;}
+    .barra{padding:10px 20px;}
+  }
+  @media(max-width:430px){
+    .rejilla{grid-template-columns:1fr;}
+    .portada{aspect-ratio:16/9;}
   }
 </style>
 </head>
 <body>
 
+<div class="barra">
+  <span>Nada se comunica al azar</span>
+  <a href="https://wa.me/525615056334" target="_blank" rel="noopener">Hablemos →</a>
+</div>
+
 <header>
-  <a class="brand" href="/">ABYC</a>
-  <a class="back" href="/">← Volver al inicio</a>
+  <a class="marca" href="/">ABYC</a>
+  <nav>
+    <a href="/">Inicio</a>
+    <a href="/blog/">Artículos</a>
+    <a href="/adan-limones-ambriz.html">Quién escribe</a>
+    <a href="mailto:abycmexico@gmail.com">Contacto</a>
+  </nav>
 </header>
 
-<main>
-  <span class="tag">Artículos</span>
-  <h1>Lo que pensamos</h1>
-  <p class="intro">
-    Cada artículo explica un mecanismo concreto de la psicología del consumidor
-    —por qué la gente compra, confía o se va— y cómo se aplica a una campaña
-    real. Sin recetas de gurú y sin listas de trucos.
-  </p>
+<div class="titulo-seccion">
+  <p class="lema">Psicología del consumidor,<br>aplicada a campañas reales.</p>
+  <h1>Artículos</h1>
+  <a class="contacto" href="https://wa.me/525615056334" target="_blank" rel="noopener">Trabajemos juntos →</a>
+</div>
 
-  <div class="lista">
-    <article>
-      <a href="/blog/el-efecto-de-autoridad-en-marketing.html">
-        <h2>Por qué le crees a quien trae bata, aunque no sepas si es doctor</h2>
-        <p>El efecto de autoridad explica por qué una credencial o un uniforme nos hacen bajar la guardia sin verificar nada, y cómo se usa en marketing sin cruzar la línea.</p>
-        <time datetime="2026-08-24">24 de agosto de 2026</time>
-      </a>
-    </article>
+<main class="rejilla">
 
-    <article>
-      <a href="/blog/por-que-la-desinformacion-se-comparte-mas-rapido.html">
-        <h2>Por qué la mentira sobre tu marca corre más rápido que tu aclaración</h2>
-        <p>Un estudio del MIT mostró que las noticias falsas se difunden más rápido que las verdaderas, y no por culpa de los bots. Qué significa para una marca en crisis.</p>
-        <time datetime="2026-08-24">24 de agosto de 2026</time>
-      </a>
-    </article>
+  <a class="pieza" href="/blog/el-efecto-de-autoridad-en-marketing.html">
+    <div class="portada c-persuasion">
+      <div><span class="disciplina">Persuasión</span><p class="concepto">Efecto de<br>autoridad</p></div>
+      <span class="num">01</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Credibilidad</span><span class="etiqueta">Marca</span></div>
+    <h2>Por qué le crees a quien trae bata, aunque no sepas si es doctor</h2>
+    <time datetime="2026-08-24">24 de agosto de 2026</time>
+  </a>
 
-    <article>
-      <a href="/blog/la-tecnica-del-pie-en-la-puerta.html">
-        <h2>Por qué un sí pequeño te acerca más a la venta que un buen argumento</h2>
-        <p>La técnica del pie en la puerta explica por qué quien acepta algo pequeño acepta después algo grande, y cómo se aplica a un embudo sin volverlo una trampa.</p>
-        <time datetime="2026-08-24">24 de agosto de 2026</time>
-      </a>
-    </article>
+  <a class="pieza" href="/blog/por-que-la-desinformacion-se-comparte-mas-rapido.html">
+    <div class="portada c-crisis">
+      <div><span class="disciplina">Crisis</span><p class="concepto">Difusión de<br>la mentira</p></div>
+      <span class="num">02</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Crisis</span><span class="etiqueta">Reputación</span></div>
+    <h2>Por qué la mentira sobre tu marca corre más rápido que tu aclaración</h2>
+    <time datetime="2026-08-24">24 de agosto de 2026</time>
+  </a>
 
-    <article>
-      <a href="/blog/como-perder-leads-sin-darte-cuenta.html">
-        <h2>Cómo perder leads sin darte cuenta</h2>
-        <p>Los errores más comunes en la gestión de campañas que hacen que pierdas leads sin notarlo, y cómo corregirlos.</p>
-        <time datetime="2026-08-04">4 de agosto de 2026</time>
-      </a>
-    </article>
+  <a class="pieza" href="/blog/la-tecnica-del-pie-en-la-puerta.html">
+    <div class="portada c-conversion">
+      <div><span class="disciplina">Conversión</span><p class="concepto">Pie en la<br>puerta</p></div>
+      <span class="num">03</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Embudos</span><span class="etiqueta">Ventas</span></div>
+    <h2>Por qué un sí pequeño te acerca más a la venta que un buen argumento</h2>
+    <time datetime="2026-08-24">24 de agosto de 2026</time>
+  </a>
 
-    <article>
-      <a href="/blog/el-error-mas-caro-en-meta-ads.html">
-        <h2>El error más caro en Meta Ads</h2>
-        <p>Por qué gastas presupuesto en Meta Ads sin resultados, y cuál es el error de fondo que casi nadie corrige.</p>
-        <time datetime="2026-08-04">4 de agosto de 2026</time>
-      </a>
-    </article>
+  <a class="pieza" href="/blog/el-precio-que-ve-primero-tu-cliente.html">
+    <div class="portada c-conversion">
+      <div><span class="disciplina">Conversión</span><p class="concepto">Efecto de<br>anclaje</p></div>
+      <span class="num">04</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Precios</span><span class="etiqueta">Ventas</span></div>
+    <h2>El precio que ve primero tu cliente decide todo lo demás</h2>
+    <time datetime="2026-08-04">4 de agosto de 2026</time>
+  </a>
 
-    <article>
-      <a href="/blog/el-precio-que-ve-primero-tu-cliente.html">
-        <h2>El precio que ve primero tu cliente decide todo lo demás</h2>
-        <p>Cómo el efecto de anclaje determina si tu precio se siente caro o barato, antes de que tu cliente compare nada.</p>
-        <time datetime="2026-08-04">4 de agosto de 2026</time>
-      </a>
-    </article>
+  <a class="pieza" href="/blog/por-que-la-prueba-social-vende-mas.html">
+    <div class="portada c-persuasion">
+      <div><span class="disciplina">Persuasión</span><p class="concepto">Prueba<br>social</p></div>
+      <span class="num">05</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Testimonios</span><span class="etiqueta">Conversión</span></div>
+    <h2>Por qué la prueba social vende más que un mejor producto</h2>
+    <time datetime="2026-08-04">4 de agosto de 2026</time>
+  </a>
 
-    <article>
-      <a href="/blog/por-que-la-prueba-social-vende-mas.html">
-        <h2>Por qué la prueba social vende más que un mejor producto</h2>
-        <p>La psicología detrás de por qué unos testimonios y cifras pequeñas convierten más que mejorar el producto.</p>
-        <time datetime="2026-08-04">4 de agosto de 2026</time>
-      </a>
-    </article>
+  <a class="pieza" href="/blog/por-que-dar-algo-gratis-vende-mas.html">
+    <div class="portada c-conversion">
+      <div><span class="disciplina">Conversión</span><p class="concepto">Recipro-<br>cidad</p></div>
+      <span class="num">06</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Ofertas</span><span class="etiqueta">Ventas</span></div>
+    <h2>Por qué dar algo gratis vende más que cualquier descuento</h2>
+    <time datetime="2026-08-04">4 de agosto de 2026</time>
+  </a>
 
-    <article>
-      <a href="/blog/por-que-dar-algo-gratis-vende-mas.html">
-        <h2>Por qué dar algo gratis vende más que cualquier descuento</h2>
-        <p>La psicología de la reciprocidad explica por qué regalar algo de valor antes de vender cierra más tratos que bajar el precio.</p>
-        <time datetime="2026-08-04">4 de agosto de 2026</time>
-      </a>
-    </article>
+  <a class="pieza" href="/blog/no-te-quedes-sin-esto-vende-mas.html">
+    <div class="portada c-persuasion">
+      <div><span class="disciplina">Persuasión</span><p class="concepto">Aversión a<br>la pérdida</p></div>
+      <span class="num">07</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Copy</span><span class="etiqueta">Anuncios</span></div>
+    <h2>Por qué «no te quedes sin esto» vende más que «consíguelo»</h2>
+    <time datetime="2026-08-04">4 de agosto de 2026</time>
+  </a>
 
-    <article>
-      <a href="/blog/no-te-quedes-sin-esto-vende-mas.html">
-        <h2>Por qué «no te quedes sin esto» vende más que «consíguelo»</h2>
-        <p>La aversión a la pérdida explica por qué duele más perder algo que alegra ganarlo, y por qué eso cambia cómo debes redactar tus llamados a la acción.</p>
-        <time datetime="2026-08-04">4 de agosto de 2026</time>
-      </a>
-    </article>
+  <a class="pieza" href="/blog/un-comentario-negativo-pesa-mas.html">
+    <div class="portada c-crisis">
+      <div><span class="disciplina">Crisis</span><p class="concepto">Sesgo de<br>negatividad</p></div>
+      <span class="num">08</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Reseñas</span><span class="etiqueta">Reputación</span></div>
+    <h2>Por qué un comentario negativo pesa más que 50 positivos</h2>
+    <time datetime="2026-08-04">4 de agosto de 2026</time>
+  </a>
 
-    <article>
-      <a href="/blog/urgencia-real-vs-urgencia-falsa.html">
-        <h2>Urgencia real vs. urgencia falsa en tus campañas</h2>
-        <p>La diferencia entre crear urgencia genuina y fabricar escasez falsa, y por qué la segunda le está costando más caro a tu marca de lo que crees.</p>
-        <time datetime="2026-08-04">4 de agosto de 2026</time>
-      </a>
-    </article>
+  <a class="pieza" href="/blog/por-que-una-buena-historia-gana-mas.html">
+    <div class="portada c-politica">
+      <div><span class="disciplina">Política</span><p class="concepto">Story-<br>telling</p></div>
+      <span class="num">09</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Narrativa</span><span class="etiqueta">Campañas</span></div>
+    <h2>Por qué una buena historia gana más que un buen argumento</h2>
+    <time datetime="2026-08-04">4 de agosto de 2026</time>
+  </a>
 
-    <article>
-      <a href="/blog/un-comentario-negativo-pesa-mas.html">
-        <h2>Por qué un comentario negativo pesa más que 50 positivos</h2>
-        <p>El sesgo de negatividad explica por qué una sola queja puede dañar más a tu marca que cincuenta reseñas buenas, y cómo se gestiona bien en una crisis.</p>
-        <time datetime="2026-08-04">4 de agosto de 2026</time>
-      </a>
-    </article>
+  <a class="pieza" href="/blog/por-que-la-repeticion-vende-mas.html">
+    <div class="portada c-persuasion">
+      <div><span class="disciplina">Persuasión</span><p class="concepto">Mera<br>exposición</p></div>
+      <span class="num">10</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Frecuencia</span><span class="etiqueta">Marca</span></div>
+    <h2>Por qué la repetición vende más que la creatividad</h2>
+    <time datetime="2026-08-04">4 de agosto de 2026</time>
+  </a>
 
-    <article>
-      <a href="/blog/por-que-una-buena-historia-gana-mas.html">
-        <h2>Por qué una buena historia gana más que un buen argumento</h2>
-        <p>El storytelling político y de marca explica por qué una narrativa simple convence más que datos y argumentos técnicos, y cómo se usa bien sin manipular.</p>
-        <time datetime="2026-08-04">4 de agosto de 2026</time>
-      </a>
-    </article>
+  <a class="pieza" href="/blog/urgencia-real-vs-urgencia-falsa.html">
+    <div class="portada c-politica">
+      <div><span class="disciplina">Ética</span><p class="concepto">Urgencia<br>y escasez</p></div>
+      <span class="num">11</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Campañas</span><span class="etiqueta">Confianza</span></div>
+    <h2>Urgencia real vs. urgencia falsa en tus campañas</h2>
+    <time datetime="2026-08-04">4 de agosto de 2026</time>
+  </a>
 
-    <article>
-      <a href="/blog/por-que-la-repeticion-vende-mas.html">
-        <h2>Por qué la repetición vende más que la creatividad</h2>
-        <p>El efecto de mera exposición explica por qué ver tu marca una y otra vez genera más confianza que un anuncio brillante que solo se ve una vez.</p>
-        <time datetime="2026-08-04">4 de agosto de 2026</time>
-      </a>
-    </article>
+  <a class="pieza" href="/blog/como-perder-leads-sin-darte-cuenta.html">
+    <div class="portada c-estrategia">
+      <div><span class="disciplina">Operación</span><p class="concepto">Fugas en<br>el embudo</p></div>
+      <span class="num">12</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Leads</span><span class="etiqueta">Embudos</span></div>
+    <h2>Cómo perder leads sin darte cuenta</h2>
+    <time datetime="2026-08-04">4 de agosto de 2026</time>
+  </a>
 
-    <article>
-      <a href="/blog/la-ia-no-reemplaza-tu-estrategia.html">
-        <h2>La IA no reemplaza tu estrategia</h2>
-        <p>La inteligencia artificial es una herramienta, no un sustituto de la dirección estratégica de tu marca. Aquí está la diferencia.</p>
-        <time datetime="2026-08-04">4 de agosto de 2026</time>
-      </a>
-    </article>
-  </div>
+  <a class="pieza" href="/blog/el-error-mas-caro-en-meta-ads.html">
+    <div class="portada c-estrategia">
+      <div><span class="disciplina">Pauta</span><p class="concepto">Meta<br>Ads</p></div>
+      <span class="num">13</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Publicidad</span><span class="etiqueta">Presupuesto</span></div>
+    <h2>El error más caro en Meta Ads</h2>
+    <time datetime="2026-08-04">4 de agosto de 2026</time>
+  </a>
+
+  <a class="pieza" href="/blog/la-ia-no-reemplaza-tu-estrategia.html">
+    <div class="portada c-estrategia">
+      <div><span class="disciplina">Estrategia</span><p class="concepto">IA y<br>criterio</p></div>
+      <span class="num">14</span>
+    </div>
+    <div class="etiquetas"><span class="etiqueta">Inteligencia artificial</span></div>
+    <h2>La IA no reemplaza tu estrategia</h2>
+    <time datetime="2026-08-04">4 de agosto de 2026</time>
+  </a>
+
 </main>
 
 <footer>
-  <span>© 2026 AbyC. Nada se comunica al azar.</span>
-  <span>
+  <p class="firma">Escritos por <a href="/adan-limones-ambriz.html">Adán Limones Ambriz</a>, director de AbyC.</p>
+  <p class="enlaces">
+    © 2026 AbyC ·
     <a href="https://wa.me/525615056334" target="_blank" rel="noopener">WhatsApp</a> ·
     <a href="mailto:abycmexico@gmail.com">abycmexico@gmail.com</a>
-  </span>
+  </p>
 </footer>
 
 </body>
