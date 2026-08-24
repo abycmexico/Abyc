@@ -79,10 +79,20 @@ fs.writeFileSync(path.join(BLOG, 'index.html'), indice, 'utf8');
 
 // ---------- sitemap ----------
 const hoy = new Date().toISOString().slice(0, 10);
+// Las páginas de servicio se descubren solas: son las que están en la raíz y
+// no son el inicio ni el autor. Así, una página nueva entra al sitemap sin
+// que haya que acordarse de anotarla aquí.
+const servicios = fs.readdirSync(RAIZ)
+  .filter(f => f.endsWith('.html') && !['index.html', 'servicios.html', 'adan-limones-ambriz.html'].includes(f));
+
 const fijas = [
   { loc: `${SITIO}/`, fecha: hoy, freq: 'weekly', pri: '1.0' },
-  { loc: `${SITIO}/adan-limones-ambriz.html`, fecha: hoy, freq: 'monthly', pri: '0.9' },
-  { loc: `${SITIO}/blog/`, fecha: articulos[0].fecha, freq: 'weekly', pri: '0.9' },
+  // Los servicios van con prioridad alta: son las páginas que atienden a
+  // quien está buscando contratar, no a quien está leyendo.
+  { loc: `${SITIO}/servicios.html`, fecha: hoy, freq: 'monthly', pri: '0.9' },
+  ...servicios.map(f => ({ loc: `${SITIO}/${f}`, fecha: hoy, freq: 'monthly', pri: '0.9' })),
+  { loc: `${SITIO}/adan-limones-ambriz.html`, fecha: hoy, freq: 'monthly', pri: '0.8' },
+  { loc: `${SITIO}/blog/`, fecha: articulos[0].fecha, freq: 'weekly', pri: '0.8' },
 ];
 const urls = [
   ...fijas,
