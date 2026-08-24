@@ -219,7 +219,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .n3{bottom:14%; left:3%; animation-delay:1.6s;}
   .n4{bottom:4%; right:14%; animation-delay:.4s;}
   .n5{top:46%; left:-2%; animation-delay:1.2s;}
-  .n7{bottom:6%; left:26%; animation-delay:2.4s;}
   .n6{top:44%; right:-2%; animation-delay:2s;}
 
   @keyframes float{
@@ -478,6 +477,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .answers, footer{position:relative;z-index:1;}
 
+  /* La mención de Praxia. Discreta a propósito: en gris, chica, y separada
+     por una línea. Quien viene por la agencia pasa de largo sin que le
+     estorbe; quien tiene curiosidad la encuentra. */
+  .hecho-en-casa{
+    display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;
+    margin-bottom:18px;padding-bottom:16px;
+    border-bottom:1px solid var(--line);
+    /* Un punto más oscuro que el gris de marca: en 4.29 se queda por debajo
+       del 4.5 que pide la norma, y esto es un enlace, no texto de adorno. */
+    font-size:12.5px;color:#6e6e6e;text-decoration:none;
+    transition:color .2s ease;
+  }
+  /* El logo entra apagado y toma color al pasar por encima: así no compite
+     con el amarillo de AbyC, que es de quien es esta página. */
+  .hecho-en-casa img{
+    height:26px;width:auto;display:block;
+    filter:grayscale(1);opacity:.55;transition:filter .2s ease, opacity .2s ease;
+  }
+  .hecho-en-casa:hover{color:var(--ink);}
+  .hecho-en-casa:hover img{filter:none;opacity:1;}
+  .hecho-que-es{font-weight:600;}
+
+  @media(max-width:520px){
+    .hecho-en-casa{font-size:12px;gap:7px;}
+    .hecho-en-casa img{height:22px;}
+  }
+
   footer{
     border-top:1px solid var(--line);padding:40px 24px;
     display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;
@@ -571,7 +597,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="neuron n5" data-target="ideas"><div class="node"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.5.4.8 1 .8 1.6h5.4c0-.6.3-1.2.8-1.6A6 6 0 0 0 12 3Z"/></svg></div><span class="label">Ideas</span></div>
     <!-- n4 ya estaba en el CSS pero sin usar, así que aquí encuentra dueño. -->
     <div class="neuron n4" data-target="equipo"><div class="node"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.2"/><path d="M16.5 13.6c2.3.5 3.9 2.5 3.9 4.9"/></svg></div><span class="label">Equipo</span></div>
-    <div class="neuron n7" data-target="praxia"><div class="node"><svg viewBox="0 0 24 24"><path d="M9 20V9a4.5 4.5 0 1 1 4.5 4.5H9"/><path d="M13.5 8.5c1.6-2.6 4-3.4 6.5-3.6-.2 2.6-1.8 4.6-4.4 5.2"/></svg></div><span class="label">Praxia</span></div>
     <div class="neuron n6" data-target="contacto"><div class="node"><svg viewBox="0 0 24 24"><path d="M4 4h16v13H8l-4 4Z"/><path d="M8 9h8M8 12.5h5"/></svg></div><span class="label">Contacto</span></div>
   </div>
 </section>
@@ -768,46 +793,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span class="close-panel" onclick="closePanels()">Cerrar ✕</span>
   </div>
 
-  <!-- PRAXIA: producto propio de AbyC, con su propio sitio. -->
-  <div class="panel" id="panel-praxia">
-    <span class="tag">Producto propio</span>
-    <h2>Praxia</h2>
-    <p class="panel-intro">
-      No solo hacemos campañas: también construimos producto. Praxia es un
-      sistema para psicólogos y psiquiatras que reúne el expediente clínico,
-      la agenda y los cobros en un solo lugar, y deja que cada profesional
-      atienda bajo su propia marca en vez de la de una plataforma.
-    </p>
-
-    <div class="grid-3">
-      <div class="card">
-        <h3>Expediente clínico</h3>
-        <p>Historial completo por paciente, notas de cada sesión y los
-          documentos que emite, ordenados según lo que pide la NOM-004.</p>
-      </div>
-      <div class="card">
-        <h3>Agenda y cobros</h3>
-        <p>Sesiones, recordatorios, mensualidades y ligas de pago que el
-          paciente puede usar aunque no tenga cuenta.</p>
-      </div>
-      <div class="card">
-        <h3>Bajo tu propia marca</h3>
-        <p>El paciente entra a un espacio con el nombre y la identidad de su
-          psicólogo, no con la de un intermediario.</p>
-      </div>
-    </div>
-
-    <div class="cta-group" style="margin-top:34px;">
-      <a class="wa" href="https://abycmexico.github.io/Praxia/" target="_blank" rel="noopener"
-         style="background:#2E7D32;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20V9a4.5 4.5 0 1 1 4.5 4.5H9"/><path d="M13.5 8.5c1.6-2.6 4-3.4 6.5-3.6-.2 2.6-1.8 4.6-4.4 5.2"/></svg>
-        Conocer Praxia
-      </a>
-    </div>
-
-    <span class="close-panel" onclick="closePanels()">Cerrar ✕</span>
-  </div>
-
   <div class="panel" id="panel-contacto">
     <span class="tag">Contacto</span>
     <h2>Hablemos</h2>
@@ -876,6 +861,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <footer>
+  <!-- Praxia va aquí y no en el menú principal: es producto propio, no un
+       servicio que se contrate a la agencia. Puesta arriba competía con lo
+       que la gente viene a buscar; aquí la encuentra quien se interesa. -->
+  <a class="hecho-en-casa" href="https://abycmexico.github.io/Praxia/" target="_blank" rel="noopener">
+    <span>También desarrollamos</span>
+    <img src="./assets/praxia-logo.png" alt="Praxia" width="88" height="38">
+    <span class="hecho-que-es">software para consulta psicológica</span>
+  </a>
+
   <span>© 2026 AbyC. Nada se comunica al azar. · <button class="faq-link" onclick="toggleFaq()">Preguntas frecuentes</button></span>
   <div class="cta-group">
     <a class="wa" href="https://wa.me/525615056334" target="_blank">+52 56 1505 6334</a>
