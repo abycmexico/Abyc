@@ -248,32 +248,43 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .panel-intro{
     max-width:620px;color:var(--gray);font-size:16px;line-height:1.65;margin:0 0 30px;
   }
-  .equipo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  /* Dos columnas y no tres: con cuatro personas, tres dejan una sola abajo
+     y se ve como si faltara alguien. */
+  .equipo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
   .persona{
-    border:1.5px solid var(--line);border-radius:18px;padding:26px 22px;
+    border:1.5px solid var(--line);border-radius:18px;overflow:hidden;
+    display:flex;flex-direction:column;
     transition:border-color .2s ease, transform .2s ease;
   }
   .persona:hover{border-color:var(--yellow);transform:translateY(-3px);}
-  /* La foto es un círculo con iniciales mientras no haya retrato. Si se mete
-     un <img> dentro, lo tapa completo sin deformarse. */
+
+  /* Retrato arriba, con la franja amarilla de la marca separándolo del texto.
+     Las fotos vienen con encuadres distintos, así que se recortan a una
+     proporción fija y se anclan arriba: así todas las caras quedan a la misma
+     altura y ninguna sale decapitada. */
   .foto{
-    width:76px;height:76px;border-radius:50%;margin-bottom:16px;overflow:hidden;
-    background:var(--yellow-soft);color:var(--ink);
-    display:flex;align-items:center;justify-content:center;
-    font-weight:800;font-size:22px;letter-spacing:.5px;
+    position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;
+    background:#1b1b1b;border-bottom:3px solid var(--yellow);
   }
-  .foto img{width:100%;height:100%;object-fit:cover;display:block;}
-  .persona h3{margin:0 0 4px;font-size:17px;}
+  .foto img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block;}
+  /* Las iniciales viven detrás de la foto. Si el archivo falta, el img se
+     esconde y quedan a la vista: nunca se ve el ícono de imagen rota. */
+  .foto::before{
+    content:attr(data-iniciales);
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:var(--yellow-soft);color:var(--ink);
+    font-weight:800;font-size:30px;letter-spacing:1px;
+  }
+  .foto img{position:relative;z-index:1;}
+  .persona-texto{padding:20px 20px 24px;}
+  .persona h3{margin:0 0 5px;font-size:17px;}
   .persona .cargo{
-    display:block;font-size:12.5px;font-weight:700;color:var(--gray);
-    text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;
+    display:block;font-size:11.5px;font-weight:700;color:var(--gray);
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:11px;line-height:1.4;
   }
   .persona p{margin:0;font-size:14.5px;line-height:1.6;color:var(--gray);}
 
-  @media(max-width:860px){
-    .equipo-grid{grid-template-columns:1fr 1fr;}
-  }
-  @media(max-width:560px){
+  @media(max-width:640px){
     .equipo-grid{grid-template-columns:1fr;}
   }
   .card{
@@ -688,50 +699,69 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span class="close-panel" onclick="closePanels()">Cerrar ✕</span>
   </div>
 
-  <!-- ══════════════════════════════════════════════════════════════════
-       EQUIPO
+  <!-- EQUIPO
+       Para agregar o quitar gente se copia o se borra un <article
+       class="persona"> completo; la rejilla se acomoda sola.
 
-       OJO: los nombres, cargos y textos de abajo son de relleno. Hay que
-       cambiarlos por los reales antes de publicar. No los invento yo: en
-       comunicación política se contrata a personas, y una ficha con datos
-       falsos es peor que no tener sección de equipo.
-
-       Para agregar o quitar gente, se copia o se borra un bloque <article
-       class="persona"> completo. La rejilla se acomoda sola.
-
-       Las fotos van en assets/ y se ponen así, dentro del div foto:
-         <img src="./assets/nombre-apellido.jpg" alt="Nombre Apellido">
-       Sin foto, se quedan las iniciales, que también se ve bien.
-       ══════════════════════════════════════════════════════════════════ -->
+       Las fotos van en assets/ con el nombre que dice cada img. Si un
+       archivo falta, la foto se esconde sola y quedan las iniciales, para
+       que nunca se vea el ícono de imagen rota. -->
   <div class="panel" id="panel-equipo">
     <span class="tag">Equipo</span>
-    <h2>Quiénes estamos detrás</h2>
+    <h2>El equipo estratégico detrás de AbyC</h2>
     <p class="panel-intro">
-      Somos un equipo chico y por eso trabajas directo con quien hace las
-      cosas, no con un ejecutivo de cuenta que te pasa recados.
+      Las personas que definen la estrategia, ejecutan cada proyecto y
+      sostienen la relación con las marcas con las que trabajamos.
     </p>
 
     <div class="equipo-grid">
       <article class="persona">
-        <div class="foto">AB</div>
-        <h3>Nombre Apellido</h3>
-        <span class="cargo">Dirección de estrategia</span>
-        <p>Una o dos líneas sobre qué hace y de dónde viene. Concreto: dónde
-          trabajó antes, qué tipo de cuentas lleva.</p>
+        <div class="foto" data-iniciales="AA">
+          <img src="./assets/adan-ambriz.jpg" alt="Adán L. Ambriz" onerror="this.style.display='none'">
+        </div>
+        <div class="persona-texto">
+          <h3>Adán L. Ambriz</h3>
+        <span class="cargo">Director general &amp; equipos creativos</span>
+        <p>Lidera la dirección general de la agencia y los equipos creativos,
+          asegurando que cada estrategia y pieza de contenido responda a la
+          visión de marca.</p>
+        </div>
       </article>
 
       <article class="persona">
-        <div class="foto">CD</div>
-        <h3>Nombre Apellido</h3>
-        <span class="cargo">Campañas y pauta</span>
-        <p>Una o dos líneas sobre qué hace y de dónde viene.</p>
+        <div class="foto" data-iniciales="SG">
+          <img src="./assets/sebastian-gonzalez.jpg" alt="Sebastián González" onerror="this.style.display='none'">
+        </div>
+        <div class="persona-texto">
+          <h3>Sebastián González</h3>
+        <span class="cargo">Desarrollo de negocio — El Salvador y Colombia</span>
+        <p>Encargado de generar conexiones y conseguir nuevos clientes en El
+          Salvador y Colombia, ampliando la presencia de AbyC en la región.</p>
+        </div>
       </article>
 
       <article class="persona">
-        <div class="foto">EF</div>
-        <h3>Nombre Apellido</h3>
-        <span class="cargo">Contenido y comunicación</span>
-        <p>Una o dos líneas sobre qué hace y de dónde viene.</p>
+        <div class="foto" data-iniciales="EV">
+          <img src="./assets/evlyn-valencia.jpg" alt="Evlyn Valencia" onerror="this.style.display='none'">
+        </div>
+        <div class="persona-texto">
+          <h3>Evlyn Valencia</h3>
+        <span class="cargo">Coordinadora de proyectos</span>
+        <p>Da seguimiento y ejecución a las tareas de cada cuenta, asegurando
+          que los proyectos avancen en tiempo y forma.</p>
+        </div>
+      </article>
+
+      <article class="persona">
+        <div class="foto" data-iniciales="YT">
+          <img src="./assets/yasser-tamez.jpg" alt="Yasser Tamez" onerror="this.style.display='none'">
+        </div>
+        <div class="persona-texto">
+          <h3>Yasser Tamez</h3>
+        <span class="cargo">Socio aliado — Norte de México (Búster)</span>
+        <p>Socio aliado de AbyC en el norte del país, junto con su empresa
+          Búster, fortaleciendo la presencia de la agencia en la región.</p>
+        </div>
       </article>
     </div>
 
