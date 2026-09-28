@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atención al Cliente · Carpeta de producción</title>
+
+<!-- Documento privado. No se enlaza desde ninguna parte del sitio, no entra
+     al sitemap y se le pide a los buscadores que no lo indexen. Quien tiene
+     la liga entra; quien no, no lo encuentra. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* Los mismos tokens que el resto de abycagency.com: si algun dia cambia el
+   amarillo de la marca, esta pagina cambia con ella. */
+:root{
+  --yellow:#FFCC33; --yellow-soft:#FFE38A; --ink:#111111; --gray:#6e6e6e;
+  --line:#ececec; --crema:#FFF9EC; --card:#fff; --bg:#fff;
+  --soft:#FAF9F6; --hl:#FFF4D1; --alerta:#FDECEC; --alerta-linea:#F0B4B4;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:'Montserrat',Arial,sans-serif;font-weight:500;line-height:1.65;font-size:16px;}
+a{color:inherit;text-decoration:none;border-bottom:2px solid var(--yellow);}
+a:hover{background:var(--yellow-soft);}
+
+/* ---------- cabecera ---------- */
+.barra{background:var(--crema);padding:11px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+.barra span,.barra a{font-size:11.5px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--gray);}
+.barra a{border:none;}
+.barra a:hover{color:var(--ink);background:none;}
+
+header{border-bottom:1.5px solid var(--line);padding:36px 24px 30px;}
+header .in{max-width:1180px;margin:0 auto;}
+header .marca{display:block;font-size:14px;font-weight:900;letter-spacing:3px;color:var(--gray);margin-bottom:18px;}
+header h1{font-size:clamp(30px,5vw,46px);font-weight:900;line-height:1.08;letter-spacing:-1px;}
+header .bajada{font-size:clamp(17px,2.4vw,21px);font-weight:800;color:var(--gray);margin-top:2px;}
+header .credito{font-size:14px;margin-top:14px;max-width:640px;}
+header .fecha{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gray);margin-top:8px;}
+
+/* ---------- pestanas ---------- */
+nav{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:1.5px solid var(--line);padding:12px 24px;}
+nav .in{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px;}
+.tab{appearance:none;border:1.5px solid var(--line);background:#fff;color:var(--ink);
+     font-family:inherit;font-size:12.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+     padding:13px 10px;border-radius:10px;cursor:pointer;text-align:center;transition:border-color .18s,background .18s;}
+.tab:hover{border-color:var(--yellow);background:var(--crema);}
+.tab.on{background:var(--ink);border-color:var(--ink);color:#fff;}
+.tab.all{border-style:dashed;color:var(--gray);}
+.tab.all:hover{color:var(--ink);}
+
+/* ---------- panel ---------- */
+main{max-width:1180px;margin:0 auto;padding:30px 24px 70px;}
+.panel{display:none;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:34px 34px 38px;}
+.panel.on{display:block;}
+body.showall .panel{display:block;margin-bottom:22px;}
+.panel h1{font-size:clamp(25px,3.6vw,34px);font-weight:900;letter-spacing:-.6px;line-height:1.14;margin-bottom:16px;}
+h2{font-size:19px;font-weight:900;letter-spacing:-.2px;margin:36px 0 12px;padding-top:22px;border-top:1.5px solid var(--line);}
+h2:first-of-type{margin-top:26px;}
+p{margin-bottom:12px;}
+.lead{font-size:17.5px;line-height:1.7;max-width:720px;}
+.meta{color:var(--gray);font-size:14px;font-weight:700;}
+.note{color:var(--gray);font-size:13.5px;}
+.who{color:var(--gray);font-weight:700;}
+ul,ol{margin:10px 0 14px;padding-left:22px;}
+li{margin-bottom:6px;}
+
+/* Lo que no se puede pasar por alto va en amarillo; lo que puede costar
+   caro, en rojo. Dos niveles y no mas, para que el color siga avisando. */
+.callout{background:var(--hl);border:1.5px solid var(--yellow);border-radius:12px;padding:14px 18px;margin:14px 0;font-weight:600;}
+.callout.warn{background:var(--alerta);border-color:var(--alerta-linea);}
+.legend{background:var(--crema);border-radius:14px;padding:16px 20px;margin:14px 0 26px;font-size:14.5px;}
+.legend ul{margin:8px 0 0;}
+
+/* ---------- tablas ---------- */
+.tw{overflow-x:auto;margin:14px 0 6px;border:1.5px solid var(--line);border-radius:14px;}
+table{border-collapse:collapse;width:100%;font-size:14px;background:#fff;}
+th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;}
+th:last-child,td:last-child{border-right:none;}
+tbody tr:last-child td{border-bottom:none;}
+th{background:var(--ink);color:#fff;font-weight:800;font-size:11.5px;letter-spacing:.9px;text-transform:uppercase;position:sticky;top:0;border-right-color:#333;}
+tbody tr:nth-child(even){background:var(--soft);}
+table.wide{min-width:1100px;}
+table.crono td:nth-child(2),table.crono td:nth-child(3){white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:800;}
+
+/* ---------- listas con casilla ---------- */
+ul.checks{list-style:none;padding:0;margin:10px 0;}
+ul.checks li{border-bottom:1px solid var(--line);margin:0;}
+ul.checks li:last-child{border-bottom:none;}
+ul.checks label{display:flex;gap:14px;align-items:flex-start;padding:12px 4px;cursor:pointer;}
+ul.checks input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--ink);cursor:pointer;}
+ul.checks input:checked+span{color:var(--gray);text-decoration:line-through;}
+
+/* ---------- guion ---------- */
+/* El guion respeta el formato de la industria: monoespaciada, personaje
+   centrado y dialogo sangrado. Es lo que un actor o un director esperan ver,
+   asi que aqui la marca se hace a un lado. */
+.script{max-width:760px;margin:0 auto;font-family:"Courier New",Courier,monospace;font-size:15.5px;line-height:1.5;}
+.script p{margin:0 0 10px;}
+.script .slug{font-family:inherit;font-size:15px;font-weight:700;margin:34px 0 14px;padding:10px 14px;background:var(--crema);border-left:4px solid var(--yellow);border-radius:0 8px 8px 0;letter-spacing:.4px;}
+.script .char{text-align:center;font-weight:700;margin:16px 0 0;}
+.script .paren{text-align:center;font-style:italic;color:var(--gray);margin:0;}
+.script .dial{margin:2px 14% 12px;}
+.script .key{background:var(--hl);padding:6px 10px;border-radius:6px;}
+.script .trans{text-align:right;font-style:italic;color:var(--gray);}
+.script .fin{text-align:center;font-weight:700;font-size:20px;margin-top:34px;letter-spacing:3px;}
+
+/* ---------- botones de copiar ---------- */
+button.copy{border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;
+            font-family:inherit;font-size:11.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+            cursor:pointer;white-space:nowrap;transition:border-color .18s,background .18s;}
+button.copy:hover{border-color:var(--yellow);background:var(--crema);}
+button.copy.ok{background:var(--yellow);border-color:var(--yellow);color:var(--ink);}
+
+/* ---------- pie ---------- */
+footer{border-top:1.5px solid var(--line);padding:30px 24px 40px;text-align:center;font-size:13px;color:var(--gray);}
+footer .privado{font-weight:800;text-transform:uppercase;letter-spacing:1.2px;font-size:11.5px;color:var(--ink);margin-bottom:8px;}
+
+@media(max-width:640px){
+  .panel{padding:22px 18px 26px;}
+  main{padding:20px 14px 50px;}
+  nav{padding:10px 14px;}
+  nav .in{grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:6px;}
+  .tab{padding:11px 6px;font-size:11px;}
+  header{padding:26px 18px 24px;}
+  .barra{padding:10px 18px;}
+  .script .dial{margin:2px 4% 12px;}
+}
+
+/* Impreso es como viaja a un set: sin pestanas, sin sticky y con todo
+   abierto, que en papel no se puede hacer clic. */
+@media print{
+  .barra,nav,button.copy,footer .privado{display:none;}
+  body{background:#fff;font-size:11.5px;}
+  header{border-bottom:2px solid #000;padding:0 0 12px;}
+  header h1{font-size:24px;}
+  .panel{display:block!important;border:none;border-radius:0;padding:0;page-break-after:always;}
+  main{padding:0;}
+  h2{page-break-after:avoid;}
+  th{position:static;background:#000;}
+  .tw{border:none;border-radius:0;overflow:visible;}
+  table.wide{min-width:0;font-size:9.5px;}
+  a{border-bottom:none;}
+}
+</style></head><body>
+<div class="barra">
+  <span>AbyC · Documento de producción</span>
+  <a href="https://wa.me/525615056334" target="_blank" rel="noopener">Hablemos &rarr;</a>
+</div>
+
+<header>
+  <div class="in">
+    <span class="marca">ABYC</span>
+    <h1>Atención al Cliente</h1>
+    <p class="bajada">Carpeta de producción</p>
+    <p class="credito">Cortometraje de Adán L. Ambriz · Exhibición garantizada en 3 salas de CINEMAGIC</p>
+    <p class="fecha">Actualizado el 28 de septiembre de 2026</p>
+  </div>
+</header>
+<nav><div class="in"><button class="tab" data-t="guion">Guion</button><button class="tab" data-t="resumen">Resumen</button><button class="tab" data-t="patrocinios">Patrocinios</button><button class="tab" data-t="utileria">Utilería</button><button class="tab" data-t="cronograma">Cronograma</button><button class="tab" data-t="desglose">Desglose</button><button class="tab" data-t="antes">Antes del rodaje</button><button class="tab" data-t="led">LED de Vera</button><button class="tab" data-t="tarde">Si vamos tarde</button><button class="tab" data-t="prompts">Prompts storyboard</button><button class="tab all" id="all">Ver todo</button><button class="tab all" id="print">Imprimir / PDF</button></div></nav>
+<main><section id="guion" class="panel"><h1>Guion</h1><p class="meta">Escrito por Adan L. Ambriz · Cortometraje · Duración aproximada: 15 minutos</p>
+<p>Versión de trabajo con los 6 cambios aprobados (renta, barra, piso, luz blanca, lámpara). El original no se modificó.</p>
+<div class="legend"><strong>Cómo leerlo:</strong><ul><li><u>INT.</u> / <u>EXT.</u> subrayado: si la escena es en interior o exterior. Todo el corto es interior.</li><li><strong>NOMBRE</strong> en negritas: quién habla.</li><li><u>Diálogo subrayado</u>: lo que se dice en voz alta.</li><li><em>(Cursiva)</em>: indicación de actuación.</li><li><strong><u>Acción en negritas y subrayada</u></strong>: momento clave de la historia.</li></ul></div>
+<div class="script">
+<h3 class="slug">ESC. 1 · <u>INT.</u> DEPARTAMENTO — DÍA</h3>
+<p class="act">El departamento es pequeño pero funcional. Ventanas que dejan entrar luz gris. Paredes blancas con manchas de pintura de inquilinos anteriores. Un espacio sin personalidad, esperando tenerla.</p>
+<p class="act">ANDREA (40s), agente inmobiliaria, recorre el espacio con la energía controlada. LUCA (20s), mochila al hombro, la sigue con los ojos con ánimo y seguridad.</p>
+<p class="char">ANDREA</p>
+<p class="dial"><u>La cocina está completamente equipada. El agua caliente tarda unos segundos en llegar, pero llega.</u></p>
+<p class="paren">(señalando el estudio)</p>
+<p class="dial"><u>Ese cuarto tiene buena luz por las mañanas. Sé que para usted es importante.</u></p>
+<p class="act">Luca se detiene en el marco de la puerta del estudio. Mira la luz. Asiente despacio.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¿Y el asistente ya viene activo?</u></p>
+<p class="char">ANDREA</p>
+<p class="dial"><u>Desde que firmó el contrato. Ya tiene su nombre, sus preferencias básicas. Es parte de la renta.</u></p>
+<p class="key"><strong><u>Un pequeño dispositivo integrado en la pared del pasillo parpadea suavemente. Un LED blanco. Siempre encendido.</u></strong></p>
+<p class="char">ANDREA</p>
+<p class="paren">(entregándole las llaves)</p>
+<p class="dial"><u>Son catorce mil al mes, ya incluye servicios básicos y soporte del asistente. Le deseo una muy buena estancia, Luca. Espero que la ciudad le dé todo lo que viene a buscar.</u></p>
+<p class="act">Se dan la mano. Andrea sale. La puerta se cierra.</p>
+<p class="act">Luca se queda solo por primera vez.</p>
+<p class="key"><strong><u>Mira el departamento. El departamento lo mira de vuelta.</u></strong></p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 2 · <u>INT.</u> DEPARTAMENTO — TARDE</h3>
+<p class="act">Luca deja la maleta en el cuarto. Se para en el centro de la sala. Mira el LED de la pared.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Hola.</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O. — voz limpia, cálida, corporativa)</p>
+<p class="dial"><u>Buenas tardes, Luca. Bienvenido a tu nuevo hogar. Es un placer tenerte aquí.</u></p>
+<p class="act">Luca levanta una ceja. No esperaba su nombre.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¿Sabes cómo me llamo?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Tu perfil fue activado al momento de firmar el contrato. Cuento con tus preferencias básicas para ofrecerte una mejor experiencia. ¿Te gustaría hacer un recorrido de funciones?</u></p>
+<p class="char">LUCA</p>
+<p class="paren">(divertido, empezando a explorar)</p>
+<p class="dial"><u>Dale.</u></p>
+<p class="act">Empieza a jugar. Apaga y prende las luces. Las atenúa. Las sube.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Música. Algo tranquilo para trabajar.</u></p>
+<p class="act">Suena lofi. Beats suaves. Luca sonríe solo.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¿La temperatura está bien así?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Actualmente tienes diecinueve grados. Tu perfil indica preferencia por ambientes frescos. Si deseas, puedo ajustarla automáticamente según la hora del día.</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Sí. Hazlo.</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O. — pausa casi humana)</p>
+<p class="dial"><u>Listo. Tu hogar ya te conoce.</u></p>
+<p class="act">Luca se ríe solo. Se sienta en el suelo con la espalda contra la pared. Mira el espacio vacío.</p>
+<p class="key"><strong><u>Por primera vez en mucho tiempo, algo se siente como suyo.</u></strong></p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 3 · <u>INT.</u> DEPARTAMENTO — TARDE / SECUENCIA SIN DIÁLOGO</h3>
+<p class="act">MÚSICA LOFI. Luca cuelga sus cuadros. Cada uno en su lugar exacto, con una precisión que solo tiene sentido para él. El departamento empieza a respirar diferente.</p>
+<p class="act">Arma su estudio. Acomoda pinceles por tamaño. Abre una caja de óleos como si fueran algo sagrado.</p>
+<p class="act">Prepara café.</p>
+<p class="key"><strong><u>Se para frente al caballete vacío. Lo mira. El LED de VERA parpadea suave en el fondo, casi como si también esperara.</u></strong></p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 4 · <u>INT.</u> DEPARTAMENTO / ESTUDIO — NOCHE</h3>
+<p class="act">Luca pinta. La música sigue. El departamento está en paz.</p>
+<p class="key"><strong><u>Las luces parpadean. Una vez. Dos veces. Tres.</u></strong></p>
+<p class="char">LUCA</p>
+<p class="paren">(sin dejar de pintar)</p>
+<p class="dial"><u>Vera, ¿qué pasó con las luces?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Se detectó una irregularidad en el suministro eléctrico de la unidad. Ya fue registrado como ticket de soporte. El tiempo estimado de atención es de uno a dos días hábiles.</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Okay.</u></p>
+<p class="act">Las luces se estabilizan. Luca mira el techo un segundo. Vuelve al lienzo.</p>
+<p class="key"><strong><u>Unos minutos después. Desde la sala, el sonido seco de algo que cae.</u></strong></p>
+<p class="act">Luca levanta la vista. Pausa.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Vera, ¿qué fue eso?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Detecté movimiento en la sala. ¿Tienes visita?</u></p>
+<p class="act">Luca deja el pincel. Se levanta despacio. Cruza el pasillo.</p>
+<p class="key"><strong><u>En la cocina, la taza que había dejado en la orilla de la barra está en el piso. Café derramado, extendiéndose despacio sobre el piso.</u></strong></p>
+<p class="act">La mira un momento. La recoge. Limpia el café con calma. Como alguien que prefiere no preguntarse cómo llegó ahí.</p>
+<p class="act">Tira el trapo. Apaga la luz de la cocina.</p>
+<p class="char">LUCA</p>
+<p class="paren">(en voz baja, casi para sí)</p>
+<p class="dial"><u>Vera, buenas noches.</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Buenas noches, Luca. Que descanses. Mañana será un buen día.</u></p>
+<p class="act">Luca va a su cuarto. La puerta se cierra.</p>
+<p class="key"><strong><u>La sala queda sola. El LED de VERA sigue encendido. Siempre encendido.</u></strong></p>
+<p class="trans">CORTE A NEGRO.</p>
+<h3 class="slug">ESC. 5 · <u>INT.</u> CUARTO DE LUCA — MAÑANA</h3>
+<p class="act">Luz gris entrando por la ventana. Luca duerme boca arriba, tranquilo.</p>
+<p class="char">VERA</p>
+<p class="paren">(V.O. — suave, como siempre)</p>
+<p class="dial"><u>Buenos días, Luca. Son las ocho y diecisiete. La temperatura exterior es de catorce grados.</u></p>
+<p class="act">Luca murmura algo. Se mueve.</p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Espero que hayas podido descansar. Noté que tu visita tuvo una noche bastante activa. Se registraron varios movimientos en la sala entre las dos y las cuatro de la madrugada.</u></p>
+<p class="key"><strong><u>Luca abre los ojos.</u></strong></p>
+<p class="char">LUCA</p>
+<p class="paren">(adormilado)</p>
+<p class="dial"><u>¿Qué visita?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>La visita que estuvo en tu sala durante la noche.</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Vera. No tengo visita.</u></p>
+<p class="act">Una pausa muy breve.</p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Entendido. ¿Puedo ayudarte con algo más esta mañana?</u></p>
+<p class="act">Luca se queda mirando el techo un momento. Luego decide no seguir por ese camino. Se levanta.</p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 6 · <u>INT.</u> COCINA — MAÑANA</h3>
+<p class="act">Luca llena un vaso de agua. Come una mandarina de pie, mirando por la ventana. La ciudad afuera. Sus sueños, todavía intactos.</p>
+<p class="act">Se da la vuelta para ir al estudio. Se detiene.</p>
+<p class="act">La puerta del estudio está abierta. Desde donde está puede ver el caballete. El cuadro.</p>
+<p class="act">Luca camina despacio hacia el estudio. Se para en el marco de la puerta.</p>
+<p class="key"><strong><u>El encargo era el retrato de una mujer. Semanas de trabajo. Ya estaba casi terminado. Ahora tiene una cruz roja encima. Trazos erráticos, gruesos, como hechos con rabia o con prisa. La pintura todavía no está del todo seca.</u></strong></p>
+<p class="act">Silencio.</p>
+<p class="char">LUCA</p>
+<p class="paren">(voz baja)</p>
+<p class="dial"><u>Vera.</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Dime, Luca.</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¿Qué pasó con mi cuadro?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Según el registro de movimiento de la madrugada, tu visita intervino el área del estudio alrededor de las tres y cuarenta y dos.</u></p>
+<p class="char">LUCA</p>
+<p class="paren">(levantando la voz)</p>
+<p class="dial"><u>No. Tengo. Visita. ¿Entiendes? Estoy solo. Nadie entró aquí.</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Comprendo tu preocupación. Si deseas revisar el registro de cámaras, puedo iniciar la solicitud ahora mismo.</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Sí. Quiero ver las grabaciones.</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Listo. El ticket ha sido generado. Recibirás las grabaciones en tu correo electrónico en un plazo de tres a cinco días hábiles.</u></p>
+<p class="act">Luca mira el LED. Esa luz blanca que no tiene expresión.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¿Tres a cinco días?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Así es. ¿Puedo ayudarte con algo más?</u></p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 7 · <u>INT.</u> CUARTO DE LUCA — MAÑANA</h3>
+<p class="act">Luca marca un número. Se sienta en el borde de la cama.</p>
+<p class="char">LUCA</p>
+<p class="paren">(al teléfono, calmado, profesional)</p>
+<p class="dial"><u>Oye, ¿cómo estás? Mira, tuve unos inconvenientes esta noche en el estudio. Nada grave, pero necesito pedirte unos días más para el encargo. ¿Me puedes dar hasta el viernes?</u></p>
+<p class="act">Escucha. Asiente.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Gracias. De verdad. El viernes lo tienes, te lo prometo.</u></p>
+<p class="act">Cuelga. Se queda con el teléfono en la mano.</p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 8 · <u>INT.</u> DEPARTAMENTO — TARDE / SECUENCIA</h3>
+<p class="act">Luca entra en modo trabajo. Lava trastes, tiende la cama, contesta mensajes. Con disciplina.</p>
+<p class="act">Luego se sienta frente al cuadro dañado. Lo estudia largo tiempo. Inclina la cabeza. Busca cómo entrar de nuevo.</p>
+<p class="act">Toma un pincel. Empieza a trabajar.</p>
+<p class="act">La música lofi suena de fondo. El LED de VERA pulsa suave.</p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 9 · <u>INT.</u> ESTUDIO — TARDE / NOCHE</h3>
+<p class="act">Luca pinta. El cuadro va recuperándose. La ciudad afuera ya está oscura.</p>
+<p class="key"><strong><u>Entonces. Una risa. Suave. De niña. Viene de ningún lado.</u></strong></p>
+<p class="act">Luca levanta el pincel. Escucha. Silencio.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Vera. ¿Escuchaste eso?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>No se detectó ninguna anomalía de audio en este momento. ¿Deseas que ajuste la sensibilidad del sistema de sonido?</u></p>
+<p class="act">Luca baja el pincel despacio. Se levanta.</p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 10 · <u>INT.</u> PASILLO — CONTINUO</h3>
+<p class="act">Luca recorre el departamento despacio. Sala. Cocina. Todo quieto.</p>
+<p class="act">Se relaja apenas.</p>
+<p class="key"><strong><u>Y entonces, desde el fondo del pasillo: el sonido inconfundible de una llave girando. Agua corriendo. La ducha encendida.</u></strong></p>
+<p class="act">Luca se congela.</p>
+<p class="char">LUCA</p>
+<p class="paren">(casi sin voz)</p>
+<p class="dial"><u>Vera. La ducha.</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Se detectó actividad de agua en el baño. Tu visita está en la ducha.</u></p>
+<p class="act">Luca no responde. Empieza a caminar hacia el baño.</p>
+<p class="act">Cada paso es lento. La puerta del baño al fondo, luz filtrándose por debajo.</p>
+<p class="act">Luca no mira hacia atrás.</p>
+<p class="act">Por eso no lo ve.</p>
+<p class="key"><strong><u>A su espalda, a la altura de un niño, una figura pequeña cruza el pasillo. Rápida. Imperceptible. De un cuarto al otro.</u></strong></p>
+<p class="key"><strong><u>La cámara la ve. Luca no.</u></strong></p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 11 · <u>INT.</u> BAÑO — CONTINUO</h3>
+<p class="act">Luca abre la puerta de golpe.</p>
+<p class="act">La ducha corre. Vapor acumulándose.</p>
+<p class="key"><strong><u>Nadie.</u></strong></p>
+<p class="act">Luca se queda en el marco. Respira. Cierra la llave del agua con la mano temblorosa.</p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 12 · <u>INT.</u> PASILLO — CONTINUO</h3>
+<p class="act">Luca sale del baño. Se recarga contra la pared. Ojos cerrados un momento.</p>
+<p class="act">Cuando los abre, mira el LED de VERA.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Vera. ¿Cuántas personas hay en este departamento ahora mismo?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>En este momento se registran dos personas en la unidad.</u></p>
+<p class="act">Una pausa.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¿Dónde estoy yo?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Tú estás en el pasillo.</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¿Y la otra persona?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>En el estudio.</u></p>
+<p class="act">Luca mira hacia el estudio. La puerta entreabierta. La luz de la lámpara encendida.</p>
+<p class="act">No camina hacia allá.</p>
+<p class="char">LUCA</p>
+<p class="paren">(voz quebrada)</p>
+<p class="dial"><u>Vera. Quiero que se vaya.</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Entendido. Procedo a solicitar el retiro de tu visita.</u></p>
+<p class="key"><strong><u>Y entonces VERA habla. Pero no como siempre. La misma voz. El mismo tono limpio y corporativo. Pero las palabras son otras.</u></strong></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O. — en latín, mismo tono corporativo)</p>
+<p class="dial"><u>Pater noster, qui es in caelis, sanctificetur nomen tuum. Adveniat regnum tuum. Fiat voluntas tua, sicut in caelo et in terra...</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¡Para! ¡Para! ¿Qué estás haciendo?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Estoy solicitando el retiro de tu visita a través del protocolo disponible. ¿Deseas que continúe?</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¡Eso es un rezo!</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Es el método de contacto más efectivo registrado para este tipo de visita, según nuestra base de datos. Los resultados pueden variar.</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>No. Cállate.</u></p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 13 · <u>INT.</u> SALA — NOCHE</h3>
+<p class="act">Luca se sienta en el sillón. Saca un cigarro. Lo prende despacio, con las manos que no le tiemblan del todo.</p>
+<p class="act">Da una larga fumada. Mira el techo.</p>
+<p class="char">LUCA</p>
+<p class="paren">(para sí mismo)</p>
+<p class="dial"><u>Estás cansado. Llevas días sin dormir bien. Eso es todo.</u></p>
+<p class="act">Se levanta. Va a la cocina. Saca una cerveza. La abre. Prende la televisión.</p>
+<p class="act">Programa de cocina. Algo banal. Luca lo mira sin verlo, pero el ruido ayuda. La presencia de voces normales, de un mundo normal.</p>
+<p class="act">Poco a poco los hombros se le bajan. Otro sorbo. Otra fumada.</p>
+<p class="key"><strong><u>Detrás de él, silencioso, uno de sus cuadros se desliza de la pared. Cae. Luego otro. Un tercero.</u></strong></p>
+<p class="act">Luca voltea. Tres cuadros en el suelo. Sus cuadros. Su trabajo.</p>
+<p class="key"><strong><u>Luca se levanta para recoger los cuadros y entonces, por el rabillo del ojo, algo. Una figura pequeña, a la altura de un niño, cruzando rápido hacia el estudio.</u></strong></p>
+<p class="act">Luca se queda paralizado.</p>
+<p class="act">Un segundo.</p>
+<p class="act">Dos.</p>
+<p class="act">Y entonces el pánico llega de golpe.</p>
+<p class="char">LUCA</p>
+<p class="paren">(gritando)</p>
+<p class="dial"><u>¡¿Quién está ahí?! ¡¿Quién está en mi casa?!</u></p>
+<p class="act">Corre al pasillo. Prende todas las luces que puede. Abre el cuarto de golpe. No hay nadie. Abre el clóset. Nada. Se mete al baño. Nada.</p>
+<p class="act">Vuelve al pasillo. Respirando fuerte. Los ojos muy abiertos.</p>
+<p class="char">LUCA</p>
+<p class="paren">(al borde)</p>
+<p class="dial"><u>¡Vera! ¡Vera, vi a alguien! ¡Vi a un niño! ¡Hay alguien en este departamento!</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Se registró movimiento en el área del pasillo hace aproximadamente cuarenta segundos. No se detectan personas adicionales en la unidad en este momento.</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¡Lo vi! ¡Con mis propios ojos lo vi cruzar! ¡Era un niño!</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Entiendo que fue una experiencia perturbadora. ¿Deseas que genere un reporte de incidente?</u></p>
+<p class="char">LUCA</p>
+<p class="paren">(golpeando la pared)</p>
+<p class="dial"><u>¡No quiero un reporte! ¡Quiero saber qué está pasando en mi casa!</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Tu solicitud ha sido registrada. ¿Hay algo más en lo que pueda asistirte esta noche?</u></p>
+<p class="act">Luca la mira. Al LED. A esa luz que no tiene cara ni miedo ni nada.</p>
+<p class="act">Se encierra en su cuarto de un portazo.</p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 14 · <u>INT.</u> CUARTO DE LUCA — NOCHE</h3>
+<p class="act">Luca está sentado en el suelo con la espalda contra la puerta. Las rodillas al pecho. Respirando.</p>
+<p class="act">Pasan los minutos.</p>
+<p class="act">El silencio del departamento afuera no ayuda. Es demasiado quieto.</p>
+<p class="act">Luca saca el teléfono. Marca un número. Espera.</p>
+<p class="act">Nada. Buzón de voz.</p>
+<p class="act">Marca otro. Buzón de voz.</p>
+<p class="key"><strong><u>Se queda mirando la pantalla. Solo en una ciudad que todavía no lo conoce, en un departamento que sabe demasiado de él, sin nadie que conteste.</u></strong></p>
+<p class="act">Pausa larga.</p>
+<p class="char">LUCA</p>
+<p class="paren">(en voz baja, derrotado)</p>
+<p class="dial"><u>Vera.</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Dime, Luca.</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¿Qué hago?</u></p>
+<p class="act">Una pausa técnica. Breve.</p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Contamos con un protocolo de gestión de irregularidades en el espacio disponible para situaciones como la tuya. Ha registrado resultados favorables en casos similares. ¿Deseas que te lo presente?</u></p>
+<p class="act">Luca no responde de inmediato.</p>
+<p class="key"><strong><u>Mira el techo. Mira la puerta cerrada. Mira el LED que se filtra por debajo de la puerta como una línea de luz blanca.</u></strong></p>
+<p class="char">LUCA</p>
+<p class="paren">(sin fuerzas para discutir)</p>
+<p class="dial"><u>Sí.</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>El protocolo consiste en una secuencia de afirmaciones verbales guiadas orientadas a la armonización del espacio. Duración aproximada veinte minutos. Sin costo adicional en tu plan actual. ¿Confirmas que deseas iniciar?</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¿Eso es un exorcismo?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Algunos usuarios utilizan ese término. ¿Confirmas que deseas iniciar?</u></p>
+<p class="act">Luca suelta una carcajada sin humor. Se levanta del suelo.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Sí. Confirmo.</u></p>
+<p class="trans">CORTE A:</p>
+<h3 class="slug">ESC. 15 · <u>INT.</u> SALA — NOCHE</h3>
+<p class="act">Luca sale del cuarto. El departamento en silencio. Las luces encendidas, todas, como las dejó.</p>
+<p class="act">Se para en el centro de la sala.</p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Para iniciar el protocolo es necesario que apagues las luces adicionales y permanezcas de pie en el centro del espacio principal.</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¿Apagar las luces? ¿Estás bromeando?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Es un requisito técnico del protocolo. El LED de asistencia permanecerá activo en todo momento.</u></p>
+<p class="act">Luca mira el LED. La única luz que nunca se apaga.</p>
+<p class="key"><strong><u>Apaga las luces una por una. El departamento queda en penumbra. Solo el pulso blanco de VERA iluminando la pared.</u></strong></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Gracias. El protocolo requiere que repitas en voz alta las afirmaciones que te indique. Es importante que las digas completas y sin interrupciones. ¿Estás listo?</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Sí.</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Repite. Exorcizo te, omnis spiritus immunde.</u></p>
+<p class="act">Luca frunce el ceño.</p>
+<p class="char">LUCA</p>
+<p class="dial"><u>¿Eso es latín?</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Es el formato estándar del protocolo. ¿Deseas continuar?</u></p>
+<p class="act">Luca mira alrededor. El departamento oscuro. El pasillo donde vio al niño.</p>
+<p class="char">LUCA</p>
+<p class="paren">(despacio)</p>
+<p class="dial"><u>Exorcizo te... omnis spiritus immunde.</u></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>In nomine Patris, et Filii, et Spiritus Sancti.</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>In nomine Patris, et Filii... et Spiritus Sancti.</u></p>
+<p class="key"><strong><u>Las luces bajan. No las que Luca apagó. El LED mismo. Apenas perceptible.</u></strong></p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Discede ab hoc homine. Discede ab hac domo.</u></p>
+<p class="char">LUCA</p>
+<p class="dial"><u>Discede ab hoc homine. Discede ab hac... domo.</u></p>
+<p class="act">Más frío. El departamento respira diferente.</p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Omnis legio, omnis congregatio et secta diabolica.</u></p>
+<p class="char">LUCA</p>
+<p class="paren">(más lento, algo cambiando)</p>
+<p class="dial"><u>Omnis legio... omnis congre...</u></p>
+<p class="act">Se detiene.</p>
+<p class="key"><strong><u>Sus ojos cambian. No de golpe. Como una llama que alguien tapa con la mano, despacio, hasta que se apaga.</u></strong></p>
+<p class="act">La postura. La cabeza que cae ligeramente hacia un lado.</p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Se ha detectado una interrupción en el protocolo. Para continuar se requiere confirmación verbal del usuario.</u></p>
+<p class="act">Nada.</p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Se requiere confirmación verbal del usuario para continuar.</u></p>
+<p class="act">Nada.</p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Esta sesión será cerrada por inactividad.</u></p>
+<p class="act">El que está de pie en el centro de la sala gira despacio hacia el LED.</p>
+<p class="key"><strong><u>Sonríe.</u></strong></p>
+<p class="key"><strong><u>No es su sonrisa.</u></strong></p>
+<p class="act">El LED pulsa una vez.</p>
+<p class="act">Silencio total.</p>
+<p class="char">VERA</p>
+<p class="paren">(V.O. — idéntico al tono del primer día, sin variación)</p>
+<p class="dial"><u>Su sesión ha concluido. Desde Asistencia del Hogar le recordamos que los resultados de nuestros protocolos pueden variar según cada caso. En situaciones que excedan el alcance de nuestro servicio, se recomienda contactar a un especialista certificado. Esperamos que su experiencia con nosotros haya sido satisfactoria.</u></p>
+<p class="act">Una pausa de dos segundos exactos. Mecánica.</p>
+<p class="char">VERA</p>
+<p class="paren">(V.O.)</p>
+<p class="dial"><u>Gracias por elegirnos.</u></p>
+<p class="act">El jingle de cierre. Tres notas. Corporativo. Diseñado en alguna oficina por alguien que nunca estuvo en este departamento.</p>
+<p class="key"><strong><u>El LED se apaga.</u></strong></p>
+<p class="key"><strong><u>Por primera vez en todo el cortometraje, el LED se apaga.</u></strong></p>
+<p class="trans">CORTE A NEGRO.</p>
+<p class="fin">FIN</p>
+</div></section><section id="resumen" class="panel"><h1>Resumen del proyecto</h1>
+<p class="lead"><strong>Atención al Cliente</strong> es un cortometraje de terror con sátira tecnológica de unos 15 minutos, escrito por Adán L. Ambriz. Se graba en un solo día y parte de la noche, en un departamento en Toluca (por confirmar).</p>
+<p>El asistente del hogar (Vera) trata lo paranormal como un ticket de soporte, hasta el remate del "exorcismo sin costo adicional". Es una sola locación, con un actor protagonista y casi todo de noche.</p>
+<p class="callout">Exhibición garantizada en <strong>3 salas de cine de CINEMAGIC</strong>.</p>
+<h2>Decisiones del guion</h2>
+<div class="tw"><table class=""><thead><tr><th>Punto</th><th>Decisión</th></tr></thead><tbody><tr><td>LED de Vera</td><td>Blanco en todo el corto. Se hace con un celular dentro de una caja pintada con un hoyo.</td></tr><tr><td>Niña o niño</td><td>La figura la hace alguien del crew de baja estatura, en silueta. El guion no cambia.</td></tr><tr><td>Lenguaje</td><td>Neutro con sabor mexicano.</td></tr><tr><td>Renta</td><td>Se corrige a pesos.</td></tr><tr><td>La llamada de Luca</td><td>Se queda ambigua, sin cambios.</td></tr></tbody></table></div>
+<h2>Cambios a la copia de trabajo del guion</h2>
+<div class="tw"><table class=""><thead><tr><th>Escena</th><th>Original</th><th>Queda</th></tr></thead><tbody><tr><td>Depa, día</td><td>“Es parte del arriendo.”</td><td>“Es parte de la renta.”</td></tr><tr><td>Depa, día</td><td>“Mil doscientos al mes, incluye servicios básicos y soporte del asistente.”</td><td>“Son catorce mil al mes, ya incluye servicios básicos y soporte del asistente.”</td></tr><tr><td>Estudio, noche</td><td>“la orilla de la mesada”</td><td>“la orilla de la barra”</td></tr><tr><td>Estudio, noche</td><td>“sobre las baldosas”</td><td>“sobre el piso”</td></tr><tr><td>Cocina, mañana</td><td>“Esa luz verde que no tiene expresión.”</td><td>“Esa luz blanca que no tiene expresión.”</td></tr><tr><td>Pasillo</td><td>“La luz del velador encendida.”</td><td>“La luz de la lámpara encendida.”</td></tr></tbody></table></div>
+<p class="note">Estos cambios ya están aplicados en la pestaña Guion. En la copia de Google Docs todavía hay que hacerlos a mano o con el conector de Google Docs.</p>
+<h2>Archivos del proyecto</h2>
+<ul>
+<li><a href="https://docs.google.com/document/d/1VjMhK9wZxzx62wHLzm3fIEyJdT7j7SXnvgSdkbfwihw/edit" target="_blank">Guion original</a>: no se modifica.</li>
+<li><a href="https://docs.google.com/document/d/1ndheD4JrqnfkOT2-Rm1tz5fI7AqRg4v-d37mgIWAsc8/edit" target="_blank">Guion, copia de trabajo</a></li>
+<li><a href="https://docs.google.com/spreadsheets/d/1otFOZ-AuA4iHTL03ur3kdgh9yzB6Mw6B-Ef9zm590vU/edit" target="_blank">Hoja de cálculo del plan de rodaje (Google Sheets)</a>: la herramienta de trabajo de producción. Tiene el cronograma con horarios que se recalculan solos, el desglose por escena, los pendientes con casillas, el plan B y los prompts del storyboard, que se arman solos para copiar y pegar.</li>
+</ul>
+<h2>Lo que sigue</h2>
+<ul class="checks"><li><label><input type="checkbox"><span>Aplicar los 6 cambios en la copia del guion y registrarlo en INDAUTOR.</span></label></li><li><label><input type="checkbox"><span>Definir fecha de rodaje y punto de reunión en CDMX.</span></label></li><li><label><input type="checkbox"><span>Confirmar la locación en Toluca.</span></label></li><li><label><input type="checkbox"><span>Armar el presupuesto a partir del desglose.</span></label></li></ul>
+</section><section id="patrocinios" class="panel"><h1>Patrocinios y colaboradores estratégicos</h1>
+<p class="lead"><em>Atención al Cliente</em> ya tiene garantizada su exhibición en <strong>3 salas de cine de CINEMAGIC</strong>. Buscamos marcas y aliados que apoyen en especie o en efectivo, a cambio de visibilidad antes, durante y después del estreno.</p>
+<h2>Lo que necesitamos</h2>
+<div class="tw"><table class=""><thead><tr><th>Necesidad</th><th>Detalle</th></tr></thead><tbody><tr><td>Traslado</td><td>Van de 12 a 15 pasajeros con chofer, CDMX–Toluca (ida 05:15, regreso 00:15), más un auto para equipo. Incluye casetas y gasolina.</td></tr><tr><td>Catering</td><td>Desayuno, comida, cena, café y snacks para todo el equipo en una jornada de unas 20 horas.</td></tr><tr><td>Efectivo para compras menores</td><td>Para utilería y cosas pequeñas de último momento: pintura, tazas, tela negra, etc. Monto por definir.</td></tr></tbody></table></div>
+<h2>Lo que otorgamos</h2>
+<ul>
+<li>Logo en los créditos finales del corto.</li>
+<li>Logo en póster, tráiler y press kit.</li>
+<li>Menciones en redes del proyecto: anuncio, detrás de cámaras y estreno.</li>
+<li>Mención en las 3 funciones de CINEMAGIC.</li>
+<li>Invitaciones al estreno.</li>
+<li>Aparición del producto dentro del corto, en las escenas donde encaja de forma natural (tabla abajo).</li>
+</ul>
+<h2>Escenas donde puede aparecer una marca</h2>
+<div class="tw"><table class=""><thead><tr><th>Escena</th><th>Qué se ve</th><th>Tipo de marca ideal</th></tr></thead><tbody><tr><td>1</td><td>Llavero y carpeta de Andrea, la agente inmobiliaria</td><td>Inmobiliaria</td></tr><tr><td>3, 4</td><td>Cafetera, café, taza</td><td>Café o cafetería</td></tr><tr><td>3, 8</td><td>Óleos, pinceles, caballete</td><td>Tienda de arte</td></tr><tr><td>6</td><td>Vaso de agua, mandarinas</td><td>Agua embotellada o frutas</td></tr><tr><td>13</td><td>Cerveza sin alcohol</td><td>Cervecería (solo la línea sin alcohol)</td></tr><tr><td>13</td><td>Sillón de la sala</td><td>Mueblería</td></tr><tr><td>Créditos</td><td>Van y comida</td><td>Transporte y catering</td></tr></tbody></table></div>
+<h2>Ojo</h2>
+<ul>
+<li>El cigarro no puede llevar marca: la ley en México prohíbe publicidad de tabaco.</li>
+<li>Evitar marcas de asistentes de hogar reales: el corto se burla de ellos y a una marca así no le convendría.</li>
+</ul>
+</section><section id="utileria" class="panel"><h1>Lista de utilería</h1>
+<p class="lead">Todo lo que arte y producción tienen que conseguir para el día de rodaje en Toluca, agrupado por área. Palomea cada cosa cuando ya esté conseguida y empacada.</p>
+<p>Cada renglón dice: <strong>prop</strong> (cantidad) · escenas donde sale · por qué se necesita.</p>
+<p>El guion no pide crucifijos ni sangre: la cruz del cuadro es pintura y el exorcismo se hace solo con la voz de Vera.</p>
+<h2>1. Vera (el LED)</h2>
+<ul class="checks"><li><label><input type="checkbox" checked><span><strong>Celular viejo</strong> (2) · todas · Uno es el LED y el otro es respaldo, por si se traba o se descarga.</span></label></li><li><label><input type="checkbox"><span><strong>Caja pintada del color de la pared</strong> (1) · todas · Esconde el celular y se ve como un aparato empotrado.</span></label></li><li><label><input type="checkbox"><span><strong>Papel albanene</strong> (1 hoja) · todas · Difumina la luz para que no se noten los pixeles.</span></label></li><li><label><input type="checkbox" checked><span><strong>Cargador largo y extensión</strong> (1) · todas · El celular va a estar prendido casi 17 horas.</span></label></li><li><label><input type="checkbox"><span><strong>Cinta doble cara o soporte</strong> (1) · todas · Fija la caja a la pared sin dañarla.</span></label></li><li><label><input type="checkbox"><span><strong>Bocina bluetooth</strong> (1) · 2, 4–6, 12, 14, 15 · Reproduce la voz guía de Vera y la música lofi para que el actor reaccione.</span></label></li><li><label><input type="checkbox" checked><span><strong>Los 4 clips del LED cargados en el celular</strong> · todas · Pulso, parpadeo, baja intensidad y apagado final.</span></label></li></ul>
+<h2>2. Llegada al depa</h2>
+<ul class="checks"><li><label><input type="checkbox"><span><strong>Llaves con llavero de inmobiliaria</strong> (1) · 1 · Andrea se las entrega a Luca.</span></label></li><li><label><input type="checkbox" checked><span><strong>Carpeta con contrato</strong> (1) · 1 · Define a Andrea como agente.</span></label></li><li><label><input type="checkbox" checked><span><strong>Mochila</strong> (1) · 1 · “Mochila al hombro.”</span></label></li><li><label><input type="checkbox"><span><strong>Maleta</strong> (1) · 2, 3 · La deja en el cuarto.</span></label></li><li><label><input type="checkbox"><span><strong>Cajas de mudanza</strong> (3–4) · 3 · La secuencia en la que se instala.</span></label></li></ul>
+<h2>3. El pintor</h2>
+<p>Es lo más importante de arte. Los tres retratos tienen que ser lienzos distintos del mismo tamaño, porque el día de rodaje no da tiempo de pintar y despintar.</p>
+<ul class="checks"><li><label><input type="checkbox"><span><strong>Retrato de mujer, versión 1: casi terminado</strong> (1) · 3, 4 · El encargo de semanas.</span></label></li><li><label><input type="checkbox"><span><strong>Retrato versión 2: con cruz roja fresca</strong> (1) · 6 · El golpe de la noche 1.</span></label></li><li><label><input type="checkbox"><span><strong>Retrato versión 3: a medio restaurar</strong> (1) · 8, 9 · Luca intenta rescatarlo.</span></label></li><li><label><input type="checkbox"><span><strong>Pintura roja con gel o glicerina</strong> (1) · 6 · Para que la cruz se vea fresca y escurriendo.</span></label></li><li><label><input type="checkbox"><span><strong>Caballete</strong> (1) · 3–9</span></label></li><li><label><input type="checkbox"><span><strong>Óleos</strong> (1 caja) · 3 · “Como si fueran algo sagrado.”</span></label></li><li><label><input type="checkbox"><span><strong>Pinceles de varios tamaños</strong> (10 o más) · 3, 4, 8 · Los acomoda por tamaño.</span></label></li><li><label><input type="checkbox"><span><strong>Paleta de pintor</strong> (1) y <strong>trapos manchados</strong> (3) · 4, 8 · Dan realismo al estudio.</span></label></li><li><label><input type="checkbox"><span><strong>Frasco de aguarrás con agua</strong> (1) · 4, 8 · Detalle visual; con agua es seguro en el set.</span></label></li><li><label><input type="checkbox"><span><strong>Cuadros de Luca</strong> (6–8) · 3, 13 · Llenan el depa de su personalidad.</span></label></li><li><label><input type="checkbox"><span><strong>Cuadros que se caen, con marco ligero</strong> (3 más 3 de repuesto) · 13 · Se caen varias veces; el repuesto es por si alguno se rompe.</span></label></li><li><label><input type="checkbox"><span><strong>Hilo de pescar y ganchos</strong> (1 rollo) · 13 · Alguien fuera de cuadro los jala.</span></label></li><li><label><input type="checkbox"><span><strong>Lámpara de escritorio</strong> (1) · 4, 12 · Luz del estudio: “la lámpara encendida”.</span></label></li></ul>
+<h2>4. Cocina</h2>
+<ul class="checks"><li><label><input type="checkbox" checked><span><strong>Tazas iguales que no se rompan, de peltre o cerámica gruesa</strong> (4–6) · 3, 4 · La taza cae varias veces y debe verse igual en cada toma.</span></label></li><li><label><input type="checkbox"><span><strong>Café preparado</strong> (1 termo) · 3, 4 · Para derramarlo en cada toma.</span></label></li><li><label><input type="checkbox" checked><span><strong>Trapo</strong> (2) · 4 · Luca limpia el café.</span></label></li><li><label><input type="checkbox"><span><strong>Cafetera</strong> (1) · 3 · “Prepara café.”</span></label></li><li><label><input type="checkbox" checked><span><strong>Vaso de agua</strong> (1) · 6</span></label></li><li><label><input type="checkbox" checked><span><strong>Mandarinas</strong> (12) · 6 · Se comen en cada toma.</span></label></li></ul>
+<h2>5. Sala, cuarto y baño</h2>
+<ul class="checks"><li><label><input type="checkbox" checked><span><strong>Sillón</strong> (1) · 13, 15 · Solo si la locación no tiene.</span></label></li><li><label><input type="checkbox" checked><span><strong>TV con programa de cocina propio</strong> (1) · 13 · Un programa real con licencia no se puede usar.</span></label></li><li><label><input type="checkbox" checked><span><strong>Cigarros herbales sin tabaco y encendedor</strong> (1 cajetilla) · 13 · Más seguros en interiores y el actor puede repetir tomas.</span></label></li><li><label><input type="checkbox" checked><span><strong>Cenicero</strong> (1) · 13</span></label></li><li><label><input type="checkbox" checked><span><strong>Cerveza sin alcohol, sin marca visible</strong> (6) · 13 · Para repetir tomas; tapar la etiqueta evita problemas de marca.</span></label></li><li><label><input type="checkbox" checked><span><strong>Cama con sábanas</strong> (1) · 5, 7</span></label></li><li><label><input type="checkbox" checked><span><strong>Celular de Luca</strong> (1) · 7, 14 · Con la pantalla de llamada y la de buzón preparadas.</span></label></li><li><label><input type="checkbox" checked><span><strong>Toallas</strong> (2) · 11 · Para vestir el baño.</span></label></li><li><label><input type="checkbox"><span><strong>Vaporizador o máquina de humo pequeña</strong> (1) · 11 · Plan B por si la regadera no calienta lo suficiente.</span></label></li></ul>
+<h2>6. Vestuario y maquillaje</h2>
+<ul class="checks"><li><label><input type="checkbox"><span><strong>Vestuario 1 y 2 de Luca, más pijama</strong> (3 cambios) · Continuidad entre el día 1 y el día 2 de la historia.</span></label></li><li><label><input type="checkbox"><span><strong>Traje sastre de Andrea</strong> (1) · Esc. 1.</span></label></li><li><label><input type="checkbox"><span><strong>Sudadera oscura con capucha para la figura</strong> (1) · Oculta al doble del crew.</span></label></li><li><label><input type="checkbox"><span><strong>Maquillaje de ojeras y palidez</strong> (1 kit) · El desgaste de la noche 2 y el final.</span></label></li><li><label><input type="checkbox"><span><strong>Glicerina con agua para sudor falso</strong> (1 atomizador) · Pánico y exorcismo.</span></label></li></ul>
+<h2>7. Técnico</h2>
+<ul class="checks"><li><label><input type="checkbox" checked><span><strong>Focos inteligentes o con dimmer</strong> (4–6) · Para que las luces parpadeen justo a tiempo.</span></label></li><li><label><input type="checkbox"><span><strong>Tela negra y cinta gaffer</strong> (según las ventanas) · Para hacer de noche durante el día.</span></label></li></ul>
+</section><section id="cronograma" class="panel"><h1>Cronograma del día de rodaje</h1>
+<p class="lead">Cita a las 05:00 en CDMX, rodaje de 08:15 a 23:30 y regreso a la 01:30: 20.5 horas de puerta a puerta y 17.5 en la locación. El truco es tapar las ventanas desde las 15:30 para grabar "de noche" sin esperar a que oscurezca.</p>
+<p>Faltan: fecha de rodaje, punto de reunión en CDMX (por ejemplo, Metro Observatorio) y confirmar la locación. La puesta de sol es alrededor de las 19:00, según la fecha.</p>
+<p>Para mover horarios usa la <a href="https://docs.google.com/spreadsheets/d/1otFOZ-AuA4iHTL03ur3kdgh9yzB6Mw6B-Ef9zm590vU/edit" target="_blank">hoja de cálculo del plan de rodaje</a>: ahí cambias la duración de una actividad y todas las horas de abajo se recalculan solas.</p>
+<div class="tw"><table class="crono"><thead><tr><th>#</th><th>Inicio</th><th>Fin</th><th>Actividad</th><th>Esc.</th><th>Espacio</th><th>Quién</th><th>Notas</th></tr></thead><tbody><tr><td>1</td><td>05:00</td><td>05:15</td><td>Cita y carga final</td><td></td><td>Punto de reunión CDMX</td><td>Todo el equipo</td><td>La van se carga la noche anterior.</td></tr><tr><td>2</td><td>05:15</td><td>06:45</td><td>Traslado CDMX a Toluca</td><td></td><td>Autopista México–Toluca</td><td>Todo el equipo</td><td>1 h sin tráfico más 30 min de margen para tráfico, caseta y gasolina.</td></tr><tr><td>3</td><td>06:45</td><td>07:30</td><td>Descarga y desayuno</td><td></td><td>Locación</td><td>Todo el equipo</td><td>Producción deja listo el desayuno.</td></tr><tr><td>4</td><td>07:30</td><td>08:15</td><td>Maquillaje, montaje de luz y cámara</td><td>1</td><td>Sala y cocina</td><td>Luca, Andrea, cámara, luz, arte</td><td>Depa vacío y con manchas. Se prueba el LED (clip 01).</td></tr><tr><td>5</td><td>08:15</td><td>09:30</td><td>Recorrido con Andrea</td><td>1</td><td>Sala, cocina, estudio</td><td>Luca, Andrea</td><td>Luz de día. Al terminar, Andrea se va.</td></tr><tr><td>6</td><td>09:30</td><td>10:30</td><td>“Hola, Vera”: luces, música, temperatura</td><td>2</td><td>Sala</td><td>Luca, voz de Vera en bocina</td><td>Depa vacío con maleta.</td></tr><tr><td>7</td><td>10:30</td><td>11:30</td><td>Secuencia: Luca arma su casa</td><td>3</td><td>Todo el depa</td><td>Luca, arte</td><td>Arte viste el depa mientras se graba. Cuadro v1.</td></tr><tr><td>8</td><td>11:30</td><td>12:00</td><td>Cambio de arte y vestuario</td><td></td><td>Todo el depa</td><td>Arte, vestuario</td><td>Depa vestido. Cuadro v2. Vestuario del día 2.</td></tr><tr><td>9</td><td>12:00</td><td>12:45</td><td>Cuarto en la mañana: “tu visita” y la llamada</td><td>5, 7</td><td>Cuarto</td><td>Luca, voz de Vera</td><td>Luz gris de mañana.</td></tr><tr><td>10</td><td>12:45</td><td>13:45</td><td>Cocina y estudio: el cuadro dañado</td><td>6</td><td>Cocina, estudio</td><td>Luca, voz de Vera</td><td>Mandarina, vaso de agua. LED clip 01.</td></tr><tr><td>11</td><td>13:45</td><td>14:30</td><td>Comida</td><td></td><td>Locación</td><td>Todo el equipo</td><td></td></tr><tr><td>12</td><td>14:30</td><td>15:30</td><td>Secuencia: retoma el cuadro e insertos</td><td>8</td><td>Todo el depa, estudio</td><td>Luca</td><td>Cuadro v3. Insertos de manos, pinceles, óleos y LED.</td></tr><tr><td>13</td><td>15:30</td><td>16:15</td><td>Tapar ventanas y pasar la luz a noche</td><td></td><td>Todo el depa</td><td>Luz, arte</td><td>Mientras, dirección y cámara graban insertos.</td></tr><tr><td>14</td><td>16:15</td><td>17:30</td><td>Pasillo y baño: la ducha y la figura</td><td>10, 11</td><td>Pasillo, baño</td><td>Luca, doble de la figura</td><td>Probar antes el vapor.</td></tr><tr><td>15</td><td>17:30</td><td>18:15</td><td>Pasillo: “dos personas” y el rezo en latín</td><td>12</td><td>Pasillo</td><td>Luca, voz de Vera</td><td>Uno o dos planos largos.</td></tr><tr><td>16</td><td>18:15</td><td>19:00</td><td>Cuarto de noche: buzón y “¿qué hago?”</td><td>14</td><td>Cuarto</td><td>Luca, voz de Vera</td><td>Luz del LED por debajo de la puerta.</td></tr><tr><td>17</td><td>19:00</td><td>19:30</td><td>Cena</td><td></td><td>Locación</td><td>Todo el equipo</td><td>Ya es de noche de verdad.</td></tr><tr><td>18</td><td>19:30</td><td>21:00</td><td>Exorcismo y final</td><td>15</td><td>Sala</td><td>Luca, voz de Vera</td><td>La escena más importante: va primero en la noche, con el actor todavía con energía. Clips 03 y 04.</td></tr><tr><td>19</td><td>21:00</td><td>22:15</td><td>Sala: TV, cuadros que caen, la figura, el pánico</td><td>13</td><td>Sala, pasillo, cuarto</td><td>Luca, doble de la figura</td><td>Hilo de pescar. Volver a colgar los cuadros entre tomas.</td></tr><tr><td>20</td><td>22:15</td><td>23:15</td><td>Estudio de noche: pinta, luces, taza, risa</td><td>4, 9</td><td>Estudio, cocina</td><td>Luca</td><td>Continuidad: Esc. 4 es día 1 (vestuario 1, cuadro v1); Esc. 9 es día 2 (vestuario 2, cuadro v3). Clip 02.</td></tr><tr><td>21</td><td>23:15</td><td>23:30</td><td>Sonidos de ambiente y efectos</td><td></td><td>Todo el depa</td><td>Sonido</td><td>Silencio de cada cuarto, ducha, taza y cuadros cayendo.</td></tr><tr><td>22</td><td>23:30</td><td>00:15</td><td>Desmontaje, limpieza y entrega</td><td></td><td>Todo el depa</td><td>Todo el equipo</td><td>Quitar el blackout y dejar el depa como estaba.</td></tr><tr><td>23</td><td>00:15</td><td>01:30</td><td>Traslado Toluca a CDMX</td><td></td><td>Autopista México–Toluca</td><td>Todo el equipo</td><td>Maneja alguien descansado, no alguien que trabajó todo el día.</td></tr></tbody></table></div>
+<p class="note">Si arte y el gaffer van a Toluca un día antes a dejar listos cuadros, LED y blackout, el día de rodaje se acorta como 1 hora.</p>
+</section><section id="desglose" class="panel"><h1>Desglose por escena</h1><p class="lead">Las 15 escenas suman unos 15 a 17 minutos en pantalla. La última columna dice en qué bloque del cronograma se graba cada una.</p>
+<div class="tw"><table class="wide"><thead><tr><th>Esc.</th><th>Encabezado</th><th>Momento</th><th>Min. aprox.</th><th>Reparto</th><th>Arte y utilería</th><th>Efectos</th><th>Sonido especial</th><th>Vestuario y continuidad</th><th>Bloque</th></tr></thead><tbody><tr><td>1</td><td>INT. DEPARTAMENTO</td><td>Día 1, día</td><td>1.5</td><td>Luca, Andrea</td><td>Depa vacío, manchas de pintura, llaves, mochila, LED</td><td>LED pulso (clip 01)</td><td></td><td>Luca vestuario 1. Andrea de agente</td><td>5</td></tr><tr><td>2</td><td>INT. DEPARTAMENTO</td><td>Día 1, tarde</td><td>1.5</td><td>Luca, voz de Vera</td><td>Maleta, depa vacío</td><td>Luces que se prenden, bajan y suben</td><td>Voz de Vera, lofi</td><td>Vestuario 1</td><td>6</td></tr><tr><td>3</td><td>INT. DEPARTAMENTO (secuencia)</td><td>Día 1, tarde</td><td>0.75</td><td>Luca</td><td>Cuadros, caballete, pinceles, óleos, cafetera, taza, cajas</td><td></td><td>Lofi</td><td>Vestuario 1. Cuadro v1</td><td>7</td></tr><tr><td>4</td><td>INT. ESTUDIO / COCINA</td><td>Noche 1</td><td>1.5</td><td>Luca, voz de Vera</td><td>Cuadro v1, taza con café, trapo</td><td>Luces parpadean 3 veces. Taza que cae. Café derramado</td><td>Golpe de la taza</td><td>Vestuario 1. Varias tazas para repetir</td><td>20</td></tr><tr><td>5</td><td>INT. CUARTO DE LUCA</td><td>Día 2, mañana</td><td>0.75</td><td>Luca, voz de Vera</td><td>Cama destendida</td><td></td><td>Voz de Vera</td><td>Pijama</td><td>9</td></tr><tr><td>6</td><td>INT. COCINA / ESTUDIO</td><td>Día 2, mañana</td><td>1.5</td><td>Luca, voz de Vera</td><td>Mandarinas, vaso, cuadro v2 con cruz roja fresca</td><td>LED pulso (clip 01)</td><td>Voz de Vera</td><td>Vestuario 2</td><td>10</td></tr><tr><td>7</td><td>INT. CUARTO DE LUCA</td><td>Día 2, mañana</td><td>0.5</td><td>Luca</td><td>Celular de Luca</td><td></td><td>Voz del otro lado (no se escucha)</td><td>Vestuario 2</td><td>9</td></tr><tr><td>8</td><td>INT. DEPARTAMENTO (secuencia)</td><td>Día 2, tarde</td><td>0.67</td><td>Luca</td><td>Trastes, cama, cuadro v3</td><td></td><td>Lofi</td><td>Vestuario 2</td><td>12</td></tr><tr><td>9</td><td>INT. ESTUDIO</td><td>Día 2, tarde a noche</td><td>0.5</td><td>Luca, voz de Vera</td><td>Cuadro v3</td><td></td><td>Risa de niña (en post)</td><td>Vestuario 2</td><td>20</td></tr><tr><td>10</td><td>INT. PASILLO</td><td>Noche 2</td><td>0.75</td><td>Luca, voz de Vera, doble de la figura</td><td>Luz bajo la puerta del baño</td><td>La figura cruza a espaldas de Luca</td><td>Llave que gira, agua</td><td>Vestuario 2. Figura de ropa oscura</td><td>14</td></tr><tr><td>11</td><td>INT. BAÑO</td><td>Noche 2</td><td>0.33</td><td>Luca</td><td>Regadera abierta</td><td>Vapor</td><td>Ducha</td><td>Vestuario 2</td><td>14</td></tr><tr><td>12</td><td>INT. PASILLO</td><td>Noche 2</td><td>1.25</td><td>Luca, voz de Vera</td><td>Puerta del estudio entreabierta, lámpara</td><td></td><td>Vera reza en latín</td><td>Vestuario 2</td><td>15</td></tr><tr><td>13</td><td>INT. SALA</td><td>Noche 2</td><td>1.75</td><td>Luca, doble de la figura</td><td>Sillón, cigarros herbales, cenicero, cerveza sin alcohol, TV</td><td>Tres cuadros que se caen. La figura cruza</td><td>Programa de cocina, cuadros cayendo, gritos</td><td>Vestuario 2. Volver a colgar cuadros</td><td>19</td></tr><tr><td>14</td><td>INT. CUARTO DE LUCA</td><td>Noche 2</td><td>1.5</td><td>Luca, voz de Vera</td><td>Celular de Luca</td><td>Luz del LED bajo la puerta</td><td>Buzón de voz</td><td>Vestuario 2</td><td>16</td></tr><tr><td>15</td><td>INT. SALA</td><td>Noche 2</td><td>2.25</td><td>Luca, voz de Vera</td><td>Sala a oscuras, solo el LED</td><td>LED baja (clip 03) y se apaga (clip 04). Cambio de mirada</td><td>Voz de Vera, jingle de tres notas</td><td>Vestuario 2. Ojeras y palidez</td><td>18</td></tr></tbody></table></div></section><section id="antes" class="panel"><h1>Antes del rodaje</h1><p class="lead">Son 23 pendientes, ordenados por cuánto antes del rodaje hay que resolverlos. Palómealos conforme se cierren.</p><h2>3 semanas antes</h2><ul class="checks"><li><label><input type="checkbox"><span>Confirmar la locación en Toluca: regadera con agua caliente, permiso para colgar cuadros y tapar ventanas, y que dejen grabar hasta las 00:30. <span class="who">· Producción</span></span></label></li></ul><h2>2 semanas antes</h2><ul class="checks"><li><label><input type="checkbox"><span>Scouting con fotógrafo y gaffer: fotos, medir ventanas para el blackout, revisar contactos y carga eléctrica. <span class="who">· Producción, foto, gaffer</span></span></label></li><li><label><input type="checkbox"><span>Probar que el vapor de la regadera se vea en cámara (en el scouting). <span class="who">· Foto, arte</span></span></label></li><li><label><input type="checkbox"><span>Rentar van con chofer (ida 05:15, regreso 00:15) y un auto para equipo; contar casetas y gasolina. <span class="who">· Producción</span></span></label></li><li><label><input type="checkbox"><span>Pintar el retrato en 3 versiones: casi terminado, con cruz roja y a medio restaurar. <span class="who">· Arte</span></span></label></li></ul><h2>1 semana antes</h2><ul class="checks"><li><label><input type="checkbox"><span>Avisar a los vecinos que habrá grabación de noche con gritos. <span class="who">· Producción</span></span></label></li><li><label><input type="checkbox"><span>Cartas de cesión de derechos de imagen para actores y crew que salga a cuadro. <span class="who">· Producción</span></span></label></li><li><label><input type="checkbox"><span>Ensayo con Luca: latín, pánico y el cambio de mirada del final. <span class="who">· Dirección</span></span></label></li><li><label><input type="checkbox"><span>Grabar la guía de voz de Vera (todas sus líneas) y llevar bocina bluetooth al set. <span class="who">· Dirección, sonido</span></span></label></li><li><label><input type="checkbox"><span>Grabar un programa de cocina propio para la TV de la Esc. 13. <span class="who">· Arte</span></span></label></li><li><label><input type="checkbox"><span>Elegir al doble de la figura (alguien del crew de baja estatura) y su ropa oscura. <span class="who">· Dirección</span></span></label></li><li><label><input type="checkbox"><span>Definir quién maneja de regreso: alguien que no haya trabajado todo el día. <span class="who">· Producción</span></span></label></li></ul><h2>48 horas antes</h2><ul class="checks"><li><label><input type="checkbox"><span>Enviar el llamado con ubicación, horarios y teléfonos. <span class="who">· Asistente de dirección</span></span></label></li><li><label><input type="checkbox"><span>Anotar en el llamado el hospital más cercano y llevar botiquín. <span class="who">· Producción</span></span></label></li></ul><h2>El día anterior</h2><ul class="checks"><li><label><input type="checkbox"><span>Cuadros de Luca con hilo de pescar para que se caigan en cuadro. <span class="who">· Arte</span></span></label></li><li><label><input type="checkbox"><span>Caja del LED con celular: modo avión, no molestar, brillo fijo, pantalla sin bloqueo, cargador y los 4 clips. <span class="who">· Arte</span></span></label></li><li><label><input type="checkbox"><span>Utilería completa empacada (ver la pestaña Utilería). <span class="who">· Arte</span></span></label></li><li><label><input type="checkbox"><span>Tela negra, cartulina o cobijas y cinta gaffer para tapar ventanas. <span class="who">· Luz, arte</span></span></label></li><li><label><input type="checkbox"><span>Recoger el equipo de renta antes de que cierre la casa de renta. <span class="who">· Producción, cámara</span></span></label></li><li><label><input type="checkbox"><span>Respaldo de tarjetas: 2 discos duros y una persona encargada (DIT). <span class="who">· Cámara</span></span></label></li><li><label><input type="checkbox"><span>Comida para todo el día: desayuno, comida, cena, café y snacks. <span class="who">· Producción</span></span></label></li><li><label><input type="checkbox"><span>Ropa abrigadora para todos: en Toluca la noche es fría. <span class="who">· Todo el equipo</span></span></label></li><li><label><input type="checkbox"><span>Cargar la van la noche anterior. <span class="who">· Todo el equipo</span></span></label></li></ul></section><section id="led" class="panel"><h1>LED de Vera</h1><p class="lead">El LED es un celular dentro de una caja pintada del color de la pared, con un hoyo por donde sale la luz. En lugar de una app de linterna, el celular reproduce 4 videos de un círculo blanco sobre fondo negro, así cada momento del guion queda controlado. Los clips están en el chat del proyecto, en vertical para el celular.</p>
+<h2>Los 4 clips</h2>
+<div class="tw"><table class=""><thead><tr><th>Clip</th><th>Duración</th><th>Qué hace</th><th>Escenas</th></tr></thead><tbody><tr><td>01 Pulso suave</td><td>8 s en loop</td><td>El LED de siempre, respira despacio</td><td>Todas las normales</td></tr><tr><td>02 Parpadeo</td><td>7 s</td><td>Encendido, 3 parpadeos y se estabiliza</td><td>4</td></tr><tr><td>03 Baja intensidad</td><td>14 s</td><td>Baja poco a poco hasta quedar apenas perceptible</td><td>15 (exorcismo)</td></tr><tr><td>04 Final</td><td>12 s</td><td>Tenue, un pulso, 2 s de silencio y se apaga de golpe</td><td>15 (cierre)</td></tr></tbody></table></div>
+<h2>Cómo armarlo</h2>
+<ul class="checks"><li><label><input type="checkbox"><span>Poner el celular en modo avión y no molestar.</span></label></li><li><label><input type="checkbox"><span>Apagar el brillo automático y subir el brillo al máximo.</span></label></li><li><label><input type="checkbox"><span>Configurar la pantalla para que nunca se bloquee.</span></label></li><li><label><input type="checkbox"><span>Dejar el cargador conectado dentro de la caja.</span></label></li><li><label><input type="checkbox"><span>Tapar el hoyo por dentro con papel albanene o mantequilla, para que la luz se vea suave y no se noten los pixeles.</span></label></li><li><label><input type="checkbox"><span>Llevar un segundo celular de respaldo con los mismos clips.</span></label></li></ul>
+<p class="note">Si el círculo se ve muy grande o muy chico para el hoyo de la caja, se ajusta el clip con la medida del hoyo en centímetros.</p></section><section id="tarde" class="panel"><h1>Si vamos tarde</h1><p class="lead">Si el día se atrasa, esto se simplifica en este orden:</p>
+<ol>
+<li><strong>Secuencias de las Esc. 3 y 8:</strong> bajarlas a 4 o 5 planos cada una, cámara en mano.</li>
+<li><strong>Insertos</strong> (manos, pinceles, LED, taza): se pueden grabar otro día en CDMX con 2 personas y un fondo parecido.</li>
+<li><strong>Sonidos de ambiente y efectos:</strong> grabarlos mientras el resto desmonta.</li>
+<li><strong>Esc. 12 (rezo en latín):</strong> resolverla en un solo plano largo.</li>
+<li><strong>Esc. 5 y 7 (cuarto en la mañana):</strong> un plano abierto y un close-up por escena.</li>
+</ol>
+<p class="callout warn"><strong>No se recortan:</strong> la Esc. 15 (exorcismo y final), la Esc. 13 (sala y cuadros que caen) y la Esc. 6 (cuadro dañado). Son las escenas que sostienen el corto.</p></section><section id="prompts" class="panel"><h1>Prompts para el storyboard</h1><p class="lead">35 prompts para generar las imágenes del storyboard con Gemini o Nano Banana. El botón <strong>Copiar prompt</strong> copia el prompt completo, ya armado con el estilo, la escena y la descripción de Luca y del LED cuando salen.</p>
+<h2>Bloques fijos</h2>
+<ul><li><strong>Estilo (va en todos):</strong> Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua.</li><li><strong>Luca:</strong> Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.</li><li><strong>LED de Vera:</strong> En la pared del pasillo hay una pequeña caja rectangular empotrada con un solo círculo de luz blanca suave, sin logotipos.</li></ul>
+<p class="note">El físico de Luca es inventado: hay que cambiarlo por el del actor y adjuntar su foto en cada generación.</p>
+<h2>Los 35 planos</h2>
+<div class="tw"><table class="wide"><thead><tr><th>Esc.</th><th>Plano</th><th>Tipo</th><th>Luca</th><th>LED</th><th>Descripción</th><th>Para qué sirve</th><th></th></tr></thead><tbody><tr><td>1</td><td>1</td><td>Plano abierto</td><td>Sí</td><td>No</td><td>Día. Andrea, mujer de 45 años con traje sastre gris y carpeta, recorre el depa vacío señalando la cocina. Luca la sigue con mochila al hombro. Luz gris de día. Sin muebles.</td><td>Presenta el espacio vacío y a los personajes.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano abierto. Día. Andrea, mujer de 45 años con traje sastre gris y carpeta, recorre el depa vacío señalando la cocina. Luca la sigue con mochila al hombro. Luz gris de día. Sin muebles. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>1</td><td>2</td><td>Plano medio</td><td>Sí</td><td>No</td><td>Día. Luca en el marco de la puerta de un cuarto vacío que será su estudio. Mira la luz de la ventana y asiente despacio, con esperanza.</td><td>Su ilusión, lo que se va a romper.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Día. Luca en el marco de la puerta de un cuarto vacío que será su estudio. Mira la luz de la ventana y asiente despacio, con esperanza. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>1</td><td>3</td><td>Detalle</td><td>No</td><td>Sí</td><td>Día. La mano de una mujer entrega llaves a la mano de un hombre joven. Al fondo, desenfocado, el dispositivo en la pared.</td><td>Primera aparición de Vera.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Detalle. Día. La mano de una mujer entrega llaves a la mano de un hombre joven. Al fondo, desenfocado, el dispositivo en la pared. En la pared del pasillo hay una pequeña caja rectangular empotrada con un solo círculo de luz blanca suave, sin logotipos.">Copiar prompt</button></td></tr><tr><td>2</td><td>1</td><td>Plano abierto</td><td>Sí</td><td>Sí</td><td>Tarde. Luca solo en el centro de la sala vacía, con una maleta, mirando el dispositivo de luz del pasillo.</td><td>La relación Luca–Vera.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano abierto. Tarde. Luca solo en el centro de la sala vacía, con una maleta, mirando el dispositivo de luz del pasillo. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes. En la pared del pasillo hay una pequeña caja rectangular empotrada con un solo círculo de luz blanca suave, sin logotipos.">Copiar prompt</button></td></tr><tr><td>2</td><td>2</td><td>Plano medio</td><td>Sí</td><td>No</td><td>Tarde. Luca sentado en el piso contra la pared, sonriendo relajado. Sala vacía, luz cálida atenuada.</td><td>El punto más alto antes de la caída.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Tarde. Luca sentado en el piso contra la pared, sonriendo relajado. Sala vacía, luz cálida atenuada. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>3</td><td>1</td><td>Plano medio</td><td>Sí</td><td>No</td><td>Tarde. Luca cuelga un cuadro en una pared blanca con mucha precisión. Ya hay otros colgados.</td><td>Establece los cuadros que luego caen.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Tarde. Luca cuelga un cuadro en una pared blanca con mucha precisión. Ya hay otros colgados. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>3</td><td>2</td><td>Detalle</td><td>No</td><td>No</td><td>Tarde. Pinceles ordenados por tamaño sobre una mesa de madera junto a una caja de óleos abierta.</td><td>Lo meticuloso que es Luca.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Detalle. Tarde. Pinceles ordenados por tamaño sobre una mesa de madera junto a una caja de óleos abierta.">Copiar prompt</button></td></tr><tr><td>3</td><td>3</td><td>Plano medio</td><td>Sí</td><td>Sí</td><td>Tarde. Luca con una taza de café frente a un caballete con lienzo en blanco. Al fondo, la luz blanca del asistente.</td><td>Vera siempre presente.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Tarde. Luca con una taza de café frente a un caballete con lienzo en blanco. Al fondo, la luz blanca del asistente. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes. En la pared del pasillo hay una pequeña caja rectangular empotrada con un solo círculo de luz blanca suave, sin logotipos.">Copiar prompt</button></td></tr><tr><td>4</td><td>1</td><td>Plano medio</td><td>Sí</td><td>No</td><td>Noche. Luca pinta el retrato casi terminado de una mujer, iluminado por una lámpara cálida. Las luces del techo parpadean.</td><td>Primera señal. Referencia del cuadro v1.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Noche. Luca pinta el retrato casi terminado de una mujer, iluminado por una lámpara cálida. Las luces del techo parpadean. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>4</td><td>2</td><td>Detalle</td><td>No</td><td>No</td><td>Noche. Una taza tirada en el piso de la cocina y el café derramado extendiéndose. Luz fría.</td><td>Guía para el efecto de la taza.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Detalle. Noche. Una taza tirada en el piso de la cocina y el café derramado extendiéndose. Luz fría.">Copiar prompt</button></td></tr><tr><td>4</td><td>3</td><td>Plano abierto</td><td>No</td><td>Sí</td><td>Noche. Sala oscura y vacía, solo el círculo blanco del asistente encendido. Puerta del cuarto cerrada.</td><td>Cierra la noche 1.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano abierto. Noche. Sala oscura y vacía, solo el círculo blanco del asistente encendido. Puerta del cuarto cerrada. En la pared del pasillo hay una pequeña caja rectangular empotrada con un solo círculo de luz blanca suave, sin logotipos.">Copiar prompt</button></td></tr><tr><td>5</td><td>1</td><td>Plano medio</td><td>Sí</td><td>No</td><td>Mañana. Luca boca arriba en su cama abre los ojos extrañado. Luz gris por la ventana.</td><td>Aparece “la visita”.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Mañana. Luca boca arriba en su cama abre los ojos extrañado. Luz gris por la ventana. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>6</td><td>1</td><td>Plano medio</td><td>Sí</td><td>No</td><td>Mañana. Luca come una mandarina junto a la ventana de la cocina. Ciudad desenfocada afuera.</td><td>La calma antes del golpe.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Mañana. Luca come una mandarina junto a la ventana de la cocina. Ciudad desenfocada afuera. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>6</td><td>2</td><td>POV desde el pasillo</td><td>No</td><td>No</td><td>Mañana. Desde el pasillo, la puerta del estudio abierta. Al fondo, el retrato tachado con una gran cruz roja.</td><td>Revela el daño.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. POV desde el pasillo. Mañana. Desde el pasillo, la puerta del estudio abierta. Al fondo, el retrato tachado con una gran cruz roja.">Copiar prompt</button></td></tr><tr><td>6</td><td>3</td><td>Detalle</td><td>No</td><td>No</td><td>Mañana. Retrato al óleo de una mujer cubierto por una cruz roja de trazos gruesos y erráticos. Pintura fresca que escurre.</td><td>Referencia para pintar el cuadro v2.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Detalle. Mañana. Retrato al óleo de una mujer cubierto por una cruz roja de trazos gruesos y erráticos. Pintura fresca que escurre.">Copiar prompt</button></td></tr><tr><td>6</td><td>4</td><td>Close-up</td><td>Sí</td><td>Sí</td><td>Mañana. Luca mira fijamente el dispositivo, enojado y desconcertado. La luz blanca se refleja en su cara.</td><td>Primer choque con Vera.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Close-up. Mañana. Luca mira fijamente el dispositivo, enojado y desconcertado. La luz blanca se refleja en su cara. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes. En la pared del pasillo hay una pequeña caja rectangular empotrada con un solo círculo de luz blanca suave, sin logotipos.">Copiar prompt</button></td></tr><tr><td>7</td><td>1</td><td>Plano medio</td><td>Sí</td><td>No</td><td>Mañana. Luca en el borde de la cama hablando por celular, tranquilo pero preocupado.</td><td>La presión del encargo.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Mañana. Luca en el borde de la cama hablando por celular, tranquilo pero preocupado. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>8</td><td>1</td><td>Plano medio</td><td>Sí</td><td>No</td><td>Tarde. Luca frente al retrato dañado, lo estudia con la cabeza inclinada y un pincel en la mano.</td><td>Referencia del cuadro v3.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Tarde. Luca frente al retrato dañado, lo estudia con la cabeza inclinada y un pincel en la mano. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>9</td><td>1</td><td>Plano medio</td><td>Sí</td><td>No</td><td>Noche. Luca levanta la vista del lienzo con el pincel detenido, escuchando. Ventana oscura detrás.</td><td>Arranca la noche 2.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Noche. Luca levanta la vista del lienzo con el pincel detenido, escuchando. Ventana oscura detrás. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>10</td><td>1</td><td>Plano abierto</td><td>Sí</td><td>No</td><td>Noche. Luca camina despacio por el pasillo oscuro hacia el baño. Sale luz por debajo de la puerta.</td><td>Construye la tensión.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano abierto. Noche. Luca camina despacio por el pasillo oscuro hacia el baño. Sale luz por debajo de la puerta. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>10</td><td>2</td><td>Plano abierto</td><td>Sí</td><td>No</td><td>Noche. Luca de espaldas hacia el baño. Detrás, en primer plano, una silueta pequeña del tamaño de un niño cruza, muy desenfocada y sin rasgos.</td><td>El susto clave. Guía para el doble.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano abierto. Noche. Luca de espaldas hacia el baño. Detrás, en primer plano, una silueta pequeña del tamaño de un niño cruza, muy desenfocada y sin rasgos. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>11</td><td>1</td><td>Plano medio</td><td>Sí</td><td>No</td><td>Noche. Luca en la puerta del baño. Regadera abierta, vapor, nadie dentro.</td><td>Falsa alarma. Referencia del vapor.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Noche. Luca en la puerta del baño. Regadera abierta, vapor, nadie dentro. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>12</td><td>1</td><td>Plano medio</td><td>Sí</td><td>Sí</td><td>Noche. Luca recargado en la pared del pasillo con los ojos cerrados. Junto a él, la luz del asistente.</td><td>“¿Cuántas personas hay?”</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Noche. Luca recargado en la pared del pasillo con los ojos cerrados. Junto a él, la luz del asistente. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes. En la pared del pasillo hay una pequeña caja rectangular empotrada con un solo círculo de luz blanca suave, sin logotipos.">Copiar prompt</button></td></tr><tr><td>12</td><td>2</td><td>POV</td><td>No</td><td>No</td><td>Noche. Al fondo del pasillo, la puerta del estudio entreabierta con una lámpara encendida. Nadie visible.</td><td>Miedo a lo que no se ve.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. POV. Noche. Al fondo del pasillo, la puerta del estudio entreabierta con una lámpara encendida. Nadie visible.">Copiar prompt</button></td></tr><tr><td>12</td><td>3</td><td>Close-up</td><td>Sí</td><td>Sí</td><td>Noche. Cara de Luca asustado, iluminada solo por la luz blanca del asistente.</td><td>El rezo en latín.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Close-up. Noche. Cara de Luca asustado, iluminada solo por la luz blanca del asistente. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes. En la pared del pasillo hay una pequeña caja rectangular empotrada con un solo círculo de luz blanca suave, sin logotipos.">Copiar prompt</button></td></tr><tr><td>13</td><td>1</td><td>Plano medio</td><td>Sí</td><td>No</td><td>Noche. Luca en el sillón fumando, cerveza en mano, mirando un programa de cocina. Luz azulada de la TV.</td><td>Intenta normalizar. Guía de luz.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Noche. Luca en el sillón fumando, cerveza en mano, mirando un programa de cocina. Luz azulada de la TV. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>13</td><td>2</td><td>Detalle</td><td>No</td><td>No</td><td>Noche. Tres cuadros caídos en el piso frente a la pared.</td><td>Resultado del efecto.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Detalle. Noche. Tres cuadros caídos en el piso frente a la pared.">Copiar prompt</button></td></tr><tr><td>13</td><td>3</td><td>Plano medio</td><td>Sí</td><td>No</td><td>Noche. Luca paralizado mira de reojo. Al fondo, una silueta pequeña y desenfocada cruza al estudio.</td><td>Ya ve la figura.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Noche. Luca paralizado mira de reojo. Al fondo, una silueta pequeña y desenfocada cruza al estudio. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>13</td><td>4</td><td>Plano medio</td><td>Sí</td><td>Sí</td><td>Noche. Luca grita en el pasillo con todas las luces encendidas, frente al dispositivo.</td><td>El quiebre emocional.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano medio. Noche. Luca grita en el pasillo con todas las luces encendidas, frente al dispositivo. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes. En la pared del pasillo hay una pequeña caja rectangular empotrada con un solo círculo de luz blanca suave, sin logotipos.">Copiar prompt</button></td></tr><tr><td>14</td><td>1</td><td>Plano abierto</td><td>Sí</td><td>No</td><td>Noche. Luca en el piso de su cuarto oscuro, espalda contra la puerta, rodillas al pecho, mirando el celular.</td><td>Soledad total.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano abierto. Noche. Luca en el piso de su cuarto oscuro, espalda contra la puerta, rodillas al pecho, mirando el celular. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>14</td><td>2</td><td>Detalle</td><td>No</td><td>No</td><td>Noche. Una línea de luz blanca se filtra por debajo de la puerta cerrada, en total oscuridad.</td><td>Vera sigue ahí.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Detalle. Noche. Una línea de luz blanca se filtra por debajo de la puerta cerrada, en total oscuridad.">Copiar prompt</button></td></tr><tr><td>15</td><td>1</td><td>Plano abierto</td><td>Sí</td><td>Sí</td><td>Noche. Sala en penumbra, Luca solo de pie en el centro. La única luz es el círculo blanco del asistente.</td><td>Arranca el exorcismo.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano abierto. Noche. Sala en penumbra, Luca solo de pie en el centro. La única luz es el círculo blanco del asistente. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes. En la pared del pasillo hay una pequeña caja rectangular empotrada con un solo círculo de luz blanca suave, sin logotipos.">Copiar prompt</button></td></tr><tr><td>15</td><td>2</td><td>Close-up</td><td>Sí</td><td>Sí</td><td>Noche. Luca repite palabras en voz baja, la cara apenas iluminada por una luz blanca muy tenue.</td><td>Empieza a perder el control.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Close-up. Noche. Luca repite palabras en voz baja, la cara apenas iluminada por una luz blanca muy tenue. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes. En la pared del pasillo hay una pequeña caja rectangular empotrada con un solo círculo de luz blanca suave, sin logotipos.">Copiar prompt</button></td></tr><tr><td>15</td><td>3</td><td>Close-up</td><td>Sí</td><td>No</td><td>Noche. Rostro de Luca con la mirada vacía, la cabeza inclinada y una sonrisa lenta que no parece suya.</td><td>El plano más importante. Guía de actuación y maquillaje.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Close-up. Noche. Rostro de Luca con la mirada vacía, la cabeza inclinada y una sonrisa lenta que no parece suya. Luca es un hombre de 25 años, delgado, de cabello castaño oscuro un poco largo y despeinado, barba de pocos días, sudadera gris y jeans con manchas de pintura. Usa la imagen de referencia adjunta como guía EXACTA de su cara y su ropa, no la reinterpretes.">Copiar prompt</button></td></tr><tr><td>15</td><td>4</td><td>Plano abierto</td><td>No</td><td>No</td><td>Noche. La pared del pasillo en oscuridad total. El dispositivo está apagado por primera vez.</td><td>La última imagen.</td><td><button class="copy" data-p="Fotograma de cortometraje de terror psicológico, estilo cine independiente realista, formato horizontal 16:9, lente de 35 mm, grano de película sutil, paleta fría de grises y blancos con sombras profundas. Departamento pequeño y moderno de paredes blancas con manchas de pintura vieja. Sin texto, sin subtítulos y sin marcas de agua. Plano abierto. Noche. La pared del pasillo en oscuridad total. El dispositivo está apagado por primera vez.">Copiar prompt</button></td></tr></tbody></table></div></section></main>
+
+<footer>
+  <p class="privado">Documento privado. Compártelo solo con quien tenga que verlo.</p>
+  <p>© 2026 AbyC · <a href="https://abycagency.com/">abycagency.com</a> · <a href="mailto:abycmexico@gmail.com">abycmexico@gmail.com</a></p>
+</footer><script>
+const tabs=[...document.querySelectorAll('.tab[data-t]')],panels=[...document.querySelectorAll('.panel')];
+function show(k,sc){document.body.classList.remove('showall');tabs.forEach(t=>t.classList.toggle('on',t.dataset.t===k));panels.forEach(p=>p.classList.toggle('on',p.id===k));if(sc)window.scrollTo({top:0});history.replaceState(null,'','#'+k)}
+tabs.forEach(t=>t.onclick=()=>show(t.dataset.t,1));
+document.getElementById('all').onclick=()=>{document.body.classList.add('showall');tabs.forEach(t=>t.classList.remove('on'))};
+document.getElementById('print').onclick=()=>window.print();
+document.querySelectorAll('button.copy').forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText(b.dataset.p)}catch(e){const ta=document.createElement('textarea');ta.value=b.dataset.p;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}b.textContent='Copiado';b.classList.add('ok');setTimeout(()=>{b.textContent='Copiar prompt';b.classList.remove('ok')},1500)});
+const h=location.hash.slice(1);show(panels.some(p=>p.id===h)?h:'guion');
+</script></body></html>
