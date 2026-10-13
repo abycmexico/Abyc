@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Adán Limones Ambriz · Book</title>
+<meta name="description" content="Book de Adán Limones Ambriz: AbyC México, Praxia, WOHAW, Casa Glick y trayectoria.">
+
+<!-- Documento privado. No se enlaza desde ninguna parte del sitio, no entra
+     al sitemap y se le pide a los buscadores que no lo indexen. Quien tiene
+     la liga entra; quien no, no lo encuentra. Mismo criterio que /sala/. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+
+<!-- Vista previa al compartir la liga por WhatsApp o LinkedIn. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Adán Limones Ambriz · Book">
+<meta property="og:description" content="Director general de AbyC México y Praxia. Marca, comunicación y escritura.">
+<meta property="og:image" content="https://abycagency.com/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* Los mismos tokens que el resto de abycagency.com: si algun dia cambia el
+   amarillo de la marca, esta pagina cambia con ella. */
+:root{
+  --yellow:#FFCC33; --yellow-soft:#FFE38A; --ink:#111111; --gray:#6e6e6e;
+  --line:#ececec; --crema:#FFF9EC; --card:#fff; --bg:#fff; --soft:#FAF9F6;
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{background:var(--bg);color:var(--ink);font-family:'Montserrat',Arial,sans-serif;font-weight:500;line-height:1.65;font-size:16px;}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;border-bottom:2px solid var(--yellow);}
+a:hover{background:var(--yellow-soft);}
+a:focus-visible{outline:3px solid var(--ink);outline-offset:3px;}
+.wrap{width:100%;max-width:1040px;margin:0 auto;padding:0 28px;}
+
+/* ---------- cabecera ---------- */
+.top{border-bottom:3px solid var(--ink);}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:18px;padding-bottom:18px;}
+.marca{font-weight:800;font-size:13px;letter-spacing:2.4px;text-transform:uppercase;}
+.marca b{background:var(--yellow);padding:2px 8px;margin-right:6px;}
+.top nav{display:flex;gap:22px;font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;}
+.top nav a{border-bottom-width:2px;}
+
+.hero{padding:76px 0 64px;}
+.etiqueta{display:inline-block;background:var(--yellow);font-weight:800;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;margin-bottom:22px;}
+h1{font-weight:900;font-size:clamp(42px,8vw,86px);line-height:1;letter-spacing:-1.5px;}
+h1 .hl{background:linear-gradient(transparent 62%,var(--yellow) 62%);padding:0 4px;margin:0 -4px;}
+.rol{margin-top:22px;font-weight:700;font-size:clamp(17px,2.4vw,22px);}
+.bio{margin-top:26px;max-width:62ch;color:#333;font-size:17px;}
+.bio strong{font-weight:800;color:var(--ink);}
+.contacto{margin-top:34px;display:flex;flex-wrap:wrap;gap:12px;}
+.btn{display:inline-block;border:2px solid var(--ink);background:var(--ink);color:#fff;font-weight:800;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;padding:13px 22px;border-radius:999px;transition:background .15s,color .15s;}
+.btn:hover{background:var(--yellow);color:var(--ink);}
+.btn.sec{background:transparent;color:var(--ink);}
+.btn.sec:hover{background:var(--yellow);}
+
+/* ---------- secciones ---------- */
+section{padding:64px 0;border-top:3px solid var(--ink);}
+section.crema{background:var(--crema);}
+.cab{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 22px;margin-bottom:34px;}
+h2{font-weight:900;font-size:clamp(28px,4.2vw,42px);line-height:1.08;letter-spacing:-.6px;}
+.sub{color:var(--gray);font-size:15px;max-width:58ch;}
+
+/* ---------- fichas de proyectos ---------- */
+.fichas{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.ficha{background:var(--card);border:2px solid var(--ink);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;}
+.logo{height:150px;display:flex;align-items:center;justify-content:center;background:var(--soft);border-bottom:2px solid var(--ink);padding:22px;}
+.logo img{max-height:100%;width:auto;max-width:78%;object-fit:contain;}
+.logo.cover{padding:0;background:#0b2241;}
+.logo.cover img{width:100%;max-width:none;height:100%;object-fit:cover;}
+.logo.amarillo{background:var(--yellow);}
+.logo.amarillo img{max-width:46%;}
+.logo.blanco{background:#fff;}
+.ficha .cuerpo{padding:22px 24px 26px;display:flex;flex-direction:column;gap:8px;flex:1;}
+.rol-tag{font-size:11px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--gray);}
+.ficha h3{font-weight:800;font-size:22px;line-height:1.2;}
+.ficha p{font-size:15px;color:#333;}
+.ficha .ver{margin-top:auto;padding-top:12px;font-weight:800;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;}
+.ficha .ver a{display:inline-block;}
+
+/* ---------- caso Casa Glick ---------- */
+.caso{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:48px;align-items:start;}
+.piezas{display:flex;gap:18px;align-items:flex-start;}
+.pieza{flex:1;min-width:0;}
+.pieza img{width:100%;height:auto;border:2px solid var(--ink);border-radius:10px;background:#fff;box-shadow:6px 6px 0 var(--yellow);}
+.pieza figcaption{margin-top:16px;font-size:11px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--gray);line-height:1.5;}
+.caso h3{font-weight:900;font-size:26px;line-height:1.15;margin-bottom:14px;}
+.caso p{color:#333;margin-bottom:22px;}
+.entregas{list-style:none;border-top:2px solid var(--ink);}
+.entregas li{padding:14px 0 14px 34px;border-bottom:1px solid var(--line);position:relative;font-size:15px;}
+.entregas li::before{content:"";position:absolute;left:0;top:19px;width:16px;height:16px;background:var(--yellow);border:2px solid var(--ink);border-radius:50%;}
+.nota{margin-top:20px;font-size:13px;color:var(--gray);}
+
+/* ---------- marcas ---------- */
+.marcas{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.marca-card{height:112px;background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:18px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.marca-card img{max-height:100%;max-width:100%;object-fit:contain;}
+.marca-card.dark{background:#111;}
+.marca-card.cover{padding:0;}
+.marca-card.cover img{width:100%;height:100%;max-width:none;object-fit:cover;}
+
+/* ---------- trayectoria ---------- */
+.fila{display:grid;grid-template-columns:150px 1fr;gap:10px 32px;padding:22px 0;border-bottom:1px solid var(--line);}
+.fila:first-of-type{border-top:2px solid var(--ink);}
+.fila .cuando{font-size:11px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--gray);padding-top:5px;}
+.fila h3{font-weight:800;font-size:19px;line-height:1.3;}
+.fila h3 span{font-weight:600;color:var(--gray);}
+.fila p{font-size:15px;color:#333;margin-top:6px;max-width:62ch;}
+
+/* ---------- areas y escritura ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:10px;}
+.chip{border:2px solid var(--ink);border-radius:999px;padding:8px 18px;font-weight:700;font-size:13px;background:#fff;}
+.chip:nth-child(3n+1){background:var(--yellow-soft);}
+.libros{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:28px;}
+.libro{border:2px solid var(--ink);border-radius:var(--radius);padding:26px 26px 28px;background:#fff;}
+.libro .tipo{font-size:11px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--gray);}
+.libro h3{font-weight:900;font-size:32px;line-height:1.1;margin-top:8px;}
+.libro h3 span{font-weight:600;font-size:15px;color:var(--gray);}
+.otros{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;font-size:15px;}
+.otros p{color:#333;}
+.otros b{display:block;font-weight:800;color:var(--ink);margin-bottom:2px;}
+
+/* ---------- cierre ---------- */
+.cierre{background:var(--ink);color:#fff;border-top:3px solid var(--ink);padding:72px 0;}
+.cierre h2{color:#fff;max-width:20ch;}
+.cierre h2 .hl{background:linear-gradient(transparent 62%,var(--yellow) 62%);color:#fff;padding:0 4px;margin:0 -4px;}
+.cierre .contacto{margin-top:30px;}
+.cierre .btn{background:var(--yellow);border-color:var(--yellow);color:var(--ink);}
+.cierre .btn:hover{background:#fff;border-color:#fff;}
+.cierre .btn.sec{background:transparent;color:#fff;border-color:#fff;}
+.cierre .btn.sec:hover{background:#fff;color:var(--ink);}
+.pie{background:var(--ink);color:#9a9a9a;border-top:1px solid #2b2b2b;font-size:12px;padding:20px 0;}
+
+/* ---------- pantallas chicas ---------- */
+@media (max-width:860px){
+  .caso{grid-template-columns:1fr;gap:36px;}
+  .fichas,.libros,.otros{grid-template-columns:1fr;}
+  .marcas{grid-template-columns:repeat(2,1fr);}
+  .fila{grid-template-columns:1fr;gap:4px;}
+}
+@media (max-width:520px){
+  .wrap{padding:0 20px;}
+  .hero{padding:52px 0 48px;}
+  section{padding:48px 0;}
+  .top nav{display:none;}
+  .piezas{gap:12px;}
+  .pieza img{box-shadow:4px 4px 0 var(--yellow);}
+}
+
+/* ---------- impresion / guardar como PDF ---------- */
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .top nav{display:none;}
+  section,.ficha,.libro,.fila,.pieza{break-inside:avoid;}
+  .hero{padding:36px 0;}
+  section{padding:36px 0;}
+  a{border-bottom:0;}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="marca"><b>Book</b>Adán Limones Ambriz</div>
+    <nav aria-label="Secciones">
+      <a href="#hoy">Hoy</a>
+      <a href="#caso">Caso</a>
+      <a href="#marcas">Marcas</a>
+      <a href="#trayectoria">Trayectoria</a>
+      <a href="#escritura">Escritura</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================================================= HERO -->
+<div class="hero">
+  <div class="wrap">
+    <span class="etiqueta">Book · 2026</span>
+    <h1>Adán <span class="hl">Limones</span> Ambriz</h1>
+    <p class="rol">Director general de AbyC México y Praxia · Escritor</p>
+    <p class="bio">
+      Dirijo <strong>AbyC México</strong>, agencia de marketing y comunicación que trabaja
+      marcas comerciales y comunicación política en México, Colombia y El Salvador, y
+      <strong>Praxia</strong>, un sistema de expediente clínico y cobros para psicólogos y
+      psiquiatras. Antes fui director de marketing en Grupo Live y coordinador de marketing
+      en Sendengo. También escribo: soy autor de <em>Lilith</em> (2025) y
+      <em>Fe de erratas</em> (2026).
+    </p>
+    <div class="contacto">
+      <a class="btn" href="https://wa.me/525615056334">WhatsApp</a>
+      <a class="btn sec" href="mailto:abycmexico@gmail.com">abycmexico@gmail.com</a>
+      <a class="btn sec" href="https://www.linkedin.com/in/ad%C3%A1n-limones-ambriz-b324a5216/">LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================== HOY -->
+<section id="hoy">
+  <div class="wrap">
+    <div class="cab">
+      <h2>En lo que trabajo hoy</h2>
+      <p class="sub">Cuatro frentes abiertos, de la agencia a un producto propio.</p>
+    </div>
+
+    <div class="fichas">
+
+      <article class="ficha">
+        <div class="logo blanco"><img src="../../og-image.png" alt="Logotipo de AbyC México"></div>
+        <div class="cuerpo">
+          <span class="rol-tag">Director general · Hoy</span>
+          <h3>AbyC México</h3>
+          <p>Agencia de marketing y comunicación. Dirijo la estrategia de las cuentas y los
+             equipos creativos, con operación en México y presencia en Colombia, El Salvador
+             y el norte del país.</p>
+          <span class="ver"><a href="https://abycagency.com">abycagency.com</a></span>
+        </div>
+      </article>
+
+      <article class="ficha">
+        <div class="logo blanco"><img src="../../assets/praxia-logo.png" alt="Logotipo de Praxia"></div>
+        <div class="cuerpo">
+          <span class="rol-tag">Director general y fundador · Hoy</span>
+          <h3>Praxia</h3>
+          <p>Sistema para psicólogos y psiquiatras que reúne expediente clínico, historial de
+             sesiones, documentos, agenda y cobros, bajo la marca del propio profesional.</p>
+          <span class="ver"><a href="https://abycmexico.github.io/Praxia/">Conocer Praxia</a></span>
+        </div>
+      </article>
+
+      <article class="ficha">
+        <div class="logo blanco"><img src="../../assets/capsi.png" alt="Logotipo de WOHAW, Congreso de Bienestar y Felicidad Laboral"></div>
+        <div class="cuerpo">
+          <span class="rol-tag">Cliente de AbyC · Trabajo en curso</span>
+          <h3>WOHAW</h3>
+          <p>Congreso de bienestar y felicidad laboral. Cuarta edición: 28 y 29 de octubre de
+             2026 en Expo Santa Fe, Ciudad de México.</p>
+        </div>
+      </article>
+
+      <article class="ficha">
+        <div class="logo cover"><img src="../../assets/nancy-martinez.png" alt="Logotipo de Casa Glick"></div>
+        <div class="cuerpo">
+          <span class="rol-tag">Marketing · Hoy</span>
+          <h3>Casa Glick · Náutica Home · Hacker Kitchens</h3>
+          <p>Dirección de marketing para tres marcas de diseño, mobiliario y cocina.</p>
+          <span class="ver"><a href="#caso">Ver un caso</a></span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= CASO -->
+<section id="caso" class="crema">
+  <div class="wrap">
+    <div class="cab">
+      <h2>Un caso: Pasta Workshop en showroom</h2>
+    </div>
+
+    <div class="caso">
+      <div class="piezas">
+        <figure class="pieza">
+          <img src="menu-a.jpg" alt="Menú impreso del Pasta Workshop, versión con Vladio Private Chef al frente" width="640" height="1658" loading="lazy">
+          <figcaption>Versión A<br>Vladio al frente</figcaption>
+        </figure>
+        <figure class="pieza">
+          <img src="menu-b.jpg" alt="Menú impreso del Pasta Workshop, versión con Casa Glick presentando" width="640" height="1658" loading="lazy">
+          <figcaption>Versión B<br>Casa Glick presenta</figcaption>
+        </figure>
+      </div>
+
+      <div>
+        <h3>Casa Glick × Vladio Private Chef</h3>
+        <p>
+          Talleres de pasta fresca dentro del showroom de Casa Glick en Polanco, con el chef
+          Vladio. Diseñé el sistema completo alrededor del taller: cómo se convoca, cómo se
+          registra la gente, cómo vive la noche el showroom y cómo se les da seguimiento
+          después.
+        </p>
+        <ul class="entregas">
+          <li><strong>Menú impreso</strong> en dos jerarquías de marca, para que cada marca
+              tenga su lugar sin competir.</li>
+          <li><strong>Registro del taller</strong> reducido a lo esencial: nombre y WhatsApp,
+              con confirmación inmediata.</li>
+          <li><strong>Bot de atención y calificación</strong> de leads en Instagram y
+              WhatsApp, con paso a asesor humano.</li>
+          <li><strong>Plan de ejecución en seis fases:</strong> captura, convocatoria,
+              experiencia en showroom, contenido, seguimiento y medición.</li>
+        </ul>
+        <p class="nota">Las dos versiones del menú son propuestas de diseño del mismo contenido.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ MARCAS -->
+<section id="marcas">
+  <div class="wrap">
+    <div class="cab">
+      <h2>Marcas con las que he trabajado</h2>
+    </div>
+    <!-- Ojo: en /assets/ los nombres de archivo no coinciden con lo que muestran
+         (por ejemplo capsi.png es el logo de WOHAW). Aqui cada imagen va con el
+         nombre de la marca que realmente trae. -->
+    <div class="marcas">
+      <div class="marca-card"><img src="../../assets/imagen-2.png" alt="Adidas" loading="lazy"></div>
+      <div class="marca-card"><img src="../../assets/sendengo.png" alt="Bancolombia" loading="lazy"></div>
+      <div class="marca-card"><img src="../../assets/adidas.png" alt="Sendengo" loading="lazy"></div>
+      <div class="marca-card"><img src="../../assets/bancolombia.png" alt="CAPSI, Centro de Atención Psicosocial" loading="lazy"></div>
+      <div class="marca-card"><img src="../../assets/capsi.png" alt="WOHAW" loading="lazy"></div>
+      <div class="marca-card dark"><img src="../../assets/wohaw.png" alt="Nancy Martínez" loading="lazy"></div>
+      <div class="marca-card cover"><img src="../../assets/nancy-martinez.png" alt="Casa Glick" loading="lazy"></div>
+      <div class="marca-card cover"><img src="../../assets/casa-glick.png" alt="Náutica Home" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== TRAYECTORIA -->
+<section id="trayectoria" class="crema">
+  <div class="wrap">
+    <div class="cab">
+      <h2>Trayectoria</h2>
+    </div>
+
+    <div class="fila">
+      <div class="cuando">Hoy</div>
+      <div>
+        <h3>AbyC México <span>· Director general</span></h3>
+        <p>Dirección de la estrategia de las cuentas y de los equipos creativos.</p>
+      </div>
+    </div>
+    <div class="fila">
+      <div class="cuando">Hoy</div>
+      <div>
+        <h3>Praxia <span>· Director general y fundador</span></h3>
+        <p>Sistema de expediente clínico y cobros para psicólogos y psiquiatras.</p>
+      </div>
+    </div>
+    <div class="fila">
+      <div class="cuando">Hoy</div>
+      <div>
+        <h3>Casa Glick · Náutica Home · Hacker Kitchens <span>· Marketing</span></h3>
+        <p>Dirección de marketing para tres marcas de diseño, mobiliario y cocina.</p>
+      </div>
+    </div>
+    <div class="fila">
+      <div class="cuando">2023 — 2026</div>
+      <div>
+        <h3>Comunicación organizacional y crisis</h3>
+        <p>Estrategias de comunicación organizacional y mitigación de crisis política para
+           empresas e instituciones que, por la naturaleza del trabajo, se manejan con
+           discreción.</p>
+      </div>
+    </div>
+    <div class="fila">
+      <div class="cuando">Antes</div>
+      <div>
+        <h3>Grupo Live <span>· Director de marketing</span></h3>
+        <p>Dirección del área de marketing.</p>
+      </div>
+    </div>
+    <div class="fila">
+      <div class="cuando">Antes</div>
+      <div>
+        <h3>Sendengo <span>· Coordinador de marketing</span></h3>
+        <p>Coordinación de campañas y contenido.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== AREAS -->
+<section id="areas">
+  <div class="wrap">
+    <div class="cab">
+      <h2>En qué trabajo</h2>
+      <p class="sub">La marca comercial, la comunicación política y la escritura comparten
+         una misma pregunta: cómo se forma una opinión y qué hace que alguien confíe.</p>
+    </div>
+    <div class="chips">
+      <span class="chip">Estrategia de marca</span>
+      <span class="chip">Comunicación política y gubernamental</span>
+      <span class="chip">Comunicación en crisis</span>
+      <span class="chip">Campañas electorales</span>
+      <span class="chip">Marca personal</span>
+      <span class="chip">Psicología del consumidor</span>
+      <span class="chip">Publicidad digital</span>
+      <span class="chip">IA aplicada al marketing</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== ESCRITURA -->
+<section id="escritura" class="crema">
+  <div class="wrap">
+    <div class="cab">
+      <h2>Lo que escribo</h2>
+      <p class="sub">Escribo por oficio y no solo por trabajo. Esa práctica sostiene el resto.</p>
+    </div>
+
+    <div class="libros">
+      <div class="libro">
+        <span class="tipo">Libro · 2025</span>
+        <h3>Lilith</h3>
+      </div>
+      <div class="libro">
+        <span class="tipo">Libro · 2026</span>
+        <h3>Fe de erratas</h3>
+      </div>
+    </div>
+
+    <div class="otros">
+      <p><b>Ensayo filosófico</b>
+         <a href="https://cerebrofilosofico.com/pensadores/adan-ambriz">Cerebro Filosófico</a> ·
+         ensayos publicados bajo mi nombre.</p>
+      <p><b>Notas periodísticas</b>
+         <a href="https://musica.revistabrujulamx.com/author/adanlimones980/">Revista Brújula MX</a> ·
+         colaboración en prensa cultural y de música.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- =========================================================== CIERRE -->
+<div class="cierre">
+  <div class="wrap">
+    <h2>¿Platicamos de tu <span class="hl">marca</span>, tu campaña o tu proyecto?</h2>
+    <div class="contacto">
+      <a class="btn" href="https://wa.me/525615056334">WhatsApp</a>
+      <a class="btn sec" href="mailto:abycmexico@gmail.com">abycmexico@gmail.com</a>
+      <a class="btn sec" href="https://www.linkedin.com/in/ad%C3%A1n-limones-ambriz-b324a5216/">LinkedIn</a>
+    </div>
+  </div>
+</div>
+<div class="pie"><div class="wrap">© 2026 Adán Limones Ambriz · AbyC México</div></div>
+
+</body>
+</html>
