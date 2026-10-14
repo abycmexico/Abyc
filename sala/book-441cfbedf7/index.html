@@ -110,6 +110,17 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
 .card:hover::before{opacity:1;}
 
 .fichas{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+/* tarjeta unica de la responsabilidad actual */
+.ahora{display:grid;grid-template-columns:minmax(0,.42fr) minmax(0,1fr);align-items:stretch;}
+.ahora-logo{background:#0b2241;display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:260px;}
+.ahora-logo img{width:100%;height:100%;object-fit:cover;}
+.ahora-cuerpo{padding:30px 34px 32px;display:flex;flex-direction:column;gap:9px;position:relative;}
+.ahora-cuerpo h3{font-weight:900;font-size:26px;line-height:1.15;letter-spacing:-.5px;}
+.ahora-cuerpo p{font-size:15.5px;color:var(--mut);margin-bottom:6px;}
+.ahora-cuerpo .entregas{margin-top:4px;}
+.ahora-cuerpo .entregas li{font-size:14px;padding:12px 16px 12px 46px;}
+.ahora-cuerpo .entregas li::before{top:19px;width:9px;height:9px;}
+.ahora-cuerpo .ver{margin-top:16px;padding-top:0;}
 .ficha{display:flex;flex-direction:column;}
 .logo{height:150px;display:flex;align-items:center;justify-content:center;background:#fff;padding:22px;}
 .logo img{max-height:100%;width:auto;max-width:78%;object-fit:contain;}
@@ -203,6 +214,8 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
   .foto{max-width:340px;order:-1;justify-self:start;margin-left:14px;}
   .caso{grid-template-columns:1fr;gap:40px;}
   .fichas,.otros,.pasos{grid-template-columns:1fr;}
+  .ahora{grid-template-columns:1fr;}
+  .ahora-logo{min-height:200px;}
   .marcas{grid-template-columns:repeat(2,1fr);}
   .cifras .wrap{grid-template-columns:repeat(2,1fr);}
 }
@@ -298,64 +311,31 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
     <div class="cab rev">
       <div class="mono">01 · Ahora</div>
       <h2>En lo que trabajo hoy</h2>
-      <p class="sub">La dirección de marketing de Náutica Home y Casa Glick, y en segundo
-         plano dos proyectos propios que construí y opero por mi cuenta.</p>
+      <p class="sub">Mi responsabilidad actual, de tiempo completo.</p>
     </div>
 
-    <div class="fichas">
-
-      <article class="ficha card rev">
-        <div class="logo cover"><img src="../../assets/casa-glick.png" alt="Logotipo de Náutica Home"></div>
-        <div class="cuerpo">
-          <span class="etq">Responsabilidad actual</span>
-          <span class="mono">Marketing · Grupo Segel</span>
-          <h3>Náutica Home y Casa Glick</h3>
-          <p>Llevo el marketing de las marcas de mobiliario y diseño del grupo, con
-             <strong>Náutica Home</strong> como marca principal. Junto con el equipo
-             <strong>desarrollé los sitios web y las automatizaciones</strong> de ambas
-             marcas. Trabajo con las cuentas comerciales del grupo, entre ellas Sam's,
-             Home Depot y Liverpool.</p>
-          <span class="ver"><a href="https://nauticahome.com.mx/">nauticahome.com.mx</a> · <a href="https://casaglick.com/">casaglick.com</a></span>
-        </div>
-      </article>
-
-      <article class="ficha card rev">
-        <div class="logo"><img src="../../assets/bancolombia.png" alt="Logotipo de CAPSI, Centro de Atención Psicosocial"></div>
-        <div class="cuerpo">
-          <span class="etq gris">Sector salud</span>
-          <span class="mono">Marca en la que he trabajado</span>
-          <h3>CAPSI</h3>
-          <p>Centro de Atención Psicosocial. Comunicación y captación de pacientes para un
-             servicio de salud mental, con el mismo público al que apunta Praxia.</p>
-        </div>
-      </article>
-
-      <article class="ficha card rev">
-        <div class="logo"><img src="../../og-image.png" alt="Logotipo de AbyC"></div>
-        <div class="cuerpo">
-          <span class="etq gris">Proyecto personal</span>
-          <span class="mono">Fuera del horario laboral</span>
-          <h3>AbyC</h3>
-          <p>Proyecto propio con el que he trabajado marcas comerciales e institucionales.
-             Es donde practico por mi cuenta la prospección en frío, la presentación de
-             propuestas y el seguimiento hasta el cierre.</p>
-        </div>
-      </article>
-
-      <article class="ficha card rev">
-        <div class="logo"><img src="../../assets/praxia-logo.png" alt="Logotipo de Praxia"></div>
-        <div class="cuerpo">
-          <span class="etq gris">Proyecto personal</span>
-          <span class="mono">Fuera del horario laboral</span>
-          <h3>Praxia</h3>
-          <p>Software para <strong>psicólogos y psiquiatras</strong>: expediente clínico,
-             historial de sesiones, agenda y cobros. Lo construí, lo puse frente a
-             profesionales de salud mental y aprendí en campo cómo se les vende una
-             herramienta digital a quienes llevan años trabajando en papel.</p>
-          <span class="ver"><a href="https://abycmexico.github.io/Praxia/">Conocer Praxia</a></span>
-        </div>
-      </article>
-
+    <div class="ahora card rev">
+      <div class="ahora-logo"><img src="../../assets/casa-glick.png" alt="Logotipo de Náutica Home"></div>
+      <div class="ahora-cuerpo">
+        <span class="etq">Puesto actual</span>
+        <span class="mono">Director de marketing · Grupo Segel</span>
+        <h3>Náutica Home, Casa Glick y Hacker Kitchens</h3>
+        <p>Dirijo el marketing de las tres marcas de mobiliario, diseño y cocina que comparten
+           un showroom multimarca, al frente del equipo creativo y de operación.</p>
+        <ul class="entregas">
+          <li><strong>Generación y nutrición de leads:</strong> registro de eventos en showroom,
+              chatbots en Instagram y WhatsApp que atienden, califican y derivan al asesor, y
+              campañas en Meta Ads con base de contactos para seguimiento.</li>
+          <li><strong>Comercio electrónico:</strong> operación directa de Mercado Libre y Amazon
+              para Náutica Home y Casa Glick: publicaciones, precio, visibilidad y conversión.</li>
+          <li><strong>Punto de venta:</strong> plan de tienda y acomodo estratégico del producto
+              dentro del showroom.</li>
+          <li><strong>Cuentas de retail:</strong> coordinación con Sam's, Home Depot y Liverpool.</li>
+          <li><strong>Sitios y automatizaciones:</strong> desarrollo de los sitios web de ambas
+              marcas junto con el equipo.</li>
+        </ul>
+        <span class="ver"><a href="https://nauticahome.com.mx/">nauticahome.com.mx</a> · <a href="https://casaglick.com/">casaglick.com</a></span>
+      </div>
     </div>
   </div>
 </section>
