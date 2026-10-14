@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Adán Limones Ambriz · Book</title>
-<meta name="description" content="Book de Adán Limones Ambriz: AbyC México, Praxia, WOHAW, Casa Glick y trayectoria.">
+<title>Adán Limones Ambriz · Perfil comercial</title>
+<meta name="description" content="Desarrollo comercial y apertura de mercado. Fundador de Praxia, software para psicólogos y psiquiatras. Náutica Home, Casa Glick, Adidas y Bancolombia.">
 <meta name="theme-color" content="#09090b">
 
 <!-- Documento privado. No se enlaza desde ninguna parte del sitio, no entra
@@ -14,8 +14,8 @@
 <meta name="googlebot" content="noindex, nofollow">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Adán Limones Ambriz · Book">
-<meta property="og:description" content="Director general de AbyC México y Praxia. Marca, comunicación y escritura.">
+<meta property="og:title" content="Adán Limones Ambriz · Perfil comercial">
+<meta property="og:description" content="Apertura de mercado y venta consultiva. Fundador de Praxia, software para psicólogos y psiquiatras.">
 <meta property="og:image" content="https://abycagency.com/assets/adan-ambriz.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -121,6 +121,16 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
 .ver{margin-top:auto;padding-top:12px;font-size:13px;font-weight:700;color:var(--yellow);}
 .ver a::after{content:" →";transition:margin .2s;}
 .ver a:hover::after{margin-left:5px;}
+/* etiqueta de naturaleza del proyecto */
+.etq{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1.3px;text-transform:uppercase;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,204,51,.45);color:var(--yellow);background:rgba(255,204,51,.08);align-self:flex-start;}
+.etq.gris{border-color:var(--card-b);color:var(--mut);background:var(--card);}
+
+/* ---------- metodo comercial ---------- */
+.pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.paso{padding:26px 24px 24px;}
+.paso b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:1.6px;color:var(--yellow);margin-bottom:10px;}
+.paso h3{font-weight:800;font-size:18px;line-height:1.25;letter-spacing:-.2px;margin-bottom:8px;}
+.paso p{font-size:14.5px;color:var(--mut);}
 
 /* ---------- caso ---------- */
 .caso{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:center;}
@@ -139,8 +149,8 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
 .nota{margin-top:18px;font-size:12.5px;color:var(--dim);}
 
 /* ---------- marcas ---------- */
-.marcas{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-.marca-card{height:116px;background:#fff;border:1px solid var(--card-b);border-radius:16px;padding:18px;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:transform .25s,box-shadow .25s;}
+.marcas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.marca-card{height:124px;background:#fff;border:1px solid var(--card-b);border-radius:16px;padding:18px;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:transform .25s,box-shadow .25s;}
 .marca-card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(255,204,51,.14);}
 .marca-card img{max-height:100%;max-width:100%;object-fit:contain;}
 .marca-card.dark{background:#111;}
@@ -158,15 +168,12 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
 .fila h3{font-weight:800;font-size:20px;line-height:1.3;letter-spacing:-.3px;margin-top:4px;}
 .fila h3 span{font-weight:500;color:var(--mut);}
 .fila p{font-size:15px;color:var(--mut);margin-top:6px;max-width:62ch;}
+.fila .etq{margin-top:8px;}
 
 /* ---------- areas y escritura ---------- */
 .chips{display:flex;flex-wrap:wrap;gap:10px;}
 .chip{border:1px solid var(--card-b);background:var(--card);border-radius:999px;padding:10px 20px;font-weight:600;font-size:13.5px;transition:.2s;}
 .chip:hover{border-color:var(--yellow);color:var(--yellow);background:rgba(255,204,51,.07);}
-.libros{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:18px;}
-.libro{padding:34px 30px 36px;min-height:190px;display:flex;flex-direction:column;justify-content:space-between;}
-.libro h3{font-weight:900;font-size:clamp(34px,5vw,52px);line-height:1;letter-spacing:-1.6px;margin-top:40px;position:relative;}
-.libro .mono{position:relative;}
 .otros{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
 .otros .card{padding:22px 26px;font-size:15px;color:var(--mut);}
 .otros b{display:block;font-weight:800;color:var(--tx);margin-bottom:4px;position:relative;}
@@ -195,7 +202,7 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
   .hero .wrap{grid-template-columns:1fr;gap:48px;}
   .foto{max-width:340px;order:-1;justify-self:start;margin-left:14px;}
   .caso{grid-template-columns:1fr;gap:40px;}
-  .fichas,.libros,.otros{grid-template-columns:1fr;}
+  .fichas,.otros,.pasos{grid-template-columns:1fr;}
   .marcas{grid-template-columns:repeat(2,1fr);}
   .cifras .wrap{grid-template-columns:repeat(2,1fr);}
 }
@@ -229,10 +236,10 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
     <div class="logo-m"><i></i>Adán Limones Ambriz</div>
     <nav aria-label="Secciones">
       <a href="#hoy">Hoy</a>
+      <a href="#metodo">Método</a>
       <a href="#caso">Caso</a>
       <a href="#marcas">Marcas</a>
       <a href="#trayectoria">Trayectoria</a>
-      <a href="#escritura">Escritura</a>
     </nav>
   </div>
 </header>
@@ -243,16 +250,16 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
 <div class="hero">
   <div class="wrap">
     <div>
-      <span class="estado mono"><i></i>Book · 2026 · CDMX</span>
+      <span class="estado mono"><i></i>Disponible · 2026 · CDMX</span>
       <h1>Adán<br><span class="gr">Limones</span><br>Ambriz</h1>
-      <p class="rol">Director general de AbyC México y Praxia <span>· Escritor</span></p>
+      <p class="rol">Desarrollo comercial y apertura de mercado <span>· Salud digital y marcas</span></p>
       <p class="bio">
-        Dirijo <strong>AbyC México</strong>, agencia de marketing y comunicación que trabaja
-        marcas comerciales y comunicación política en México, Colombia y El Salvador, y
-        <strong>Praxia</strong>, un sistema de expediente clínico y cobros para psicólogos y
-        psiquiatras. Antes fui director de marketing en Grupo Live y coordinador de marketing
-        en Sendengo. También escribo: soy autor de <em>Lilith</em> (2025) y
-        <em>Fe de erratas</em> (2026).
+        Abro mercado donde todavía no hay cartera. Fundé <strong>Praxia</strong>, un software
+        de expediente clínico y cobros para <strong>psicólogos y psiquiatras</strong>, así que
+        conozco de primera mano cómo se prospecta a un médico, qué objeciones pone y qué hace
+        falta para que deje su forma de trabajar de siempre y adopte una herramienta digital.
+        Hoy llevo el marketing de <strong>Náutica Home y Casa Glick</strong> y he trabajado
+        cuentas de Adidas, Bancolombia y CAPSI en México, Colombia y El Salvador.
       </p>
       <div class="contacto">
         <a class="btn pri" href="https://wa.me/525615056334">WhatsApp</a>
@@ -263,9 +270,9 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
 
     <div class="foto">
       <div class="marco"><img src="../../assets/adan-ambriz.jpg" alt="Retrato de Adán Limones Ambriz" width="640" height="640"></div>
-      <span class="tag t1"><b>●</b> AbyC México</span>
-      <span class="tag t2"><b>●</b> Praxia</span>
-      <span class="tag t3"><b>●</b> Marca · Política · Escritura</span>
+      <span class="tag t1"><b>●</b> Apertura de mercado</span>
+      <span class="tag t2"><b>●</b> Venta consultiva</span>
+      <span class="tag t3"><b>●</b> Salud digital · CRM · WhatsApp</span>
     </div>
   </div>
 </div>
@@ -273,10 +280,10 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
 <!-- ============================================================ CIFRAS -->
 <div class="cifras">
   <div class="wrap">
-    <div class="cifra rev"><b>3</b><span>países con presencia: México, Colombia y El Salvador</span></div>
-    <div class="cifra rev"><b>2</b><span>empresas que dirijo: AbyC México y Praxia</span></div>
-    <div class="cifra rev"><b>3</b><span>marcas de diseño y cocina bajo mi dirección de marketing</span></div>
-    <div class="cifra rev"><b>2</b><span>libros publicados: Lilith y Fe de erratas</span></div>
+    <div class="cifra rev"><b>7</b><span>años abriendo cuentas y mercado para marcas y productos</span></div>
+    <div class="cifra rev"><b>3</b><span>países donde he operado: México, Colombia y El Salvador</span></div>
+    <div class="cifra rev"><b>2</b><span>productos digitales propios llevados de cero a usuario activo</span></div>
+    <div class="cifra rev"><b>6</b><span>marcas atendidas, de Adidas y Bancolombia a Náutica Home</span></div>
   </div>
 </div>
 
@@ -286,54 +293,109 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
     <div class="cab rev">
       <div class="mono">01 · Ahora</div>
       <h2>En lo que trabajo hoy</h2>
-      <p class="sub">Cuatro frentes abiertos, de la agencia a un producto propio.</p>
+      <p class="sub">Una responsabilidad de marketing y dos proyectos propios que construí
+         y opero por mi cuenta.</p>
     </div>
 
     <div class="fichas">
 
       <article class="ficha card rev">
-        <div class="logo"><img src="../../og-image.png" alt="Logotipo de AbyC México"></div>
+        <div class="logo cover"><img src="../../assets/casa-glick.png" alt="Logotipo de Náutica Home"></div>
         <div class="cuerpo">
-          <span class="mono">Director general · Hoy</span>
-          <h3>AbyC México</h3>
-          <p>Agencia de marketing y comunicación. Dirijo la estrategia de las cuentas y los
-             equipos creativos, con operación en México y presencia en Colombia, El Salvador
-             y el norte del país.</p>
-          <span class="ver"><a href="https://abycagency.com">abycagency.com</a></span>
+          <span class="etq">Responsabilidad actual</span>
+          <span class="mono">Marketing · Grupo Segel</span>
+          <h3>Náutica Home y Casa Glick</h3>
+          <p>Llevo el marketing de las marcas de mobiliario y diseño del grupo, con
+             <strong>Náutica Home</strong> como marca principal. Junto con el equipo
+             <strong>desarrollé los sitios web y las automatizaciones</strong> de ambas
+             marcas. Trabajo con las cuentas comerciales del grupo, entre ellas Sam's,
+             Home Depot y Liverpool.</p>
+          <span class="ver"><a href="https://nauticahome.com.mx/">nauticahome.com.mx</a> · <a href="https://casaglick.com/">casaglick.com</a></span>
         </div>
       </article>
 
       <article class="ficha card rev">
         <div class="logo"><img src="../../assets/praxia-logo.png" alt="Logotipo de Praxia"></div>
         <div class="cuerpo">
-          <span class="mono">Director general y fundador · Hoy</span>
+          <span class="etq gris">Proyecto personal</span>
+          <span class="mono">Fundador</span>
           <h3>Praxia</h3>
-          <p>Sistema para psicólogos y psiquiatras que reúne expediente clínico, historial de
-             sesiones, documentos, agenda y cobros, bajo la marca del propio profesional.</p>
+          <p>Software para <strong>psicólogos y psiquiatras</strong>: expediente clínico,
+             historial de sesiones, agenda y cobros. Lo construí, lo puse frente a
+             profesionales de salud mental y aprendí en campo cómo se les vende una
+             herramienta digital a quienes llevan años trabajando en papel.</p>
           <span class="ver"><a href="https://abycmexico.github.io/Praxia/">Conocer Praxia</a></span>
         </div>
       </article>
 
       <article class="ficha card rev">
-        <div class="logo"><img src="../../assets/capsi.png" alt="Logotipo de WOHAW, Congreso de Bienestar y Felicidad Laboral"></div>
+        <div class="logo"><img src="../../og-image.png" alt="Logotipo de AbyC"></div>
         <div class="cuerpo">
-          <span class="mono">Cliente de AbyC · Trabajo en curso</span>
-          <h3>WOHAW</h3>
-          <p>Congreso de bienestar y felicidad laboral. Cuarta edición: 28 y 29 de octubre de
-             2026 en Expo Santa Fe, Ciudad de México.</p>
+          <span class="etq gris">Proyecto personal</span>
+          <span class="mono">Fundador</span>
+          <h3>AbyC</h3>
+          <p>Proyecto propio de marketing y comunicación con el que he atendido cuentas
+             comerciales e institucionales. Es donde he practicado la prospección en frío,
+             la presentación de propuestas y el seguimiento hasta el cierre.</p>
+          <span class="ver"><a href="https://abycagency.com">abycagency.com</a></span>
         </div>
       </article>
 
       <article class="ficha card rev">
-        <div class="logo cover"><img src="../../assets/nancy-martinez.png" alt="Logotipo de Casa Glick"></div>
+        <div class="logo"><img src="../../assets/bancolombia.png" alt="Logotipo de CAPSI, Centro de Atención Psicosocial"></div>
         <div class="cuerpo">
-          <span class="mono">Marketing · Hoy</span>
-          <h3>Casa Glick · Náutica Home · Hacker Kitchens</h3>
-          <p>Dirección de marketing para tres marcas de diseño, mobiliario y cocina.</p>
-          <span class="ver"><a href="#caso">Ver un caso</a></span>
+          <span class="etq gris">Sector salud</span>
+          <span class="mono">Cuenta atendida</span>
+          <h3>CAPSI</h3>
+          <p>Centro de Atención Psicosocial. Trabajo de comunicación y captación para un
+             servicio de salud mental, con el mismo público al que apunta Praxia.</p>
         </div>
       </article>
 
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ METODO -->
+<section id="metodo">
+  <div class="wrap">
+    <div class="cab rev">
+      <div class="mono">02 · Método</div>
+      <h2>Cómo abro una cuenta</h2>
+      <p class="sub">No espero cartera asignada. El proceso que sigo es el mismo cuando
+         vendo una campaña que cuando convenzo a un profesional de probar un software.</p>
+    </div>
+
+    <div class="pasos">
+      <div class="paso card rev">
+        <b>01</b>
+        <h3>Prospecto y consigo la cita</h3>
+        <p>Referidos, WhatsApp, llamada y visita. La cita no llega sola: se construye con
+           insistencia ordenada y con un motivo claro para que te reciban.</p>
+      </div>
+      <div class="paso card rev">
+        <b>02</b>
+        <h3>Demuestro y resuelvo objeciones</h3>
+        <p>Enseño la herramienta, no la describo. La objeción casi nunca es el precio:
+           es el miedo a cambiar la forma de trabajar y el tiempo que eso cuesta.</p>
+      </div>
+      <div class="paso card rev">
+        <b>03</b>
+        <h3>Acompaño hasta el primer uso</h3>
+        <p>Un registro no sirve de nada si no hay uso. Acompaño el alta y doy seguimiento
+           hasta que la persona usa la herramienta por primera vez y vuelve a usarla.</p>
+      </div>
+    </div>
+
+    <div class="chips rev" style="margin-top:34px">
+      <span class="chip">Prospección en frío</span>
+      <span class="chip">Venta consultiva</span>
+      <span class="chip">Demos de producto</span>
+      <span class="chip">Manejo de objeciones</span>
+      <span class="chip">CRM y pipeline</span>
+      <span class="chip">Seguimiento por WhatsApp</span>
+      <span class="chip">Automatización y bots de calificación</span>
+      <span class="chip">Reporte de métricas y conversión</span>
     </div>
   </div>
 </section>
@@ -342,41 +404,41 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
 <section id="caso">
   <div class="wrap">
     <div class="cab rev">
-      <div class="mono">02 · Caso</div>
-      <h2>Pasta Workshop en showroom</h2>
+      <div class="mono">03 · Caso</div>
+      <h2>De interesado a cliente, paso por paso</h2>
     </div>
 
     <div class="caso">
       <div class="piezas rev">
         <figure class="pieza">
-          <img src="menu-a.jpg" alt="Menú impreso del Pasta Workshop, versión con Vladio Private Chef al frente" width="640" height="1658" loading="lazy">
-          <figcaption>Versión A<br>Vladio al frente</figcaption>
+          <img src="menu-a.jpg" alt="Material impreso del taller, versión con el chef al frente" width="640" height="1658" loading="lazy">
+          <figcaption>Versión A<br>Chef al frente</figcaption>
         </figure>
         <figure class="pieza">
-          <img src="menu-b.jpg" alt="Menú impreso del Pasta Workshop, versión con Casa Glick presentando" width="640" height="1658" loading="lazy">
+          <img src="menu-b.jpg" alt="Material impreso del taller, versión con Casa Glick presentando" width="640" height="1658" loading="lazy">
           <figcaption>Versión B<br>Casa Glick presenta</figcaption>
         </figure>
       </div>
 
       <div class="rev">
-        <h3>Casa Glick × Vladio Private Chef</h3>
+        <h3>Captación y seguimiento en showroom</h3>
         <p>
-          Talleres de pasta fresca dentro del showroom de Casa Glick en Polanco, con el chef
-          Vladio. Diseñé el sistema completo alrededor del taller: cómo se convoca, cómo se
-          registra la gente, cómo vive la noche el showroom y cómo se les da seguimiento
-          después.
+          Talleres presenciales dentro del showroom de Casa Glick en Polanco. Diseñé el
+          embudo completo: cómo se convoca, cómo se registra la gente, qué pasa durante la
+          sesión y cómo se le da seguimiento a cada interesado después, que es donde
+          normalmente se pierde la venta.
         </p>
         <ul class="entregas">
-          <li><strong>Menú impreso</strong> en dos jerarquías de marca, para que cada marca
-              tenga su lugar sin competir.</li>
-          <li><strong>Registro del taller</strong> reducido a lo esencial: nombre y WhatsApp,
-              con confirmación inmediata.</li>
-          <li><strong>Bot de atención y calificación</strong> de leads en Instagram y
-              WhatsApp, con paso a asesor humano.</li>
-          <li><strong>Plan de ejecución en seis fases:</strong> captura, convocatoria,
-              experiencia en showroom, contenido, seguimiento y medición.</li>
+          <li><strong>Registro reducido a lo esencial:</strong> nombre y WhatsApp, con
+              confirmación inmediata. Cada campo extra cuesta registros.</li>
+          <li><strong>Bot de atención y calificación de leads</strong> en Instagram y
+              WhatsApp, con paso a asesor humano cuando la conversación lo amerita.</li>
+          <li><strong>Seguimiento posterior</strong> a cada asistente, para convertir la
+              visita en cotización.</li>
+          <li><strong>Medición por etapa:</strong> convocados, registrados, asistentes y
+              seguimiento, para saber en qué punto se cae la gente.</li>
         </ul>
-        <p class="nota">Las dos versiones del menú son propuestas de diseño del mismo contenido.</p>
+        <p class="nota">Las dos versiones del material son propuestas de diseño del mismo contenido.</p>
       </div>
     </div>
   </div>
@@ -386,7 +448,7 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
 <section id="marcas">
   <div class="wrap">
     <div class="cab rev">
-      <div class="mono">03 · Clientes</div>
+      <div class="mono">04 · Cuentas</div>
       <h2>Marcas con las que he trabajado</h2>
     </div>
     <!-- Ojo: en /assets/ los nombres de archivo no coinciden con lo que muestran
@@ -395,12 +457,10 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
     <div class="marcas rev">
       <div class="marca-card"><img src="../../assets/imagen-2.png" alt="Adidas" loading="lazy"></div>
       <div class="marca-card"><img src="../../assets/sendengo.png" alt="Bancolombia" loading="lazy"></div>
-      <div class="marca-card"><img src="../../assets/adidas.png" alt="Sendengo" loading="lazy"></div>
-      <div class="marca-card"><img src="../../assets/bancolombia.png" alt="CAPSI, Centro de Atención Psicosocial" loading="lazy"></div>
-      <div class="marca-card"><img src="../../assets/capsi.png" alt="WOHAW" loading="lazy"></div>
-      <div class="marca-card dark"><img src="../../assets/wohaw.png" alt="Nancy Martínez" loading="lazy"></div>
-      <div class="marca-card cover"><img src="../../assets/nancy-martinez.png" alt="Casa Glick" loading="lazy"></div>
       <div class="marca-card cover"><img src="../../assets/casa-glick.png" alt="Náutica Home" loading="lazy"></div>
+      <div class="marca-card cover"><img src="../../assets/nancy-martinez.png" alt="Casa Glick" loading="lazy"></div>
+      <div class="marca-card"><img src="../../assets/bancolombia.png" alt="CAPSI, Centro de Atención Psicosocial" loading="lazy"></div>
+      <div class="marca-card"><img src="../../assets/capsi.png" alt="WOHAW, Congreso de Bienestar y Felicidad Laboral" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -409,32 +469,17 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
 <section id="trayectoria">
   <div class="wrap">
     <div class="cab rev">
-      <div class="mono">04 · Recorrido</div>
+      <div class="mono">05 · Recorrido</div>
       <h2>Trayectoria</h2>
     </div>
 
     <div class="linea">
       <div class="fila hoy rev">
         <div class="cuando">Hoy</div>
-        <h3>AbyC México <span>· Director general</span></h3>
-        <p>Dirección de la estrategia de las cuentas y de los equipos creativos.</p>
-      </div>
-      <div class="fila hoy rev">
-        <div class="cuando">Hoy</div>
-        <h3>Praxia <span>· Director general y fundador</span></h3>
-        <p>Sistema de expediente clínico y cobros para psicólogos y psiquiatras.</p>
-      </div>
-      <div class="fila hoy rev">
-        <div class="cuando">Hoy</div>
-        <h3>Casa Glick · Náutica Home · Hacker Kitchens <span>· Marketing</span></h3>
-        <p>Dirección de marketing para tres marcas de diseño, mobiliario y cocina.</p>
-      </div>
-      <div class="fila rev">
-        <div class="cuando">2023 — 2026</div>
-        <h3>Comunicación organizacional y crisis</h3>
-        <p>Estrategias de comunicación organizacional y mitigación de crisis política para
-           empresas e instituciones que, por la naturaleza del trabajo, se manejan con
-           discreción.</p>
+        <h3>Náutica Home y Casa Glick <span>· Marketing</span></h3>
+        <p>Marketing de las marcas de mobiliario y diseño del grupo, con Náutica Home como
+           marca principal. Desarrollo de los sitios web y las automatizaciones de ambas
+           marcas junto con el equipo, y coordinación con las cuentas de retail.</p>
       </div>
       <div class="fila rev">
         <div class="cuando">Antes</div>
@@ -446,28 +491,27 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
         <h3>Sendengo <span>· Coordinador de marketing</span></h3>
         <p>Coordinación de campañas y contenido.</p>
       </div>
-    </div>
-  </div>
-</section>
+      <div class="fila rev">
+        <div class="cuando">2023 — 2026</div>
+        <h3>Comunicación organizacional y crisis</h3>
+        <p>Estrategias de comunicación organizacional y mitigación de crisis para empresas e
+           instituciones que, por la naturaleza del trabajo, se manejan con discreción.</p>
+      </div>
 
-<!-- ========================================================== AREAS -->
-<section id="areas">
-  <div class="wrap">
-    <div class="cab rev">
-      <div class="mono">05 · Áreas</div>
-      <h2>En qué trabajo</h2>
-      <p class="sub">La marca comercial, la comunicación política y la escritura comparten
-         una misma pregunta: cómo se forma una opinión y qué hace que alguien confíe.</p>
-    </div>
-    <div class="chips rev">
-      <span class="chip">Estrategia de marca</span>
-      <span class="chip">Comunicación política y gubernamental</span>
-      <span class="chip">Comunicación en crisis</span>
-      <span class="chip">Campañas electorales</span>
-      <span class="chip">Marca personal</span>
-      <span class="chip">Psicología del consumidor</span>
-      <span class="chip">Publicidad digital</span>
-      <span class="chip">IA aplicada al marketing</span>
+      <div class="fila rev">
+        <div class="cuando">En paralelo</div>
+        <h3>Praxia <span>· Fundador</span></h3>
+        <span class="etq gris">Proyecto personal</span>
+        <p>Software para psicólogos y psiquiatras. Construido y puesto en manos de
+           profesionales de salud mental por cuenta propia.</p>
+      </div>
+      <div class="fila rev">
+        <div class="cuando">En paralelo</div>
+        <h3>AbyC <span>· Fundador</span></h3>
+        <span class="etq gris">Proyecto personal</span>
+        <p>Proyecto propio de marketing y comunicación. Prospección, propuesta y cierre de
+           cuentas comerciales e institucionales.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -476,29 +520,18 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
 <section id="escritura">
   <div class="wrap">
     <div class="cab rev">
-      <div class="mono">06 · Letras</div>
-      <h2>Lo que escribo</h2>
-      <p class="sub">Escribo por oficio y no solo por trabajo. Esa práctica sostiene el resto.</p>
-    </div>
-
-    <div class="libros">
-      <div class="libro card rev">
-        <span class="mono">Libro · 2025</span>
-        <h3>Lilith</h3>
-      </div>
-      <div class="libro card rev">
-        <span class="mono">Libro · 2026</span>
-        <h3>Fe de erratas</h3>
-      </div>
+      <div class="mono">06 · Además</div>
+      <h2>Cómo me comunico</h2>
+      <p class="sub">Escribo por oficio. En venta consultiva eso se nota: explicar claro y
+         breve es la mitad del trabajo.</p>
     </div>
 
     <div class="otros">
-      <div class="card rev"><p><b>Ensayo filosófico</b>
-         <a href="https://cerebrofilosofico.com/pensadores/adan-ambriz">Cerebro Filosófico</a> ·
-         ensayos publicados bajo mi nombre.</p></div>
-      <div class="card rev"><p><b>Notas periodísticas</b>
-         <a href="https://musica.revistabrujulamx.com/author/adanlimones980/">Revista Brújula MX</a> ·
-         colaboración en prensa cultural y de música.</p></div>
+      <div class="card rev"><p><b>Dos libros publicados</b>
+         <em>Lilith</em> (2025) y <em>Fe de erratas</em> (2026).</p></div>
+      <div class="card rev"><p><b>Ensayo y prensa</b>
+         <a href="https://cerebrofilosofico.com/pensadores/adan-ambriz">Cerebro Filosófico</a> y
+         <a href="https://musica.revistabrujulamx.com/author/adanlimones980/">Revista Brújula MX</a>.</p></div>
     </div>
   </div>
 </section>
@@ -509,7 +542,7 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
 <div class="cierre">
   <div class="wrap">
     <div class="caja rev">
-      <h2>¿Platicamos de tu <span class="gr">marca</span>, tu campaña o tu proyecto?</h2>
+      <h2>Listo para <span class="gr">abrir</span> el mercado que haga falta</h2>
       <div class="contacto">
         <a class="btn pri" href="https://wa.me/525615056334">WhatsApp</a>
         <a class="btn" href="mailto:abycmexico@gmail.com">abycmexico@gmail.com</a>
@@ -518,7 +551,7 @@ h2{font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.05;letter-spac
     </div>
   </div>
 </div>
-<div class="pie"><div class="wrap"><span>© 2026 Adán Limones Ambriz · AbyC México</span><span class="mono">Documento privado</span></div></div>
+<div class="pie"><div class="wrap"><span>© 2026 Adán Limones Ambriz</span><span class="mono">Documento privado</span></div></div>
 
 <script>
 /* Aparicion suave al hacer scroll. Si algo falla, todo queda visible. */
