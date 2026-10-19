@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tu ADN de Marca Personal · AbyC</title>
+
+<!-- Test privado para clientes de marca personal. No se enlaza desde ninguna
+     parte del sitio, no entra al sitemap y se le pide a los buscadores que no
+     lo indexen. Solo entra quien recibe la liga. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="../../assets/imagen-1.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* Los mismos tokens que el resto de abycagency.com. */
+:root{
+  --yellow:#FFCC33; --yellow-soft:#FFE38A; --ink:#111111; --gray:#6e6e6e;
+  --line:#ececec; --crema:#FFF9EC; --bg:#fff; --soft:#FAF9F6; --hl:#FFF4D1;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{background:var(--bg);color:var(--ink);font-family:'Montserrat',Arial,sans-serif;font-weight:500;line-height:1.55;font-size:16px;display:flex;flex-direction:column;min-height:100vh;}
+button{font:inherit;color:inherit;cursor:pointer;}
+input,textarea{font:inherit;color:inherit;}
+
+/* ---------- barra superior ---------- */
+.top{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1.5px solid var(--line);}
+.top .in{max-width:760px;margin:0 auto;padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.marca{font-size:13px;font-weight:900;letter-spacing:3px;}
+.marca b{background:var(--yellow);padding:1px 6px;margin-left:6px;letter-spacing:1.5px;font-size:11px;}
+.seccion{font-size:11.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--gray);text-align:right;}
+.avance{height:4px;background:var(--line);}
+.avance i{display:block;height:100%;width:0;background:var(--yellow);transition:width .35s ease;}
+
+/* ---------- pantalla ---------- */
+main{flex:1;display:flex;}
+.pantalla{max-width:760px;width:100%;margin:0 auto;padding:44px 20px 140px;animation:entra .35s ease;}
+@keyframes entra{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.num{font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--gray);text-transform:uppercase;margin-bottom:12px;}
+h1{font-size:clamp(32px,6vw,52px);font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:18px;}
+h1 span{background:linear-gradient(transparent 62%,var(--yellow) 62%);}
+h2{font-size:clamp(22px,3.8vw,30px);font-weight:800;line-height:1.2;letter-spacing:-.4px;margin-bottom:10px;}
+.ayuda{color:var(--gray);font-size:15px;margin-bottom:24px;}
+.lead{font-size:18px;color:#333;margin-bottom:16px;max-width:620px;}
+.lista-intro{list-style:none;margin:26px 0 30px;display:grid;gap:12px;}
+.lista-intro li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;}
+.lista-intro li::before{content:"";flex:none;width:10px;height:10px;margin-top:7px;background:var(--yellow);}
+.nota{font-size:13px;color:var(--gray);margin-top:22px;}
+
+/* ---------- campos ---------- */
+.campo{width:100%;border:none;border-bottom:2px solid var(--line);padding:10px 2px;font-size:20px;font-weight:600;background:transparent;outline:none;transition:border-color .2s;}
+.campo:focus{border-color:var(--yellow);}
+textarea.campo{font-size:17px;font-weight:500;line-height:1.5;border:2px solid var(--line);border-radius:12px;padding:14px;min-height:150px;resize:vertical;}
+textarea.campo:focus{border-color:var(--yellow);}
+.trampa{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;}
+
+/* ---------- opciones ---------- */
+.ops{display:grid;gap:10px;}
+.ops.dos{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));}
+.op{display:flex;align-items:center;gap:14px;text-align:left;width:100%;background:#fff;border:2px solid var(--line);border-radius:12px;padding:14px 16px;font-size:16px;font-weight:600;transition:border-color .15s,background .15s,transform .1s;}
+.op:hover{border-color:var(--yellow-soft);background:var(--soft);}
+.op:active{transform:scale(.99);}
+.op .k{flex:none;width:26px;height:26px;border:1.5px solid #cfcfcf;border-radius:7px;display:grid;place-items:center;font-size:12px;font-weight:800;color:var(--gray);background:#fff;}
+.op[aria-pressed="true"]{border-color:var(--yellow);background:var(--hl);}
+.op[aria-pressed="true"] .k{background:var(--yellow);border-color:var(--yellow);color:var(--ink);}
+.op[disabled]{opacity:.4;cursor:not-allowed;}
+.limite{font-size:13px;font-weight:700;color:var(--gray);margin:-12px 0 16px;}
+
+/* escala */
+.escala{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+.escala .op{justify-content:center;padding:16px 0;font-size:18px;font-weight:800;}
+.polos{display:flex;justify-content:space-between;gap:16px;margin-top:10px;font-size:13.5px;font-weight:700;color:var(--gray);}
+.polos span:last-child{text-align:right;}
+.escala-bloque+.escala-bloque{margin-top:30px;}
+.escala-bloque h3{font-size:15px;font-weight:800;margin-bottom:10px;}
+
+/* colores */
+.colores{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px;}
+.color{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 6px;border:2px solid var(--line);border-radius:12px;background:#fff;font-size:13px;font-weight:700;}
+.color i{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(0,0,0,.12);}
+.color[aria-pressed="true"]{border-color:var(--ink);background:var(--hl);}
+.color[disabled]{opacity:.4;cursor:not-allowed;}
+
+/* tipografias */
+.letra{font-size:22px !important;}
+
+/* ---------- navegación ---------- */
+.nav{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(transparent,#fff 30%);padding:28px 20px 20px;z-index:4;}
+.nav .in{max-width:760px;margin:0 auto;display:flex;gap:10px;align-items:center;}
+.btn{border:none;border-radius:12px;padding:15px 26px;font-size:16px;font-weight:800;background:var(--yellow);transition:transform .1s,opacity .2s;}
+.btn:hover{transform:translateY(-1px);}
+.btn[disabled]{opacity:.35;cursor:not-allowed;transform:none;}
+.btn.sec{background:#fff;border:2px solid var(--line);color:var(--gray);}
+.btn.negro{background:var(--ink);color:#fff;}
+.nav .pista{margin-left:auto;font-size:12.5px;color:var(--gray);font-weight:600;}
+.oculto{display:none !important;}
+
+/* ---------- resultado ---------- */
+.res-arq{border:2px solid var(--ink);border-radius:18px;padding:28px 24px;margin:26px 0 22px;background:var(--crema);}
+.res-arq .eti{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);}
+.res-arq h2{font-size:clamp(30px,5vw,42px);font-weight:900;margin:6px 0 4px;}
+.res-arq .lema{font-size:18px;font-weight:700;margin-bottom:14px;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px;}
+.chips span{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:700;}
+.cita{font-size:clamp(20px,3.4vw,26px);font-weight:800;line-height:1.3;border-left:6px solid var(--yellow);padding:6px 0 6px 18px;margin:28px 0;}
+.sigue{background:var(--soft);border-radius:14px;padding:22px;margin-top:10px;}
+.sigue h3{font-size:16px;font-weight:800;margin-bottom:10px;}
+.sigue ul{list-style:none;display:grid;gap:8px;}
+.sigue li{padding-left:22px;position:relative;font-size:15px;}
+.sigue li::before{content:"→";position:absolute;left:0;font-weight:800;}
+.estado{margin-top:22px;font-size:14px;font-weight:700;padding:12px 14px;border-radius:10px;background:var(--soft);}
+.estado.ok{background:#EAF7EE;color:#1d6b35;}
+.estado.mal{background:#FDECEC;color:#8a1f1f;}
+.estado a{color:inherit;font-weight:800;}
+
+@media (max-width:560px){
+  .pantalla{padding-top:30px;}
+  .escala .op{padding:13px 0;font-size:16px;}
+  .op{padding:13px 14px;font-size:15px;}
+  .nav .pista{display:none;}
+  .btn{flex:1;}
+  .btn.sec{flex:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="in">
+    <div class="marca">AbyC<b>ADN</b></div>
+    <div class="seccion" id="seccion"></div>
+  </div>
+  <div class="avance"><i id="barra"></i></div>
+</div>
+
+<main><div class="pantalla" id="pantalla"></div></main>
+
+<div class="nav" id="nav">
+  <div class="in">
+    <button class="btn sec" id="atras" type="button">←</button>
+    <button class="btn" id="siguiente" type="button">Siguiente</button>
+    <span class="pista" id="pista">o presiona Enter ↵</span>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   Tu ADN de Marca Personal — AbyC
+   Cada respuesta se guarda en este navegador mientras se contesta (para
+   poder retomarlo) y al final se manda a la hoja de Google Sheets de AbyC.
+   ===================================================================== */
+
+// Liga del Apps Script publicado como aplicación web (Google Sheets de AbyC).
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbwsE5z_UqdL8YS-IBCmPJQVNkrtqtVuLeIVWmTiYJPwtq-L6Pb0FqpHdrnmnYJ3j_3xyg/exec';
+const WHATSAPP = '525615056334';
+const LLAVE = 'abyc-adn-v1';
+
+/* ---------- arquetipos de marca ---------- */
+const ARQ = {
+  sabio:{nombre:'El Sabio',lema:'Entiende el mundo y ayuda a otros a entenderlo.',
+    desc:'Tu fuerza es el conocimiento. La gente confía en ti porque explicas con claridad lo que otros complican, y tu marca crece cada vez que enseñas.',
+    voz:['clara','analítica','serena'],frase:'Te explico por qué pasa, para que decidas mejor.',
+    paleta:[['Azul marino','#1F3A5F'],['Gris piedra','#8A8D91'],['Hueso','#F4F1EA'],['Ocre','#C9A227']]},
+  heroe:{nombre:'El Héroe',lema:'Demuestra de qué está hecho.',
+    desc:'Te mueve el reto. Inspiras con disciplina y resultados, y tu marca conecta con quien quiere superarse.',
+    voz:['directa','enérgica','retadora'],frase:'No es fácil. Por eso vale la pena hacerlo.',
+    paleta:[['Rojo','#C8102E'],['Negro','#111111'],['Acero','#6B7280'],['Blanco','#FFFFFF']]},
+  rebelde:{nombre:'El Rebelde',lema:'Rompe lo que ya no funciona.',
+    desc:'Cuestionas lo establecido y dices lo que otros callan. Tu marca atrae a quien está cansado de lo de siempre.',
+    voz:['frontal','provocadora','auténtica'],frase:'Te dijeron que así se hace. Yo te digo por qué no.',
+    paleta:[['Negro','#111111'],['Rojo intenso','#E10600'],['Carbón','#2B2B2B'],['Amarillo eléctrico','#FFE600']]},
+  creador:{nombre:'El Creador',lema:'Convierte ideas en algo que no existía.',
+    desc:'Ves posibilidades donde otros ven límites. Tu marca brilla cuando muestras tu proceso y lo que construyes.',
+    voz:['original','visual','inspiradora'],frase:'Esto empezó como una idea en una servilleta.',
+    paleta:[['Morado','#6C3BD1'],['Turquesa','#00B3A4'],['Naranja','#FF7A00'],['Crema','#FFF6E5']]},
+  cuidador:{nombre:'El Cuidador',lema:'Protege y acompaña a los demás.',
+    desc:'Las personas se sienten seguras contigo. Tu marca se construye desde la empatía y el servicio.',
+    voz:['cálida','empática','paciente'],frase:'No tienes que resolverlo solo. Vamos paso a paso.',
+    paleta:[['Salvia','#8FAE8B'],['Azul cielo','#9CC3E6'],['Durazno','#F6C6A8'],['Blanco','#FFFFFF']]},
+  gobernante:{nombre:'El Gobernante',lema:'Pone orden y lidera con autoridad.',
+    desc:'Transmites control, estructura y solidez. Tu marca inspira confianza en quien busca a alguien que sepa tomar decisiones.',
+    voz:['segura','sobria','ejecutiva'],frase:'Esto es lo que vamos a hacer, y así lo vamos a medir.',
+    paleta:[['Azul profundo','#0B1F3A'],['Dorado','#B8975A'],['Grafito','#3A3A3A'],['Blanco','#FFFFFF']]},
+  explorador:{nombre:'El Explorador',lema:'Busca lo nuevo y vive con libertad.',
+    desc:'Te mueven la curiosidad y la experiencia. Tu marca contagia ganas de salir de la rutina y descubrir.',
+    voz:['curiosa','espontánea','auténtica'],frase:'Fui a verlo con mis propios ojos. Esto encontré.',
+    paleta:[['Verde bosque','#2F5D3A'],['Terracota','#C0643B'],['Arena','#E6D3B3'],['Petróleo','#1F5F6B']]},
+  mago:{nombre:'El Mago',lema:'Transforma realidades.',
+    desc:'Haces que lo difícil parezca posible. Tu marca habla de transformación: el antes y el después.',
+    voz:['visionaria','envolvente','inspiradora'],frase:'Imagina dónde podrías estar en un año. Empecemos hoy.',
+    paleta:[['Índigo','#2E1A6B'],['Violeta','#8A4FFF'],['Plata','#C0C6CF'],['Negro','#111111']]},
+  inocente:{nombre:'El Inocente',lema:'Ve el lado bueno y lo hace sencillo.',
+    desc:'Transmites optimismo, honestidad y calma. Tu marca es un lugar seguro y sin complicaciones.',
+    voz:['positiva','sencilla','honesta'],frase:'Es más simple de lo que parece, te lo prometo.',
+    paleta:[['Blanco','#FFFFFF'],['Azul claro','#BFE3F5'],['Amarillo suave','#FFE9A8'],['Menta','#BFE8D3']]},
+  bufon:{nombre:'El Bufón',lema:'Hace que todo sea más ligero.',
+    desc:'Tu humor es tu superpoder: conectas rápido y la gente te recuerda. Tu marca enseña mientras entretiene.',
+    voz:['divertida','ingeniosa','ligera'],frase:'Aprendí esto por las malas, para que tú te rías y no lo repitas.',
+    paleta:[['Amarillo','#FFCC00'],['Naranja','#FF6B35'],['Azul eléctrico','#2D7FF9'],['Rosa','#FF5DA2']]},
+  amante:{nombre:'El Amante',lema:'Conecta desde la pasión y la belleza.',
+    desc:'Cuidas los detalles y la experiencia. Tu marca seduce: se ve bien, se siente bien y crea cercanía.',
+    voz:['sensorial','cercana','elegante'],frase:'Los detalles no son detalles: son la experiencia completa.',
+    paleta:[['Vino','#7B1E3A'],['Rosa palo','#E8B4B8'],['Oro rosa','#C9A27E'],['Crema','#FFF6E5']]},
+  comun:{nombre:'La Persona Común',lema:'Habla como la gente, y por eso le creen.',
+    desc:'Eres real y sin poses. Tu marca conecta porque la gente se ve reflejada en ti y en tu historia.',
+    voz:['cercana','sencilla','honesta'],frase:'Te cuento cómo lo hice yo, con mis errores incluidos.',
+    paleta:[['Mezclilla','#4A6FA5'],['Café','#8B6B4A'],['Oliva','#7A8450'],['Beige','#EDE4D3']]}
+};
+
+const COLORES = [['Negro','#111111'],['Blanco','#FFFFFF'],['Gris','#9AA0A6'],['Azul marino','#1F3A5F'],
+  ['Azul cielo','#8EC5FF'],['Turquesa','#14B8A6'],['Verde bosque','#2F5D3A'],['Verde menta','#A7E3C4'],
+  ['Amarillo','#FFCC33'],['Naranja','#FF7A1A'],['Rojo','#D62828'],['Vino','#7B1E3A'],['Rosa','#F4A7B9'],
+  ['Morado','#6C3BD1'],['Café','#7B5236'],['Beige','#E6D3B3'],['Dorado','#C9A227'],['Plateado','#C0C6CF']];
+
+const REDES = ['Instagram','TikTok','LinkedIn','Facebook','YouTube','X (Twitter)'];
+const OBJETIVOS = ['Conseguir más clientes','Ser reconocido(a) como autoridad en mi tema','Dar conferencias o salir en medios',
+  'Encontrar un mejor empleo o ascender','Preparar una carrera política','Vender un producto, curso o libro',
+  'Atraer socios o inversión','Dejar un legado'];
+
+/* ---------- preguntas ----------
+   tipo: texto | email | tel | largo | una | varias | arq | escala | voz | color
+   col: encabezado de la columna en Google Sheets
+   opc: true si se puede dejar en blanco */
+const SECCIONES = [
+  {nombre:'Tú', intro:{t:'Empecemos por lo básico', p:'Para saber a quién le vamos a construir la marca y cómo contactarte.'}, q:[
+    {id:'nombre',tipo:'texto',col:'Nombre',t:'¿Cómo te llamas?',ayuda:'Tu nombre como quieres que aparezca en tu marca.'},
+    {id:'email',tipo:'email',col:'Correo',t:'¿Cuál es tu correo?'},
+    {id:'whatsapp',tipo:'tel',col:'WhatsApp',t:'¿Y tu WhatsApp?',ayuda:'Con lada, por ejemplo 55 1234 5678.'},
+    {id:'profesion',tipo:'texto',col:'Profesión o cargo',t:'¿A qué te dedicas hoy?',ayuda:'Tu profesión, cargo o negocio.'},
+    {id:'ciudad',tipo:'texto',col:'Ciudad',t:'¿En qué ciudad vives?',opc:true},
+    {id:'redes',tipo:'largo',col:'Redes actuales',t:'Pega aquí tus redes',ayuda:'Tus @ o las ligas de tus perfiles. Si no tienes, déjalo en blanco.',opc:true}
+  ]},
+  {nombre:'Tu historia', intro:{t:'Tu historia', p:'Las mejores marcas personales no se inventan: se descubren. Aquí no hay respuestas correctas, escribe como si nos lo contaras en un café.'}, q:[
+    {id:'presentacion',tipo:'largo',col:'Presentación en 10 segundos',t:'Si tuvieras 10 segundos para presentarte, ¿qué dirías?'},
+    {id:'experiencia',tipo:'una',col:'Años de experiencia',t:'¿Cuántos años llevas en lo que haces?',ops:['Menos de 3 años','3 a 7 años','8 a 15 años','Más de 15 años']},
+    {id:'etapa',tipo:'una',col:'Etapa de su marca',t:'¿En qué punto estás?',ops:['Estoy empezando o cambiando de giro','Tengo prestigio en mi sector, pero poca presencia digital','Ya me conocen y quiero ordenar y hacer crecer mi marca','Soy figura pública y necesito cuidar y dirigir mi imagen']},
+    {id:'momento',tipo:'largo',col:'Momento que lo marcó',t:'¿Qué momento de tu vida o de tu carrera te hizo ser quien eres hoy?',ayuda:'Un tropiezo, una decisión, una persona, un cambio de rumbo.'},
+    {id:'logro',tipo:'largo',col:'Logro del que está orgulloso',t:'¿De qué logro te sientes más orgulloso u orgullosa?'},
+    {id:'valores',tipo:'varias',max:3,col:'Valores',t:'Elige los 3 valores que más te representan',ops:['Honestidad','Disciplina','Libertad','Familia','Excelencia','Empatía','Innovación','Justicia','Fe','Lealtad','Humildad','Ambición','Creatividad','Servicio','Valentía','Alegría'],dos:true},
+    {id:'distinto',tipo:'varias',max:2,col:'Qué lo hace distinto',t:'¿Qué te hace diferente de otros que hacen lo mismo que tú?',ops:['Tengo un método propio','Mis años de experiencia','Mi historia personal','Mis resultados comprobables','Cómo explico las cosas','Mi red de contactos','Mi forma de ser','Todavía no lo tengo claro']},
+    {id:'porque',tipo:'una',col:'Por qué lo buscan',t:'Cuando alguien te busca, normalmente es porque...',ops:['Necesita resolver un problema técnico','Quiere un consejo de alguien de confianza','Busca inspiración o motivación','Quiere que lo represente o hable por él','Quiere aprender de mi experiencia']},
+    {id:'causas',tipo:'varias',max:3,col:'Causas que le importan',t:'¿Qué causas te importan y te gustaría que se asociaran con tu nombre?',ops:['Educación','Salud mental','Medio ambiente','Emprendimiento','Igualdad y derechos','Familia','Deporte y salud','Tecnología','Cultura y arte','Desarrollo de mi comunidad','Ninguna en particular'],dos:true},
+    {id:'noasociar',tipo:'varias',col:'Temas a evitar',t:'¿Con qué temas NO quieres que te asocien?',ayuda:'Elige todos los que apliquen.',ops:['Política partidista','Religión','Polémicas y chismes','Mi vida de pareja','Mis hijos','Dinero y patrimonio','Temas de género','Ninguno'],dos:true},
+    {id:'nunca',tipo:'largo',col:'Lo que nunca diría en público',t:'¿Hay algo que nunca dirías o harías en público?',ayuda:'Nos ayuda a cuidar tu reputación desde el primer día.',opc:true},
+    {id:'personal',tipo:'escala',col:'Vida personal a mostrar (1-5)',t:'¿Cuánto de tu vida personal quieres mostrar?',polos:['Nada, solo lo profesional','Abro mi vida sin problema']}
+  ]},
+  {nombre:'Tu personalidad', intro:{t:'Tu personalidad', p:'Ahora unas situaciones rápidas. Elige la primera respuesta que te salga, no la que "debería" ser. Con esto calculamos tu arquetipo de marca.'}, q:[
+    {id:'p1',tipo:'arq',t:'Un amigo te pide consejo sobre una decisión difícil. ¿Qué haces primero?',ops:[
+      ['Le hago preguntas y analizamos pros y contras','sabio'],['Lo escucho y me aseguro de que esté bien','cuidador'],
+      ['Le digo lo que haría yo, sin rodeos','heroe'],['Le propongo una opción que no había considerado','creador']]},
+    {id:'p2',tipo:'arq',t:'Te invitan a dar una conferencia. ¿Cómo la abres?',ops:[
+      ['Con un dato que casi nadie conoce','sabio'],['Con una historia personal','comun'],
+      ['Con una pregunta que incomode','rebelde'],['Con un chiste para romper el hielo','bufon']]},
+    {id:'p3',tipo:'arq',t:'¿Qué frase va más contigo?',ops:[
+      ['"Si no existe, lo invento."','creador'],['"Las reglas están para cuestionarse."','rebelde'],
+      ['"Lo que se mide, se mejora."','gobernante'],['"La vida es para vivirla."','explorador']]},
+    {id:'p4',tipo:'arq',t:'En un proyecto en equipo, normalmente eres quien...',ops:[
+      ['Toma el control y organiza','gobernante'],['Cuida que todos estén bien','cuidador'],
+      ['Empuja para llegar a la meta','heroe'],['Pone el buen ambiente','bufon']]},
+    {id:'p5',tipo:'arq',t:'¿Qué te molesta más?',ops:[
+      ['La mediocridad y la falta de esfuerzo','heroe'],['Lo aburrido y repetitivo','explorador'],
+      ['La gente falsa o pretenciosa','comun'],['Lo feo o lo mal hecho','amante']]},
+    {id:'p6',tipo:'arq',t:'Tu fin de semana ideal:',ops:[
+      ['Un viaje a un lugar que no conozco','explorador'],['Una cena especial con alguien que quiero','amante'],
+      ['Leer o ver algo que me enseñe','sabio'],['Algo sencillo en casa con los míos','inocente']]},
+    {id:'p7',tipo:'arq',t:'Si tu marca fuera una promesa, sería...',ops:[
+      ['"Te ayudo a transformar tu realidad."','mago'],['"Te digo la verdad aunque incomode."','rebelde'],
+      ['"Contigo, paso a paso y sin complicaciones."','inocente'],['"Estás en buenas manos."','gobernante']]},
+    {id:'p8',tipo:'arq',t:'Cuando algo sale mal, tú...',ops:[
+      ['Le veo el lado bueno: todo pasa por algo','inocente'],['Lo convierto en una oportunidad que nadie vio','mago'],
+      ['Me río y sigo adelante','bufon'],['Me hago cargo y no paro hasta arreglarlo','heroe']]},
+    {id:'p9',tipo:'arq',t:'¿Qué tipo de contenido consumes más?',ops:[
+      ['Análisis profundos y datos','sabio'],['Historias de superación','heroe'],
+      ['Viajes, aventura y experiencias','explorador'],['Diseño, moda, comida: cosas bonitas','amante']]},
+    {id:'p10',tipo:'arq',t:'¿Qué palabra quieres que la gente asocie contigo?',ops:[
+      ['Cercanía','comun'],['Visión','mago'],['Excelencia','gobernante'],['Libertad','explorador']]},
+    {id:'p11',tipo:'arq',t:'Si tuvieras que vender algo, lo harías...',ops:[
+      ['Contando cómo le cambió la vida a alguien','mago'],['Mostrando que es para cualquiera, como tú y como yo','comun'],
+      ['Haciendo que se antoje: cómo se ve, cómo se siente','amante'],['Con un video divertido que la gente comparta','bufon']]},
+    {id:'p12',tipo:'arq',t:'¿Qué valoras más en una conversación?',ops:[
+      ['Que sea honesta y sin poses','comun'],['Que me haga sentir comprendido','cuidador'],
+      ['Que me abra la mente','mago'],['Que haya química y conexión','amante']]},
+    {id:'p13',tipo:'arq',t:'¿Cuál sería tu frase de batalla?',ops:[
+      ['"Si se puede imaginar, se puede crear."','creador'],['"Todo va a estar bien."','inocente'],
+      ['"Nadie me dijo que no se podía."','rebelde'],['"Primero las personas."','cuidador']]},
+    {id:'p14',tipo:'arq',t:'¿Cómo te gustaría ser recordado?',ops:[
+      ['Como quien cambió las reglas del juego','rebelde'],['Como quien construyó algo sólido y duradero','gobernante'],
+      ['Como quien creó algo único','creador'],['Como quien dejó el mundo un poco más amable','inocente']]},
+    {id:'p15',tipo:'arq',t:'¿Qué te sale de forma natural?',ops:[
+      ['Explicar lo complicado de forma simple','sabio'],['Hacer reír a la gente','bufon'],
+      ['Crear cosas desde cero','creador'],['Hacer que otros se sientan acompañados','cuidador']]},
+    {id:'voz',tipo:'voz',t:'¿Cómo eres cuando comunicas?',ayuda:'Elige un punto en cada línea. El 3 es justo en medio.',escalas:[
+      {id:'v_formal',col:'Voz: formal (1) / relajada (5)',polos:['Formal','Relajado']},
+      {id:'v_humor',col:'Voz: seria (1) / con humor (5)',polos:['Serio','Con humor']},
+      {id:'v_razon',col:'Voz: datos (1) / emociones (5)',polos:['Con datos y argumentos','Con historias y emociones']},
+      {id:'v_expr',col:'Voz: reservada (1) / expresiva (5)',polos:['Reservado','Expresivo']},
+      {id:'v_clasico',col:'Voz: clásica (1) / vanguardista (5)',polos:['Clásico','Vanguardista']},
+      {id:'v_directo',col:'Voz: diplomática (1) / directa (5)',polos:['Diplomático','Directo']},
+      {id:'v_rol',col:'Voz: experto (1) / compañero (5)',polos:['Experto que enseña','Compañero que comparte']}
+    ]}
+  ]},
+  {nombre:'Tus objetivos', intro:{t:'Tus objetivos', p:'Una marca personal es una herramienta. Aquí definimos para qué la quieres y a quién le vas a hablar.'}, q:[
+    {id:'objetivo',tipo:'una',col:'Objetivo principal',t:'¿Para qué quieres construir tu marca personal?',ayuda:'Elige el más importante.',ops:OBJETIVOS},
+    {id:'objetivo2',tipo:'varias',max:2,col:'Objetivos secundarios',t:'¿Y qué más te gustaría lograr?',ayuda:'Hasta dos. Si no hay otro, sigue.',ops:OBJETIVOS,opc:true},
+    {id:'doce',tipo:'largo',col:'Cómo se ve en 12 meses',t:'Si todo sale bien, ¿qué habrá cambiado en tu vida dentro de 12 meses?'},
+    {id:'audiencia',tipo:'varias',max:3,col:'A quién le habla',t:'¿A quién le quieres hablar?',ops:['Empresarios y dueños de negocio','Directivos y gerentes','Emprendedores','Profesionistas de mi sector','Jóvenes y estudiantes','Mamás y papás','Ciudadanos de mi comunidad','Reclutadores y empresas','Público en general']},
+    {id:'edad',tipo:'varias',col:'Edad de su audiencia',t:'¿Qué edad tiene esa gente?',ops:['18 a 24','25 a 34','35 a 44','45 a 54','55 o más'],dos:true},
+    {id:'problema',tipo:'largo',col:'Problema que resuelve',t:'¿Qué problema le resuelves a esas personas?',ayuda:'Dilo como lo diría tu cliente, no como lo dirías tú.'},
+    {id:'percepcion',tipo:'una',col:'Qué quiere que piensen',t:'Cuando alguien termine de ver tu contenido, quieres que piense...',ops:['"Sabe muchísimo"','"Me inspira"','"Es como yo"','"Le confiaría mi problema"','"Es diferente a todos"','"Me alegró el día"']},
+    {id:'tres',tipo:'texto',col:'Tres palabras',t:'Tres palabras con las que te gustaría que te describieran',ayuda:'Por ejemplo: honesto, preparado, divertido.'}
+  ]},
+  {nombre:'Tu contenido', intro:{t:'Tu contenido', p:'Ahora lo práctico: dónde vas a estar, qué formatos te acomodan y cuánto tiempo le puedes dar.'}, q:[
+    {id:'redeshoy',tipo:'varias',col:'Redes que usa',t:'¿Qué redes usas hoy?',ops:REDES.concat(['Threads','Ninguna']),dos:true},
+    {id:'redesprio',tipo:'varias',max:2,col:'Redes prioritarias',t:'¿En cuáles quieres crecer primero?',ops:REDES.concat(['No sé, recomiéndenme']),dos:true},
+    {id:'comunidad',tipo:'una',col:'Tamaño de comunidad',t:'¿Cuántos seguidores tienes sumando todas tus redes?',ops:['Menos de 1,000','1,000 a 10,000','10,000 a 50,000','50,000 a 200,000','Más de 200,000']},
+    {id:'camara',tipo:'escala',col:'Comodidad en cámara (1-5)',t:'¿Qué tan cómodo te sientes frente a la cámara?',polos:['Me paralizo','Me sale natural']},
+    {id:'formatos',tipo:'varias',col:'Formatos',t:'¿Qué formatos te ves haciendo?',ayuda:'Elige todos los que te imagines haciendo sin sufrir.',ops:['Videos cortos hablando a cámara','Carruseles e infografías','Fotos de mi día a día','Artículos o blog','Podcast o entrevistas','Transmisiones en vivo','Conferencias y eventos','Newsletter por correo']},
+    {id:'tiempo',tipo:'una',col:'Tiempo por semana',t:'¿Cuánto tiempo a la semana le puedes dar a tu marca?',ayuda:'Grabar, revisar y responder mensajes.',ops:['Menos de 1 hora','1 a 3 horas','3 a 6 horas','Más de 6 horas']},
+    {id:'pilares',tipo:'varias',max:4,col:'Temas de interés',t:'¿De qué te gustaría hablar?',ops:['Mi especialidad: tips y conocimiento','Mi opinión sobre mi industria','Detrás de cámaras de mi trabajo','Historias personales y aprendizajes','Casos y resultados de clientes','Tendencias y noticias','Mi estilo de vida','Las causas que me importan']},
+    {id:'horas',tipo:'largo',col:'Tema del que hablaría horas',t:'¿De qué tema podrías hablar horas sin aburrirte?'},
+    {id:'referentes',tipo:'largo',col:'Referentes que admira',t:'¿A quién admiras por cómo comunica?',ayuda:'Personas o marcas, de tu sector o de cualquier otro. Si puedes, dinos por qué.',opc:true}
+  ]},
+  {nombre:'Tu estilo', intro:{t:'Tu estilo', p:'Por último, cómo te ves. Esto nos ayuda a definir tus colores, tus fotos y el diseño de tu marca.'}, q:[
+    {id:'colores',tipo:'color',max:3,col:'Colores que lo representan',t:'¿Qué colores sientes que te representan?'},
+    {id:'nocolores',tipo:'color',col:'Colores que no usaría',t:'¿Qué colores no usarías nunca?',ayuda:'Elige los que quieras, o sigue si ninguno.',opc:true},
+    {id:'estilo',tipo:'una',col:'Estilo visual',t:'¿Qué estilo visual se parece más a ti?',ops:['Minimalista: limpio, mucho blanco, pocas cosas','Elegante: sobrio, premium, detalles finos','Cálido: natural, texturas y tonos tierra','Audaz: colores fuertes, contraste y energía','Corporativo: ordenado, serio, profesional','Creativo: ilustración, collage, sin reglas']},
+    {id:'foto',tipo:'una',col:'Estilo de fotos',t:'¿Cómo te imaginas en tus fotos?',ops:['Retrato de estudio, impecable','En mi lugar de trabajo, en acción','En exteriores, natural','En un escenario o rodeado de gente','Casual, como en mi día a día']},
+    {id:'ropa',tipo:'una',col:'Vestimenta',t:'¿Cómo te vistes normalmente para trabajar?',ops:['Formal: traje o saco','Casual de negocios','Casual','Uniforme o bata de mi profesión','Depende mucho del día']},
+    {id:'letra',tipo:'una',col:'Tipografía',t:'¿Qué letra se siente más como tú?',letras:true,ops:['Clásica, con remates','Moderna y limpia','Geométrica y fuerte','Manuscrita y personal']},
+    {id:'marcasgusto',tipo:'largo',col:'Marcas cuya imagen le gusta',t:'¿Qué marcas o personas tienen una imagen que te encanta?',opc:true},
+    {id:'extra',tipo:'largo',col:'Algo más',t:'¿Algo más que debamos saber antes de empezar?',ayuda:'Lo que sea: miedos, ideas, algo que ya intentaste y no funcionó.',opc:true}
+  ]}
+];
+const LETRAS = ["Georgia,'Times New Roman',serif","'Montserrat',Arial,sans-serif","'Arial Black','Montserrat',sans-serif","'Snell Roundhand','Segoe Script','Brush Script MT',cursive"];
+
+/* ---------- pantallas en orden ---------- */
+const PANTALLAS = [{tipo:'bienvenida'}];
+SECCIONES.forEach((s,si)=>{
+  PANTALLAS.push({tipo:'intro',si});
+  s.q.forEach(q=>PANTALLAS.push({tipo:'pregunta',si,q}));
+});
+PANTALLAS.push({tipo:'resultado'});
+const TOTAL_Q = PANTALLAS.filter(p=>p.tipo==='pregunta').length;
+
+/* ---------- estado (se guarda en este navegador) ---------- */
+let E = {r:{}, i:0, inicio:null, enviado:false, trampa:''};
+try{ const g = JSON.parse(localStorage.getItem(LLAVE)||'null'); if(g && g.r) E = Object.assign(E,g); }catch(e){}
+function guardar(){ try{ localStorage.setItem(LLAVE, JSON.stringify(E)); }catch(e){} }
+
+const $ = s=>document.querySelector(s);
+const pantalla=$('#pantalla'), btnSig=$('#siguiente'), btnAtras=$('#atras'), nav=$('#nav');
+const esc = t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function respondida(q){
+  const v = E.r[q.id];
+  if(q.tipo==='voz') return q.escalas.every(e=>E.r[e.id]);
+  if(Array.isArray(v)) return v.length>0;
+  if(q.tipo==='email') return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v||'');
+  if(q.tipo==='tel') return (v||'').replace(/\D/g,'').length>=10;
+  return v!==undefined && String(v).trim()!=='';
+}
+function listo(p){ return p.tipo!=='pregunta' || p.q.opc || respondida(p.q); }
+
+function pintar(){
+  const p = PANTALLAS[E.i];
+  const hechas = PANTALLAS.slice(0,E.i).filter(x=>x.tipo==='pregunta').length;
+  $('#barra').style.width = (p.tipo==='resultado'?100:Math.round(hechas/TOTAL_Q*100))+'%';
+  $('#seccion').textContent = (p.si!==undefined) ? `${p.si+1} de ${SECCIONES.length} · ${SECCIONES[p.si].nombre}` : '';
+  pantalla.innerHTML=''; pantalla.style.animation='none'; void pantalla.offsetWidth; pantalla.style.animation='';
+  nav.classList.toggle('oculto', p.tipo==='resultado');
+  btnAtras.classList.toggle('oculto', E.i===0);
+  ({bienvenida, intro, pregunta, resultado})[p.tipo](p);
+  actualizarNav();
+  window.scrollTo(0,0);
+}
+
+function actualizarNav(){
+  const p = PANTALLAS[E.i];
+  btnSig.disabled = !listo(p);
+  const ultima = E.i===PANTALLAS.length-2;
+  btnSig.textContent = p.tipo==='bienvenida' ? (Object.keys(E.r).length?'Continuar':'Empezar') : p.tipo==='intro' ? 'Vamos' : ultima ? 'Terminar y enviar' : (p.q && p.q.opc && !respondida(p.q) ? 'Saltar' : 'Siguiente');
+  btnSig.classList.toggle('negro', ultima);
+}
+
+function ir(d){
+  if(d>0 && !listo(PANTALLAS[E.i])) return;
+  E.i = Math.max(0, Math.min(PANTALLAS.length-1, E.i+d));
+  if(!E.inicio && E.i>0) E.inicio = Date.now();
+  guardar(); pintar();
+}
+btnSig.onclick=()=>ir(1);
+btnAtras.onclick=()=>ir(-1);
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter' || e.shiftKey || e.target.tagName==='TEXTAREA' || e.target.tagName==='BUTTON') return;
+  e.preventDefault(); if(!btnSig.disabled && !nav.classList.contains('oculto')) btnSig.click();
+});
+
+/* ---------- pantallas ---------- */
+function bienvenida(){
+  const retomar = Object.keys(E.r).length>0;
+  pantalla.innerHTML = `
+    <div class="num">AbyC · Marca personal</div>
+    <h1>Tu <span>ADN de Marca</span> Personal</h1>
+    <p class="lead">Antes de diseñar tu marca necesitamos conocerte de verdad: tu historia, tu forma de ser, a dónde quieres llegar y cómo te ves.</p>
+    <ul class="lista-intro">
+      <li>Son ${TOTAL_Q} preguntas en ${SECCIONES.length} partes. Te toma de 30 a 40 minutos.</li>
+      <li>La mayoría son de opción múltiple; unas pocas te piden escribir con tus palabras.</li>
+      <li>Se guarda solo en este dispositivo: puedes cerrar y volver después a esta misma liga.</li>
+      <li>Al final verás tu arquetipo de marca. El análisis completo te lo entregamos en tu sesión.</li>
+    </ul>
+    ${retomar?'<p class="lead"><b>Ya habías empezado.</b> Te llevamos a donde te quedaste.</p><button class="btn sec" type="button" id="reiniciar" style="margin-top:4px">Empezar de cero</button>':''}
+    <input class="trampa" id="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p class="nota">Tus respuestas solo las ve el equipo de AbyC y se usan únicamente para construir tu marca.</p>`;
+  $('#trampa').oninput=e=>{E.trampa=e.target.value;};
+  if(retomar){
+    $('#reiniciar').onclick=()=>{ if(confirmarReinicio()){ E={r:{},i:0,inicio:null,enviado:false,trampa:''}; guardar(); pintar(); } };
+    btnSig.onclick=()=>{ btnSig.onclick=()=>ir(1); const k=E.ultima||1; E.i=Math.min(k,PANTALLAS.length-2); guardar(); pintar(); };
+  }else btnSig.onclick=()=>ir(1);
+}
+function confirmarReinicio(){
+  const b=$('#reiniciar');
+  if(b.dataset.ok) return true;
+  b.dataset.ok=1; b.textContent='¿Seguro? Se borran tus respuestas. Toca otra vez'; return false;
+}
+
+function intro(p){
+  const s=SECCIONES[p.si];
+  pantalla.innerHTML = `<div class="num">Parte ${p.si+1} de ${SECCIONES.length}</div><h1>${esc(s.intro.t)}</h1><p class="lead">${esc(s.intro.p)}</p>`;
+}
+
+function pregunta(p){
+  const q=p.q;
+  E.ultima=E.i;
+  const n = PANTALLAS.slice(0,E.i+1).filter(x=>x.tipo==='pregunta').length;
+  let h = `<div class="num">Pregunta ${n} de ${TOTAL_Q}${q.opc?' · opcional':''}</div><h2>${esc(q.t)}</h2>`;
+  h += q.ayuda ? `<p class="ayuda">${esc(q.ayuda)}</p>` : '<div style="height:18px"></div>';
+  pantalla.innerHTML = h;
+  const v = E.r[q.id];
+
+  if(['texto','email','tel'].includes(q.tipo)){
+    const i=document.createElement('input');
+    i.className='campo'; i.type=q.tipo==='texto'?'text':q.tipo; i.value=v||'';
+    if(q.tipo==='email') i.autocomplete='email';
+    if(q.tipo==='tel'){i.autocomplete='tel'; i.inputMode='tel';}
+    if(q.id==='nombre') i.autocomplete='name';
+    i.placeholder='Escribe aquí';
+    i.oninput=()=>{E.r[q.id]=i.value; guardar(); actualizarNav();};
+    pantalla.appendChild(i); setTimeout(()=>i.focus(),50);
+  }
+  else if(q.tipo==='largo'){
+    const t=document.createElement('textarea');
+    t.className='campo'; t.value=v||''; t.placeholder='Escribe con tus palabras...';
+    t.oninput=()=>{E.r[q.id]=t.value; guardar(); actualizarNav();};
+    pantalla.appendChild(t); setTimeout(()=>t.focus(),50);
+  }
+  else if(q.tipo==='una' || q.tipo==='arq'){
+    const ops=document.createElement('div'); ops.className='ops';
+    q.ops.forEach((o,k)=>{
+      const txt = q.tipo==='arq'?o[0]:o;
+      const b=document.createElement('button'); b.type='button'; b.className='op';
+      b.innerHTML=`<span class="k">${String.fromCharCode(65+k)}</span><span>${esc(txt)}</span>`;
+      if(q.letras){ b.lastChild.style.fontFamily=LETRAS[k]; b.lastChild.classList.add('letra'); }
+      b.setAttribute('aria-pressed', v===txt);
+      b.onclick=()=>{
+        E.r[q.id]=txt; guardar();
+        ops.querySelectorAll('.op').forEach(x=>x.setAttribute('aria-pressed',x===b));
+        actualizarNav(); setTimeout(()=>ir(1),260);
+      };
+      ops.appendChild(b);
+    });
+    pantalla.appendChild(ops);
+  }
+  else if(q.tipo==='varias' || q.tipo==='color'){
+    if(q.max){ const l=document.createElement('p'); l.className='limite'; l.textContent=`Elige hasta ${q.max}.`; if(q.ayuda) pantalla.querySelector('.ayuda').after(l); else pantalla.appendChild(l); }
+    const sel = Array.isArray(v)?v.slice():[];
+    const caja=document.createElement('div');
+    caja.className = q.tipo==='color' ? 'colores' : 'ops'+(q.dos?' dos':'');
+    const lista = q.tipo==='color' ? COLORES : q.ops.map(o=>[o]);
+    const botones=[];
+    const refrescar=()=>{
+      botones.forEach(([b,val])=>{
+        const on=sel.includes(val); b.setAttribute('aria-pressed',on);
+        b.disabled = !on && q.max && sel.length>=q.max;
+      });
+    };
+    lista.forEach(([val,hex],k)=>{
+      const b=document.createElement('button'); b.type='button';
+      if(q.tipo==='color'){ b.className='color'; b.innerHTML=`<i style="background:${hex}"></i>${esc(val)}`; }
+      else { b.className='op'; b.innerHTML=`<span class="k">✓</span><span>${esc(val)}</span>`; }
+      b.onclick=()=>{
+        const j=sel.indexOf(val);
+        if(j>=0) sel.splice(j,1);
+        else{
+          // "Ninguno" / "Ninguna" excluye a las demás opciones
+          const excl=/^Ningun|^Todavía no|^No sé/;
+          if(excl.test(val)) sel.length=0; else for(let x=sel.length-1;x>=0;x--) if(excl.test(sel[x])) sel.splice(x,1);
+          if(!q.max || sel.length<q.max) sel.push(val);
+        }
+        E.r[q.id]=sel.slice(); guardar(); refrescar(); actualizarNav();
+      };
+      botones.push([b,val]); caja.appendChild(b);
+    });
+    refrescar();
+    pantalla.appendChild(caja);
+  }
+  else if(q.tipo==='escala'){
+    pantalla.appendChild(bloqueEscala(q.id, q.polos, null));
+  }
+  else if(q.tipo==='voz'){
+    q.escalas.forEach(e=>pantalla.appendChild(bloqueEscala(e.id, e.polos, true)));
+  }
+}
+
+function bloqueEscala(id, polos, varias){
+  const w=document.createElement('div'); w.className='escala-bloque';
+  const g=document.createElement('div'); g.className='escala';
+  for(let n=1;n<=5;n++){
+    const b=document.createElement('button'); b.type='button'; b.className='op'; b.textContent=n;
+    b.setAttribute('aria-pressed', E.r[id]===n);
+    b.onclick=()=>{
+      E.r[id]=n; guardar();
+      g.querySelectorAll('.op').forEach(x=>x.setAttribute('aria-pressed',x===b));
+      actualizarNav();
+      if(!varias) setTimeout(()=>ir(1),260);
+    };
+    g.appendChild(b);
+  }
+  w.appendChild(g);
+  const pl=document.createElement('div'); pl.className='polos';
+  pl.innerHTML=`<span>← ${esc(polos[0])}</span><span>${esc(polos[1])} →</span>`;
+  w.appendChild(pl);
+  return w;
+}
+
+/* ---------- cálculo del arquetipo ---------- */
+function puntajes(){
+  const pts={}, max={};
+  Object.keys(ARQ).forEach(k=>{pts[k]=0;max[k]=0;});
+  SECCIONES.forEach(s=>s.q.forEach(q=>{
+    if(q.tipo!=='arq') return;
+    q.ops.forEach(o=>max[o[1]]++);
+    const o=q.ops.find(o=>o[0]===E.r[q.id]);
+    if(o) pts[o[1]]++;
+  }));
+  return Object.keys(ARQ).map(k=>({k, pct:max[k]?Math.round(pts[k]/max[k]*100):0, pts:pts[k]}))
+    .sort((a,b)=>b.pct-a.pct || b.pts-a.pts);
+}
+function resumenVoz(){
+  const t=(id,a,b)=>{const v=E.r[id]; return v<=2?a:v>=4?b:null;};
+  return [t('v_formal','formal','relajada'),t('v_humor','seria','con humor'),t('v_razon','con datos','emocional'),
+    t('v_expr','reservada','expresiva'),t('v_clasico','clásica','vanguardista'),t('v_directo','diplomática','directa'),
+    t('v_rol','de experto','de igual a igual')].filter(Boolean);
+}
+
+/* ---------- envío a Google Sheets ---------- */
+function armarFilas(){
+  const ranking=puntajes(), a=ARQ[ranking[0].k];
+  const filas=[['Fecha', new Date().toLocaleString('es-MX',{timeZone:'America/Mexico_City'})],
+    ['Minutos', E.inicio?Math.round((Date.now()-E.inicio)/60000):'']];
+  SECCIONES.forEach(s=>s.q.forEach(q=>{
+    if(q.tipo==='voz'){ q.escalas.forEach(e=>filas.push([e.col, E.r[e.id]||''])); return; }
+    if(q.tipo==='arq') return;
+    const v=E.r[q.id];
+    filas.push([q.col, Array.isArray(v)?v.join(', '):(v??'')]);
+  }));
+  filas.push(['Arquetipo principal', a.nombre]);
+  filas.push(['Arquetipo secundario', ARQ[ranking[1].k].nombre]);
+  filas.push(['Arquetipo terciario', ARQ[ranking[2].k].nombre]);
+  filas.push(['Puntajes de arquetipo', ranking.map(x=>`${ARQ[x.k].nombre} ${x.pct}%`).join(' · ')]);
+  filas.push(['Voz (escalas)', resumenVoz().join(', ')]);
+  filas.push(['Paleta sugerida', a.paleta.map(c=>`${c[0]} ${c[1]}`).join(', ')]);
+  filas.push(['Respuestas de personalidad', SECCIONES.flatMap(s=>s.q.filter(q=>q.tipo==='arq').map(q=>`${q.id}: ${E.r[q.id]||''}`)).join(' | ')]);
+  return filas;
+}
+
+async function enviar(estado){
+  if(E.enviado){ estado.className='estado ok'; estado.textContent='Tus respuestas ya están con el equipo de AbyC.'; return; }
+  if(!ENDPOINT){ estado.className='estado'; estado.textContent='(Modo de prueba: todavía no hay hoja conectada, las respuestas no se enviaron.)'; return; }
+  estado.className='estado'; estado.textContent='Enviando tus respuestas...';
+  try{
+    // text/plain evita la verificación previa de CORS; Apps Script lee el cuerpo igual.
+    await fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({filas:armarFilas(), trampa:E.trampa||''})});
+    E.enviado=true; guardar();
+    estado.className='estado ok'; estado.textContent='Listo. Tus respuestas ya están con el equipo de AbyC.';
+  }catch(err){
+    const msg=encodeURIComponent(`Hola AbyC, soy ${E.r.nombre||''}. Terminé el test ADN de Marca pero no se pudo enviar.`);
+    estado.className='estado mal';
+    estado.innerHTML=`No pudimos enviar tus respuestas (revisa tu conexión). Tus respuestas siguen guardadas aquí. <a href="#" id="reintentar">Intentar de nuevo</a> o <a href="https://wa.me/${WHATSAPP}?text=${msg}" target="_blank" rel="noopener">avísanos por WhatsApp</a>.`;
+    $('#reintentar').onclick=e=>{e.preventDefault(); enviar(estado);};
+  }
+}
+
+function resultado(){
+  const r=puntajes(), a=ARQ[r[0].k], b=ARQ[r[1].k];
+  const voz=resumenVoz();
+  const nombre=(E.r.nombre||'').trim().split(/\s+/)[0];
+  pantalla.innerHTML = `
+    <div class="num">Tu resultado</div>
+    <h1>${nombre?esc(nombre)+', así':'Así'} se ve tu <span>ADN</span></h1>
+    <div class="res-arq">
+      <div class="eti">Tu arquetipo de marca</div>
+      <h2>${a.nombre}</h2>
+      <div class="lema">${a.lema}</div>
+      <p>${a.desc}</p>
+      <div class="chips">${a.voz.concat(voz.slice(0,2)).filter((x,i,arr)=>arr.indexOf(x)===i).map(x=>`<span>Voz ${esc(x)}</span>`).join('')}</div>
+    </div>
+    <p class="ayuda" style="margin:0">Así podría sonar tu marca:</p>
+    <div class="cita">“${a.frase}”</div>
+    <p class="lead">Y tienes un toque de <b>${b.nombre}</b>: ${b.lema.charAt(0).toLowerCase()+b.lema.slice(1)}</p>
+    <div class="sigue">
+      <h3>Lo que sigue</h3>
+      <ul>
+        <li>Con tus respuestas armamos tu estrategia completa: tu paleta de colores, tus pilares de contenido, tu tono y tu biografía.</li>
+        <li>Te la presentamos en tu sesión con el equipo de AbyC.</li>
+      </ul>
+    </div>
+    <div class="estado" id="estado"></div>`;
+  enviar($('#estado'));
+}
+
+// Si ya terminó, vuelve a ver su resultado; si no, entra por la bienvenida, que ofrece retomar.
+if(E.i!==PANTALLAS.length-1) E.i=0;
+pintar();
+</script>
+</body>
+</html>
