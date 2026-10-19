@@ -30,8 +30,9 @@ input,textarea{font:inherit;color:inherit;}
 /* ---------- barra superior ---------- */
 .top{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1.5px solid var(--line);}
 .top .in{max-width:760px;margin:0 auto;padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.marca{font-size:13px;font-weight:900;letter-spacing:3px;}
-.marca b{background:var(--yellow);padding:1px 6px;margin-left:6px;letter-spacing:1.5px;font-size:11px;}
+/* Logo oficial, igual que la cabecera de abycagency.com: abeja + ABYC. */
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;letter-spacing:1px;color:var(--ink);text-decoration:none;}
+.logo img{height:28px;width:auto;}
 .seccion{font-size:11.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--gray);text-align:right;}
 .avance{height:4px;background:var(--line);}
 .avance i{display:block;height:100%;width:0;background:var(--yellow);transition:width .35s ease;}
@@ -131,7 +132,7 @@ textarea.campo:focus{border-color:var(--yellow);}
 
 <div class="top">
   <div class="in">
-    <div class="marca">AbyC<b>ADN</b></div>
+    <a class="logo" href="https://abycagency.com/" target="_blank" rel="noopener"><img src="../../assets/imagen-1.png" alt="AbyC"> ABYC</a>
     <div class="seccion" id="seccion"></div>
   </div>
   <div class="avance"><i id="barra"></i></div>
