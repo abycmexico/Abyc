@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crea tu contraseña · AbyC</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="icon" type="image/png" href="../../assets/imagen-1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/portal.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.75.0/dist/umd/supabase.min.js"></script>
+<script src="../assets/config.js"></script>
+<script src="../assets/portal.js"></script>
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="logo" href="../../"><img src="../../assets/imagen-1.png" alt="AbyC"> ABYC</a>
+</div></div>
+
+<div class="centro">
+  <div class="card">
+    <h1>Crea tu contraseña</h1>
+    <p class="sub">Con ella vas a entrar a tu portal de AbyC.</p>
+    <form id="form" class="oculto">
+      <label for="p1">Nueva contraseña</label>
+      <input id="p1" type="password" autocomplete="new-password" minlength="8" required>
+      <label for="p2">Repítela</label>
+      <input id="p2" type="password" autocomplete="new-password" minlength="8" required>
+      <p class="sub" style="font-size:13px">Mínimo 8 caracteres.</p>
+      <button class="btn negro" type="submit" style="width:100%;justify-content:center;margin-top:12px">Guardar y entrar</button>
+    </form>
+    <p class="msg oculto" id="msg"></p>
+  </div>
+</div>
+
+<script>
+const { sb, url, aviso } = Portal;
+const msg = document.getElementById('msg');
+const form = document.getElementById('form');
+
+// El enlace del correo (invitación o recuperación) abre la sesión solo
+async function revisar() {
+  if (!sb) return;
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) { form.classList.remove('oculto'); msg.classList.add('oculto'); }
+  else aviso(msg, 'Este enlace ya no es válido o ya se usó. Pide uno nuevo desde la página de acceso.', 'mal');
+}
+if (sb) {
+  sb.auth.onAuthStateChange((evento) => { if (evento === 'SIGNED_IN' || evento === 'PASSWORD_RECOVERY') revisar(); });
+  setTimeout(revisar, 600);
+}
+
+form.onsubmit = async (e) => {
+  e.preventDefault();
+  const p1 = document.getElementById('p1').value, p2 = document.getElementById('p2').value;
+  if (p1 !== p2) { aviso(msg, 'Las contraseñas no coinciden.', 'mal'); return; }
+  const b = form.querySelector('button'); b.disabled = true;
+  const { error } = await sb.auth.updateUser({ password: p1 });
+  b.disabled = false;
+  if (error) { aviso(msg, 'No se pudo guardar: ' + error.message, 'mal'); return; }
+  const { data: { session } } = await sb.auth.getSession();
+  const { data: p } = await sb.from('perfiles').select('rol').eq('id', session.user.id).single();
+  location.href = url(p && p.rol === 'admin' ? 'admin/' : 'portal/');
+};
+</script>
+</body>
+</html>

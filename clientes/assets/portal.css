@@ -1,0 +1,78 @@
+/* Portal de clientes · mismos tokens que abycagency.com */
+:root{
+  --yellow:#FFCC33; --yellow-soft:#FFE38A; --ink:#141414; --gray:#6E6A60;
+  --line:#ECE7DA; --crema:#FFF9EC; --bg:#FAF8F3; --card:#FFFFFF;
+  --ok:#1E7A3C; --ok-bg:#E6F4EA; --warn:#8A5A00; --warn-bg:#FFF1CC; --bad:#A12A2A; --bad-bg:#FBE9E9;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:'Montserrat',Arial,sans-serif;font-weight:500;line-height:1.5;font-size:15px;min-height:100vh;}
+button,input,select,textarea{font:inherit;color:inherit;}
+a{color:inherit;}
+.oculto{display:none !important;}
+
+/* cabecera con el logo oficial */
+.top{background:#fff;border-bottom:1.5px solid var(--line);position:sticky;top:0;z-index:5;}
+.top .in{max-width:1080px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;letter-spacing:1px;text-decoration:none;color:var(--ink);}
+.logo img{height:28px;width:auto;}
+.top .quien{margin-left:auto;font-size:13px;color:var(--gray);text-align:right;}
+.top .quien b{display:block;color:var(--ink);font-size:14px;}
+
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px;}
+h1{font-size:clamp(26px,4vw,34px);font-weight:900;letter-spacing:-.5px;line-height:1.15;}
+h2{font-size:20px;font-weight:800;margin-bottom:12px;}
+h3{font-size:16px;font-weight:800;}
+.sub{color:var(--gray);margin-top:4px;}
+
+/* tarjetas, botones y campos */
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:20px;}
+.btn{border:none;border-radius:10px;padding:10px 16px;font-weight:800;font-size:14px;background:var(--yellow);cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;}
+.btn:hover{background:var(--yellow-soft);}
+.btn.sec{background:#fff;border:1.5px solid var(--line);}
+.btn.sec:hover{border-color:var(--yellow);background:var(--crema);}
+.btn.negro{background:var(--ink);color:#fff;}
+.btn.chico{padding:6px 10px;font-size:13px;}
+.btn[disabled]{opacity:.5;cursor:wait;}
+label{display:block;font-size:13px;font-weight:700;margin:10px 0 4px;}
+input,select,textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;outline:none;}
+input:focus,select:focus,textarea:focus{border-color:var(--yellow);}
+textarea{min-height:70px;resize:vertical;}
+.fila{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;}
+.fila > *{flex:1;min-width:160px;}
+.msg{margin-top:12px;font-size:14px;font-weight:600;padding:10px 12px;border-radius:10px;}
+.msg.ok{background:var(--ok-bg);color:var(--ok);}
+.msg.mal{background:var(--bad-bg);color:var(--bad);}
+
+/* pestañas */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:22px 0 18px;border-bottom:1.5px solid var(--line);}
+.tab{background:none;border:none;padding:10px 14px;font-weight:800;font-size:14px;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1.5px;}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--yellow);}
+.tab .n{display:inline-block;min-width:20px;padding:0 6px;margin-left:4px;border-radius:10px;background:var(--yellow);color:var(--ink);font-size:12px;}
+
+/* listas */
+.lista{display:grid;gap:10px;}
+.item{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;}
+.item .txt{flex:1;min-width:200px;}
+.item .meta{font-size:13px;color:var(--gray);margin-top:2px;}
+.item .acciones{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.chip{display:inline-block;font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px;background:var(--crema);border:1px solid var(--line);white-space:nowrap;}
+.chip.ok{background:var(--ok-bg);color:var(--ok);border-color:transparent;}
+.chip.warn{background:var(--warn-bg);color:var(--warn);border-color:transparent;}
+.chip.bad{background:var(--bad-bg);color:var(--bad);border-color:transparent;}
+.chip.tu{background:var(--ink);color:#fff;border-color:transparent;}
+.vacio{color:var(--gray);padding:24px;text-align:center;background:#fff;border:1.5px dashed var(--line);border-radius:12px;}
+.grupo-t{font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--gray);margin:18px 0 8px;}
+
+/* login */
+.centro{min-height:calc(100vh - 60px);display:grid;place-items:center;padding:24px 16px;}
+.centro .card{width:100%;max-width:420px;padding:28px;}
+.enlace{background:none;border:none;color:var(--gray);font-size:13px;font-weight:700;text-decoration:underline;cursor:pointer;margin-top:14px;}
+
+/* admin */
+.admin{display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:start;}
+.clientes-lista{display:grid;gap:6px;}
+.cli{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;font-weight:700;}
+.cli[aria-pressed="true"]{border-color:var(--yellow);background:var(--crema);}
+.secc{margin-top:18px;}
+details.card summary{cursor:pointer;font-weight:800;}
+@media (max-width:800px){ .admin{grid-template-columns:1fr;} }

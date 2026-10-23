@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mi portal · AbyC</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="icon" type="image/png" href="../../assets/imagen-1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/portal.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.75.0/dist/umd/supabase.min.js"></script>
+<script src="../assets/config.js"></script>
+<script src="../assets/portal.js"></script>
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="logo" href="../../"><img src="../../assets/imagen-1.png" alt="AbyC"> ABYC</a>
+  <div class="quien"><b id="cliente">Cargando…</b><span id="correo"></span></div>
+  <button class="btn sec chico" id="salir" type="button">Salir</button>
+</div></div>
+
+<div class="wrap">
+  <h1 id="hola">Hola</h1>
+  <p class="sub">Aquí ves todo lo que estamos trabajando contigo.</p>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-t="pendientes" aria-selected="true">Pendientes <span class="n oculto" id="n-pendientes"></span></button>
+    <button class="tab" role="tab" data-t="aprobaciones" aria-selected="false">Aprobaciones <span class="n oculto" id="n-aprobaciones"></span></button>
+    <button class="tab" role="tab" data-t="materiales" aria-selected="false">Materiales</button>
+    <button class="tab" role="tab" data-t="reportes" aria-selected="false">Reportes</button>
+  </div>
+
+  <section id="t-pendientes"></section>
+  <section id="t-aprobaciones" class="oculto"></section>
+  <section id="t-materiales" class="oculto"></section>
+  <section id="t-reportes" class="oculto"></section>
+</div>
+
+<script>
+const { sb, esc, fecha, mes, sesion, salir, descargar } = Portal;
+document.getElementById('salir').onclick = salir;
+
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === t));
+  document.querySelectorAll('section[id^="t-"]').forEach(s => s.classList.toggle('oculto', s.id !== 't-' + t.dataset.t));
+});
+
+const ESTADO = { por_hacer: ['Por hacer', ''], en_proceso: ['En proceso', 'warn'], listo: ['Listo', 'ok'] };
+let S;
+
+async function iniciar() {
+  S = await sesion();
+  if (!S) return;
+  if (S.perfil.rol === 'admin') {
+    document.querySelector('.top .in').insertAdjacentHTML('beforeend', '<a class="btn chico" href="../admin/">Panel admin</a>');
+  }
+  document.getElementById('correo').textContent = S.user.email;
+  const nombre = (S.perfil.nombre || '').split(' ')[0];
+  document.getElementById('hola').textContent = nombre ? `Hola, ${nombre}` : 'Hola';
+  if (!S.perfil.cliente_id) {
+    document.getElementById('cliente').textContent = 'Sin cliente asignado';
+    document.getElementById('t-pendientes').innerHTML = '<div class="vacio">Tu cuenta todavía no está ligada a un cliente. Escríbenos y lo arreglamos.</div>';
+    return;
+  }
+  const { data: c } = await sb.from('clientes').select('nombre').eq('id', S.perfil.cliente_id).single();
+  document.getElementById('cliente').textContent = c ? c.nombre : '';
+  cargar();
+}
+
+async function cargar() {
+  const [p, a, f] = await Promise.all([
+    sb.from('pendientes').select('*').order('fecha_limite', { ascending: true, nullsFirst: false }),
+    sb.from('piezas').select('*').order('creado_en', { ascending: false }),
+    sb.from('archivos').select('*').order('creado_en', { ascending: false })
+  ]);
+  pintarPendientes(p.data || []);
+  pintarAprobaciones(a.data || []);
+  pintarArchivos(f.data || []);
+}
+
+function contador(id, n) {
+  const el = document.getElementById(id);
+  el.textContent = n; el.classList.toggle('oculto', !n);
+}
+
+function pintarPendientes(lista) {
+  const el = document.getElementById('t-pendientes');
+  const abiertos = lista.filter(x => x.estado !== 'listo');
+  contador('n-pendientes', abiertos.filter(x => x.responsable === 'cliente').length);
+  if (!lista.length) { el.innerHTML = '<div class="vacio">No hay pendientes por ahora.</div>'; return; }
+  const fila = (x) => {
+    const [txt, cls] = ESTADO[x.estado];
+    const tuyo = x.responsable === 'cliente';
+    const boton = tuyo
+      ? (x.estado === 'listo'
+          ? `<button class="btn sec chico" data-p="${x.id}" data-e="por_hacer">Reabrir</button>`
+          : `<button class="btn chico" data-p="${x.id}" data-e="listo">Marcar como listo</button>`)
+      : '';
+    return `<div class="item"><div class="txt"><h3>${esc(x.titulo)}</h3>
+      ${x.detalle ? `<p class="meta">${esc(x.detalle)}</p>` : ''}
+      <p class="meta">${x.fecha_limite ? 'Para el ' + fecha(x.fecha_limite) : 'Sin fecha'}</p></div>
+      <div class="acciones"><span class="chip ${tuyo ? 'tu' : ''}">${tuyo ? 'Te toca a ti' : 'Lo hace AbyC'}</span>
+      <span class="chip ${cls}">${txt}</span>${boton}</div></div>`;
+  };
+  const tuyos = abiertos.filter(x => x.responsable === 'cliente');
+  const nuestros = abiertos.filter(x => x.responsable === 'abyc');
+  const hechos = lista.filter(x => x.estado === 'listo');
+  el.innerHTML =
+    (tuyos.length ? `<p class="grupo-t">Te toca a ti</p><div class="lista">${tuyos.map(fila).join('')}</div>` : '') +
+    (nuestros.length ? `<p class="grupo-t">Lo estamos haciendo nosotros</p><div class="lista">${nuestros.map(fila).join('')}</div>` : '') +
+    (hechos.length ? `<p class="grupo-t">Terminados</p><div class="lista">${hechos.map(fila).join('')}</div>` : '');
+  el.querySelectorAll('[data-p]').forEach(b => b.onclick = async () => {
+    b.disabled = true;
+    const { error } = await sb.rpc('marcar_pendiente', { p_id: b.dataset.p, p_estado: b.dataset.e });
+    if (error) { alert('No se pudo actualizar. Intenta de nuevo.'); b.disabled = false; return; }
+    cargar();
+  });
+}
+
+function pintarAprobaciones(lista) {
+  const el = document.getElementById('t-aprobaciones');
+  const porRevisar = lista.filter(x => x.estado === 'pendiente');
+  contador('n-aprobaciones', porRevisar.length);
+  if (!lista.length) { el.innerHTML = '<div class="vacio">No hay piezas para revisar.</div>'; return; }
+  const ver = (x) => x.ruta ? `<button class="btn sec chico" data-ver="${esc(x.ruta)}">Ver pieza</button>` : '';
+  const pend = porRevisar.map(x => `<div class="item"><div class="txt"><h3>${esc(x.titulo)}</h3>
+      ${x.descripcion ? `<p class="meta">${esc(x.descripcion)}</p>` : ''}
+      <p class="meta">${x.fecha_publicacion ? 'Se publicaría el ' + fecha(x.fecha_publicacion) : ''}</p>
+      <label for="c-${x.id}">Comentarios (si pides cambios, dinos cuáles)</label>
+      <textarea id="c-${x.id}"></textarea></div>
+      <div class="acciones">${ver(x)}
+      <button class="btn chico" data-r="${x.id}" data-e="aprobada">Aprobar</button>
+      <button class="btn negro chico" data-r="${x.id}" data-e="cambios">Pedir cambios</button></div></div>`).join('');
+  const resp = lista.filter(x => x.estado !== 'pendiente').map(x => `<div class="item"><div class="txt"><h3>${esc(x.titulo)}</h3>
+      ${x.comentario ? `<p class="meta">Tu comentario: ${esc(x.comentario)}</p>` : ''}
+      <p class="meta">${x.respondido_en ? 'Respondiste el ' + fecha(x.respondido_en) : ''}</p></div>
+      <div class="acciones">${ver(x)}<span class="chip ${x.estado === 'aprobada' ? 'ok' : 'bad'}">${x.estado === 'aprobada' ? 'Aprobada' : 'Pediste cambios'}</span></div></div>`).join('');
+  el.innerHTML =
+    (pend ? `<p class="grupo-t">Por revisar</p><div class="lista">${pend}</div>` : '') +
+    (resp ? `<p class="grupo-t">Ya respondidas</p><div class="lista">${resp}</div>` : '');
+  el.querySelectorAll('[data-ver]').forEach(b => b.onclick = () => descargar(b.dataset.ver));
+  el.querySelectorAll('[data-r]').forEach(b => b.onclick = async () => {
+    const comentario = document.getElementById('c-' + b.dataset.r).value;
+    if (b.dataset.e === 'cambios' && !comentario.trim()) { alert('Cuéntanos qué cambios quieres en el cuadro de comentarios.'); return; }
+    b.disabled = true;
+    const { error } = await sb.rpc('responder_pieza', { p_id: b.dataset.r, p_estado: b.dataset.e, p_comentario: comentario });
+    if (error) { alert('No se pudo enviar. Intenta de nuevo.'); b.disabled = false; return; }
+    cargar();
+  });
+}
+
+function pintarArchivos(lista) {
+  const fila = (x, titulo) => `<div class="item"><div class="txt"><h3>${esc(titulo)}</h3>
+      ${x.descripcion ? `<p class="meta">${esc(x.descripcion)}</p>` : ''}
+      <p class="meta">Subido el ${fecha(x.creado_en)}</p></div>
+      <div class="acciones"><button class="btn chico" data-d="${esc(x.ruta)}">Descargar</button></div></div>`;
+  const mats = lista.filter(x => x.tipo === 'material');
+  const reps = lista.filter(x => x.tipo === 'reporte').sort((a, b) => String(b.mes).localeCompare(String(a.mes)));
+  document.getElementById('t-materiales').innerHTML = mats.length
+    ? `<div class="lista">${mats.map(x => fila(x, x.titulo)).join('')}</div>`
+    : '<div class="vacio">Aquí vas a encontrar tus videos, diseños, guiones y tu estrategia.</div>';
+  document.getElementById('t-reportes').innerHTML = reps.length
+    ? `<div class="lista">${reps.map(x => fila(x, x.mes ? 'Reporte de ' + mes(x.mes) : x.titulo)).join('')}</div>`
+    : '<div class="vacio">Tu primer reporte mensual aparecerá aquí.</div>';
+  document.querySelectorAll('[data-d]').forEach(b => b.onclick = () => descargar(b.dataset.d));
+}
+
+iniciar();
+</script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panel de clientes · AbyC</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="icon" type="image/png" href="../../assets/imagen-1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/portal.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.75.0/dist/umd/supabase.min.js"></script>
+<script src="../assets/config.js"></script>
+<script src="../assets/portal.js"></script>
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="logo" href="../../"><img src="../../assets/imagen-1.png" alt="AbyC"> ABYC</a>
+  <div class="quien"><b>Panel de administrador</b><span id="correo"></span></div>
+  <button class="btn sec chico" id="salir" type="button">Salir</button>
+</div></div>
+
+<div class="wrap">
+  <div class="admin">
+    <aside>
+      <h2>Clientes</h2>
+      <div class="clientes-lista" id="clientes"></div>
+      <details class="card secc" id="nuevo-box">
+        <summary>+ Nuevo cliente</summary>
+        <form id="nuevo">
+          <label for="n-nombre">Negocio o marca</label>
+          <input id="n-nombre" required>
+          <label for="n-contacto">Nombre de la persona</label>
+          <input id="n-contacto" required>
+          <label for="n-correo">Correo</label>
+          <input id="n-correo" type="email" required>
+          <button class="btn negro" type="submit" style="margin-top:12px">Crear e invitar</button>
+          <p class="msg oculto" id="n-msg"></p>
+        </form>
+      </details>
+    </aside>
+
+    <main id="detalle">
+      <div class="vacio">Elige un cliente de la lista o crea uno nuevo.</div>
+    </main>
+  </div>
+</div>
+
+<template id="tpl">
+  <h1 id="d-nombre"></h1>
+  <p class="sub" id="d-usuarios"></p>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" data-t="pendientes" aria-selected="true">Pendientes</button>
+    <button class="tab" data-t="aprobaciones" aria-selected="false">Aprobaciones</button>
+    <button class="tab" data-t="archivos" aria-selected="false">Materiales y reportes</button>
+    <button class="tab" data-t="usuarios" aria-selected="false">Usuarios</button>
+  </div>
+
+  <section id="a-pendientes">
+    <form class="card" id="f-pend">
+      <h3>Agregar pendiente</h3>
+      <div class="fila">
+        <div><label>Título</label><input name="titulo" required></div>
+        <div><label>Le toca a</label><select name="responsable"><option value="abyc">AbyC</option><option value="cliente">Cliente</option></select></div>
+        <div><label>Fecha límite</label><input name="fecha_limite" type="date"></div>
+      </div>
+      <label>Detalle (opcional)</label><textarea name="detalle"></textarea>
+      <button class="btn" type="submit" style="margin-top:10px">Agregar</button>
+    </form>
+    <div class="lista secc" id="l-pend"></div>
+  </section>
+
+  <section id="a-aprobaciones" class="oculto">
+    <form class="card" id="f-pieza">
+      <h3>Subir pieza para aprobación</h3>
+      <div class="fila">
+        <div><label>Título</label><input name="titulo" required></div>
+        <div><label>Fecha de publicación</label><input name="fecha_publicacion" type="date"></div>
+      </div>
+      <label>Descripción o texto del post (opcional)</label><textarea name="descripcion"></textarea>
+      <label>Archivo (video, imagen o PDF)</label><input name="archivo" type="file" required>
+      <button class="btn" type="submit" style="margin-top:10px">Subir</button>
+      <p class="msg oculto" id="m-pieza"></p>
+    </form>
+    <div class="lista secc" id="l-piezas"></div>
+  </section>
+
+  <section id="a-archivos" class="oculto">
+    <form class="card" id="f-arch">
+      <h3>Subir material o reporte</h3>
+      <div class="fila">
+        <div><label>Tipo</label><select name="tipo"><option value="material">Material</option><option value="reporte">Reporte mensual</option></select></div>
+        <div><label>Título</label><input name="titulo" required></div>
+        <div><label>Mes (solo reportes)</label><input name="mes" type="month"></div>
+      </div>
+      <label>Descripción (opcional)</label><input name="descripcion">
+      <label>Archivo</label><input name="archivo" type="file" required>
+      <button class="btn" type="submit" style="margin-top:10px">Subir</button>
+      <p class="msg oculto" id="m-arch"></p>
+    </form>
+    <div class="lista secc" id="l-arch"></div>
+  </section>
+
+  <section id="a-usuarios" class="oculto">
+    <form class="card" id="f-user">
+      <h3>Invitar a otra persona de este cliente</h3>
+      <div class="fila">
+        <div><label>Nombre</label><input name="nombre" required></div>
+        <div><label>Correo</label><input name="correo" type="email" required></div>
+      </div>
+      <button class="btn" type="submit" style="margin-top:10px">Invitar</button>
+      <p class="msg oculto" id="m-user"></p>
+    </form>
+    <div class="lista secc" id="l-users"></div>
+  </section>
+</template>
+
+<script>
+const { sb, url, esc, fecha, mes, aviso, sesion, salir, descargar, nombreSeguro } = Portal;
+document.getElementById('salir').onclick = salir;
+const ESTADO = { por_hacer: 'Por hacer', en_proceso: 'En proceso', listo: 'Listo' };
+let actual = null;
+
+async function iniciar() {
+  const S = await sesion();
+  if (!S) return;
+  if (S.perfil.rol !== 'admin') { location.href = url('portal/'); return; }
+  document.getElementById('correo').textContent = S.user.email;
+  cargarClientes();
+}
+
+async function cargarClientes() {
+  const { data } = await sb.from('clientes').select('id,nombre').order('nombre');
+  const el = document.getElementById('clientes');
+  el.innerHTML = (data || []).map(c =>
+    `<button class="cli" data-id="${c.id}" aria-pressed="${actual && actual.id === c.id}">${esc(c.nombre)}</button>`).join('')
+    || '<p class="sub">Todavía no hay clientes.</p>';
+  el.querySelectorAll('.cli').forEach(b => b.onclick = () => abrir({ id: b.dataset.id, nombre: b.textContent }));
+}
+
+// Invita usando la función segura del servidor
+async function invitar(datos) {
+  const { data, error } = await sb.functions.invoke('crear-cliente', {
+    body: { ...datos, redirect: url('nueva-contrasena/') }
+  });
+  if (error) {
+    let txt = error.message;
+    try { const j = await error.context.json(); txt = j.error || txt; } catch (e) {}
+    throw new Error(txt);
+  }
+  return data;
+}
+
+document.getElementById('nuevo').onsubmit = async (e) => {
+  e.preventDefault();
+  const m = document.getElementById('n-msg'), b = e.target.querySelector('button');
+  b.disabled = true;
+  try {
+    const r = await invitar({
+      nombre_cliente: document.getElementById('n-nombre').value,
+      nombre_contacto: document.getElementById('n-contacto').value,
+      correo: document.getElementById('n-correo').value
+    });
+    aviso(m, 'Listo. Le llegó un correo para crear su contraseña.', 'ok');
+    e.target.reset();
+    await cargarClientes();
+    const { data: c } = await sb.from('clientes').select('id,nombre').eq('id', r.cliente_id).single();
+    if (c) abrir(c);
+  } catch (err) { aviso(m, 'No se pudo: ' + err.message, 'mal'); }
+  b.disabled = false;
+};
+
+function abrir(c) {
+  actual = c;
+  document.querySelectorAll('.cli').forEach(b => b.setAttribute('aria-pressed', b.dataset.id === c.id));
+  const d = document.getElementById('detalle');
+  d.innerHTML = document.getElementById('tpl').innerHTML;
+  d.querySelector('#d-nombre').textContent = c.nombre;
+  d.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+    d.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === t));
+    d.querySelectorAll('section[id^="a-"]').forEach(s => s.classList.toggle('oculto', s.id !== 'a-' + t.dataset.t));
+  });
+  d.querySelector('#f-pend').onsubmit = agregarPendiente;
+  d.querySelector('#f-pieza').onsubmit = subirPieza;
+  d.querySelector('#f-arch').onsubmit = subirArchivo;
+  d.querySelector('#f-user').onsubmit = invitarUsuario;
+  cargarTodo();
+}
+
+async function cargarTodo() {
+  const id = actual.id;
+  const [p, a, f, u] = await Promise.all([
+    sb.from('pendientes').select('*').eq('cliente_id', id).order('creado_en', { ascending: false }),
+    sb.from('piezas').select('*').eq('cliente_id', id).order('creado_en', { ascending: false }),
+    sb.from('archivos').select('*').eq('cliente_id', id).order('creado_en', { ascending: false }),
+    sb.from('perfiles').select('nombre,correo').eq('cliente_id', id)
+  ]);
+  pintarPendientes(p.data || []);
+  pintarPiezas(a.data || []);
+  pintarArchivos(f.data || []);
+  const users = u.data || [];
+  document.getElementById('d-usuarios').textContent = users.length
+    ? 'Acceso: ' + users.map(x => x.correo).join(', ') : 'Nadie tiene acceso todavía';
+  document.getElementById('l-users').innerHTML = users.map(x =>
+    `<div class="item"><div class="txt"><h3>${esc(x.nombre || x.correo)}</h3><p class="meta">${esc(x.correo)}</p></div></div>`).join('');
+}
+
+function form(e) { return Object.fromEntries(new FormData(e.target).entries()); }
+
+async function subir(carpeta, archivo) {
+  const ruta = `${actual.id}/${carpeta}/${Date.now()}-${nombreSeguro(archivo.name)}`;
+  const { error } = await sb.storage.from('portal').upload(ruta, archivo, { upsert: false });
+  if (error) throw error;
+  return ruta;
+}
+
+async function borrar(tabla, id, ruta) {
+  if (!confirm('¿Seguro que quieres borrarlo? El cliente ya no lo verá.')) return;
+  if (ruta) await sb.storage.from('portal').remove([ruta]);
+  await sb.from(tabla).delete().eq('id', id);
+  cargarTodo();
+}
+
+/* ---------- pendientes ---------- */
+async function agregarPendiente(e) {
+  e.preventDefault();
+  const v = form(e);
+  const { error } = await sb.from('pendientes').insert({
+    cliente_id: actual.id, titulo: v.titulo, detalle: v.detalle || null,
+    responsable: v.responsable, fecha_limite: v.fecha_limite || null
+  });
+  if (error) { alert(error.message); return; }
+  e.target.reset(); cargarTodo();
+}
+function pintarPendientes(lista) {
+  const el = document.getElementById('l-pend');
+  el.innerHTML = lista.length ? lista.map(x => `<div class="item"><div class="txt"><h3>${esc(x.titulo)}</h3>
+    ${x.detalle ? `<p class="meta">${esc(x.detalle)}</p>` : ''}
+    <p class="meta">${x.responsable === 'cliente' ? 'Le toca al cliente' : 'Le toca a AbyC'}${x.fecha_limite ? ' · para el ' + fecha(x.fecha_limite) : ''}</p></div>
+    <div class="acciones"><select data-est="${x.id}">${Object.entries(ESTADO).map(([k, t]) =>
+      `<option value="${k}" ${x.estado === k ? 'selected' : ''}>${t}</option>`).join('')}</select>
+    <button class="btn sec chico" data-del="${x.id}">Borrar</button></div></div>`).join('')
+    : '<div class="vacio">Sin pendientes.</div>';
+  el.querySelectorAll('[data-est]').forEach(s => s.onchange = async () => {
+    await sb.from('pendientes').update({ estado: s.value, actualizado_en: new Date().toISOString() }).eq('id', s.dataset.est);
+  });
+  el.querySelectorAll('[data-del]').forEach(b => b.onclick = () => borrar('pendientes', b.dataset.del));
+}
+
+/* ---------- aprobaciones ---------- */
+async function subirPieza(e) {
+  e.preventDefault();
+  const v = form(e), m = document.getElementById('m-pieza'), b = e.target.querySelector('button');
+  b.disabled = true; aviso(m, 'Subiendo…', 'ok');
+  try {
+    const ruta = await subir('piezas', v.archivo);
+    const { error } = await sb.from('piezas').insert({
+      cliente_id: actual.id, titulo: v.titulo, descripcion: v.descripcion || null,
+      fecha_publicacion: v.fecha_publicacion || null, ruta
+    });
+    if (error) throw error;
+    aviso(m, 'Listo. El cliente ya la ve en Aprobaciones.', 'ok');
+    e.target.reset(); cargarTodo();
+  } catch (err) { aviso(m, 'No se pudo subir: ' + err.message, 'mal'); }
+  b.disabled = false;
+}
+function pintarPiezas(lista) {
+  const el = document.getElementById('l-piezas');
+  const chip = { pendiente: ['Esperando respuesta', 'warn'], aprobada: ['Aprobada', 'ok'], cambios: ['Pidió cambios', 'bad'] };
+  el.innerHTML = lista.length ? lista.map(x => `<div class="item"><div class="txt"><h3>${esc(x.titulo)}</h3>
+    ${x.fecha_publicacion ? `<p class="meta">Publicación: ${fecha(x.fecha_publicacion)}</p>` : ''}
+    ${x.comentario ? `<p class="meta"><b>Comentario del cliente:</b> ${esc(x.comentario)}</p>` : ''}</div>
+    <div class="acciones"><span class="chip ${chip[x.estado][1]}">${chip[x.estado][0]}</span>
+    ${x.ruta ? `<button class="btn sec chico" data-ver="${esc(x.ruta)}">Ver</button>` : ''}
+    <button class="btn sec chico" data-del="${x.id}" data-ruta="${esc(x.ruta || '')}">Borrar</button></div></div>`).join('')
+    : '<div class="vacio">Sin piezas.</div>';
+  el.querySelectorAll('[data-ver]').forEach(b => b.onclick = () => descargar(b.dataset.ver));
+  el.querySelectorAll('[data-del]').forEach(b => b.onclick = () => borrar('piezas', b.dataset.del, b.dataset.ruta));
+}
+
+/* ---------- materiales y reportes ---------- */
+async function subirArchivo(e) {
+  e.preventDefault();
+  const v = form(e), m = document.getElementById('m-arch'), b = e.target.querySelector('button');
+  if (v.tipo === 'reporte' && !v.mes) { aviso(m, 'Elige el mes del reporte.', 'mal'); return; }
+  b.disabled = true; aviso(m, 'Subiendo…', 'ok');
+  try {
+    const ruta = await subir(v.tipo === 'reporte' ? 'reportes' : 'materiales', v.archivo);
+    const { error } = await sb.from('archivos').insert({
+      cliente_id: actual.id, tipo: v.tipo, titulo: v.titulo, descripcion: v.descripcion || null,
+      mes: v.mes ? v.mes + '-01' : null, ruta
+    });
+    if (error) throw error;
+    aviso(m, 'Listo. El cliente ya lo puede descargar.', 'ok');
+    e.target.reset(); cargarTodo();
+  } catch (err) { aviso(m, 'No se pudo subir: ' + err.message, 'mal'); }
+  b.disabled = false;
+}
+function pintarArchivos(lista) {
+  const el = document.getElementById('l-arch');
+  el.innerHTML = lista.length ? lista.map(x => `<div class="item"><div class="txt"><h3>${esc(x.tipo === 'reporte' && x.mes ? 'Reporte de ' + mes(x.mes) : x.titulo)}</h3>
+    <p class="meta">${x.tipo === 'reporte' ? 'Reporte' : 'Material'} · subido el ${fecha(x.creado_en)}</p></div>
+    <div class="acciones"><button class="btn sec chico" data-ver="${esc(x.ruta)}">Ver</button>
+    <button class="btn sec chico" data-del="${x.id}" data-ruta="${esc(x.ruta)}">Borrar</button></div></div>`).join('')
+    : '<div class="vacio">Sin archivos.</div>';
+  el.querySelectorAll('[data-ver]').forEach(b => b.onclick = () => descargar(b.dataset.ver));
+  el.querySelectorAll('[data-del]').forEach(b => b.onclick = () => borrar('archivos', b.dataset.del, b.dataset.ruta));
+}
+
+/* ---------- usuarios ---------- */
+async function invitarUsuario(e) {
+  e.preventDefault();
+  const v = form(e), m = document.getElementById('m-user'), b = e.target.querySelector('button');
+  b.disabled = true;
+  try {
+    await invitar({ cliente_id: actual.id, nombre_contacto: v.nombre, correo: v.correo });
+    aviso(m, 'Invitación enviada.', 'ok'); e.target.reset(); cargarTodo();
+  } catch (err) { aviso(m, 'No se pudo: ' + err.message, 'mal'); }
+  b.disabled = false;
+}
+
+iniciar();
+</script>
+</body>
+</html>

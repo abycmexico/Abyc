@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portal de clientes · AbyC</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="icon" type="image/png" href="../assets/imagen-1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/portal.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.75.0/dist/umd/supabase.min.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/portal.js"></script>
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="logo" href="../"><img src="../assets/imagen-1.png" alt="AbyC"> ABYC</a>
+</div></div>
+
+<div class="centro">
+  <div class="card">
+    <h1>Portal de clientes</h1>
+    <p class="sub">Tus materiales, pendientes, aprobaciones y reportes en un solo lugar.</p>
+
+    <form id="entrar">
+      <label for="correo">Correo</label>
+      <input id="correo" type="email" autocomplete="email" required>
+      <label for="pass">Contraseña</label>
+      <input id="pass" type="password" autocomplete="current-password" required>
+      <button class="btn negro" type="submit" style="width:100%;justify-content:center;margin-top:16px">Entrar</button>
+    </form>
+    <button class="enlace" id="olvide" type="button">¿Olvidaste tu contraseña?</button>
+    <p class="msg oculto" id="msg"></p>
+  </div>
+</div>
+
+<script>
+const { sb, url, aviso } = Portal;
+const msg = document.getElementById('msg');
+
+async function destino() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) return;
+  const { data: p } = await sb.from('perfiles').select('rol').eq('id', session.user.id).single();
+  location.href = url(p && p.rol === 'admin' ? 'admin/' : 'portal/');
+}
+
+if (!sb) {
+  aviso(msg, 'El portal todavía se está preparando. Vuelve pronto.', 'mal');
+  document.getElementById('entrar').querySelector('button').disabled = true;
+} else {
+  destino();
+}
+
+document.getElementById('entrar').onsubmit = async (e) => {
+  e.preventDefault();
+  if (!sb) return;
+  const b = e.target.querySelector('button'); b.disabled = true;
+  const { error } = await sb.auth.signInWithPassword({
+    email: document.getElementById('correo').value.trim(),
+    password: document.getElementById('pass').value
+  });
+  b.disabled = false;
+  if (error) { aviso(msg, 'Correo o contraseña incorrectos.', 'mal'); return; }
+  destino();
+};
+
+document.getElementById('olvide').onclick = async () => {
+  const correo = document.getElementById('correo').value.trim();
+  if (!correo) { aviso(msg, 'Escribe tu correo arriba y vuelve a darle clic.', 'mal'); return; }
+  if (!sb) return;
+  const { error } = await sb.auth.resetPasswordForEmail(correo, { redirectTo: url('nueva-contrasena/') });
+  if (error) { aviso(msg, 'No pudimos enviar el correo. Intenta en unos minutos.', 'mal'); return; }
+  aviso(msg, 'Si tu correo está registrado, te llegará un enlace para crear una nueva contraseña.', 'ok');
+};
+</script>
+</body>
+</html>
