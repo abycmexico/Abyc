@@ -489,6 +489,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cta-group a svg{width:15px;height:15px;}
   .cta-group a.wa svg{fill:var(--ink);}
   .cta-group a.mail svg{stroke:var(--ink);fill:none;stroke-width:1.8;}
+  .cta-group a.acceso{background:var(--ink);color:#fff;}
+  .cta-group a.acceso svg{stroke:#fff;fill:none;stroke-width:1.8;}
+  .cta-group a.acceso .sm{display:none;}
+  @media (max-width:640px){
+    header{padding:14px 16px;}
+    header .cta-group{flex-wrap:nowrap;gap:6px;}
+    header .cta-group a{padding:9px 12px;font-size:12.5px;}
+    header .cta-group a.mail{display:none;}
+    header .cta-group a{white-space:nowrap;}
+    .cta-group a.acceso .lg{display:none;} .cta-group a.acceso .sm{display:inline;}
+  }
 
   /* bee trail background */
   .bee-trail{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
@@ -577,6 +588,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a class="logo" href="#top"><img src="./assets/imagen-1.png" alt="AbyC"> ABYC</a>
   <div class="brand-motto"><span id="mottoText"></span><span class="motto-cursor"></span></div>
   <div class="cta-group">
+    <a class="acceso" href="./clientes/">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      <span class="lg">Acceso clientes</span><span class="sm">Clientes</span>
+    </a>
     <a class="wa" href="https://wa.me/525615056334" target="_blank">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>
       WhatsApp

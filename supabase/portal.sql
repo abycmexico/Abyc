@@ -210,3 +210,33 @@ create policy "portal admin cambiar" on storage.objects for update to authentica
 drop policy if exists "portal admin borrar" on storage.objects;
 create policy "portal admin borrar" on storage.objects for delete to authenticated
   using (bucket_id = 'portal' and public.es_admin());
+-- Entregas: ligas que el cliente nos manda (videos grabados, fotos, otros materiales)
+create table if not exists public.entregas (
+  id          uuid primary key default gen_random_uuid(),
+  cliente_id  uuid not null references public.clientes on delete cascade,
+  tipo        text not null default 'videos' check (tipo in ('videos', 'fotos', 'otros')),
+  url         text not null check (url ~* '^https?://'),
+  nota        text,
+  estado      text not null default 'nuevo' check (estado in ('nuevo', 'recibido')),
+  enviado_por uuid references auth.users on delete set null default auth.uid(),
+  creado_en   timestamptz not null default now()
+);
+create index if not exists entregas_cliente_idx on public.entregas (cliente_id);
+
+revoke all on public.entregas from anon;
+grant select, insert, update, delete on public.entregas to authenticated;
+grant all on public.entregas to service_role;
+alter table public.entregas enable row level security;
+
+drop policy if exists "ver entregas propias" on public.entregas;
+create policy "ver entregas propias" on public.entregas for select to authenticated
+  using (public.es_admin() or cliente_id = public.mi_cliente());
+
+-- El cliente solo puede crear entregas de su propio cliente, siempre como "nuevo"
+drop policy if exists "cliente manda entregas" on public.entregas;
+create policy "cliente manda entregas" on public.entregas for insert to authenticated
+  with check (cliente_id = public.mi_cliente() and estado = 'nuevo');
+
+drop policy if exists "admin entregas" on public.entregas;
+create policy "admin entregas" on public.entregas for all to authenticated
+  using (public.es_admin()) with check (public.es_admin());

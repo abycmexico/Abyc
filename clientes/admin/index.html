@@ -52,14 +52,20 @@
   <p class="sub" id="d-usuarios"></p>
 
   <div class="tabs" role="tablist">
-    <button class="tab" data-t="pendientes" aria-selected="true">Pendientes</button>
+    <button class="tab" data-t="entregas" aria-selected="true">Entregas <span class="n oculto" id="n-ent"></span></button>
+    <button class="tab" data-t="pendientes" aria-selected="false">Pendientes</button>
     <button class="tab" data-t="aprobaciones" aria-selected="false">Aprobaciones</button>
     <button class="tab" data-t="archivos" aria-selected="false">Materiales y reportes</button>
     <button class="tab" data-t="redes" aria-selected="false">Redes</button>
     <button class="tab" data-t="usuarios" aria-selected="false">Usuarios</button>
   </div>
 
-  <section id="a-pendientes">
+  <section id="a-entregas">
+    <p class="sub">Ligas que el cliente nos manda (videos, fotos y otros materiales). Márcalas como recibidas cuando las descargues.</p>
+    <div class="lista secc" id="l-ent"></div>
+  </section>
+
+  <section id="a-pendientes" class="oculto">
     <form class="card" id="f-pend">
       <h3>Agregar pendiente</h3>
       <div class="fila">
@@ -75,13 +81,14 @@
 
   <section id="a-aprobaciones" class="oculto">
     <form class="card" id="f-pieza">
-      <h3>Subir pieza para aprobación</h3>
+      <h3>Algo para que el cliente apruebe</h3>
+      <p class="sub">Una pieza (video, diseño) o una propuesta. El archivo es opcional.</p>
       <div class="fila">
         <div><label>Título</label><input name="titulo" required></div>
         <div><label>Fecha de publicación</label><input name="fecha_publicacion" type="date"></div>
       </div>
       <label>Descripción o texto del post (opcional)</label><textarea name="descripcion"></textarea>
-      <label>Archivo (video, imagen o PDF)</label><input name="archivo" type="file" required>
+      <label>Archivo (opcional: video, imagen o PDF)</label><input name="archivo" type="file">
       <button class="btn" type="submit" style="margin-top:10px">Subir</button>
       <p class="msg oculto" id="m-pieza"></p>
     </form>
@@ -146,12 +153,17 @@ async function iniciar() {
 }
 
 async function cargarClientes() {
-  const { data } = await sb.from('clientes').select('id,nombre').order('nombre');
+  const [{ data }, { data: nuevas }] = await Promise.all([
+    sb.from('clientes').select('id,nombre').order('nombre'),
+    sb.from('entregas').select('cliente_id').eq('estado', 'nuevo')
+  ]);
+  const cuenta = {};
+  (nuevas || []).forEach(x => cuenta[x.cliente_id] = (cuenta[x.cliente_id] || 0) + 1);
   const el = document.getElementById('clientes');
   el.innerHTML = (data || []).map(c =>
-    `<button class="cli" data-id="${c.id}" aria-pressed="${actual && actual.id === c.id}">${esc(c.nombre)}</button>`).join('')
+    `<button class="cli" data-id="${c.id}" data-nombre="${esc(c.nombre)}" aria-pressed="${actual && actual.id === c.id}">${esc(c.nombre)}${cuenta[c.id] ? ` <span class="chip warn">${cuenta[c.id]} nueva${cuenta[c.id] > 1 ? 's' : ''}</span>` : ''}</button>`).join('')
     || '<p class="sub">Todavía no hay clientes.</p>';
-  el.querySelectorAll('.cli').forEach(b => b.onclick = () => abrir({ id: b.dataset.id, nombre: b.textContent }));
+  el.querySelectorAll('.cli').forEach(b => b.onclick = () => abrir({ id: b.dataset.id, nombre: b.dataset.nombre }));
 }
 
 // Invita usando la función segura del servidor
@@ -207,13 +219,15 @@ function abrir(c) {
 
 async function cargarTodo() {
   const id = actual.id;
-  const [p, a, f, u, r] = await Promise.all([
+  const [p, a, f, u, r, en] = await Promise.all([
     sb.from('pendientes').select('*').eq('cliente_id', id).order('creado_en', { ascending: false }),
     sb.from('piezas').select('*').eq('cliente_id', id).order('creado_en', { ascending: false }),
     sb.from('archivos').select('*').eq('cliente_id', id).order('creado_en', { ascending: false }),
     sb.from('perfiles').select('nombre,correo').eq('cliente_id', id),
-    sb.from('clientes').select('redes').eq('id', id).single()
+    sb.from('clientes').select('redes').eq('id', id).single(),
+    sb.from('entregas').select('*').eq('cliente_id', id).order('creado_en', { ascending: false })
   ]);
+  pintarEntregas(en.data || []);
   pintarRedes((r.data && r.data.redes) || []);
   pintarPendientes(p.data || []);
   pintarPiezas(a.data || []);
@@ -273,13 +287,13 @@ async function subirPieza(e) {
   const v = form(e), m = document.getElementById('m-pieza'), b = e.target.querySelector('button');
   b.disabled = true; aviso(m, 'Subiendo…', 'ok');
   try {
-    const ruta = await subir('piezas', v.archivo);
+    const ruta = v.archivo && v.archivo.size ? await subir('piezas', v.archivo) : null;
     const { error } = await sb.from('piezas').insert({
       cliente_id: actual.id, titulo: v.titulo, descripcion: v.descripcion || null,
       fecha_publicacion: v.fecha_publicacion || null, ruta
     });
     if (error) throw error;
-    aviso(m, 'Listo. El cliente ya la ve en Aprobaciones.', 'ok');
+    aviso(m, 'Listo. El cliente ya lo ve en Aprobaciones.', 'ok');
     e.target.reset(); cargarTodo();
   } catch (err) { aviso(m, 'No se pudo subir: ' + err.message, 'mal'); }
   b.disabled = false;
@@ -325,6 +339,26 @@ function pintarArchivos(lista) {
     : '<div class="vacio">Sin archivos.</div>';
   el.querySelectorAll('[data-ver]').forEach(b => b.onclick = () => descargar(b.dataset.ver));
   el.querySelectorAll('[data-del]').forEach(b => b.onclick = () => borrar('archivos', b.dataset.del, b.dataset.ruta));
+}
+
+/* ---------- entregas ---------- */
+const TIPO_ENTREGA = { videos: 'Videos grabados', fotos: 'Fotos', otros: 'Otros materiales' };
+function pintarEntregas(lista) {
+  const nuevas = lista.filter(x => x.estado === 'nuevo').length;
+  const n = document.getElementById('n-ent'); n.textContent = nuevas; n.classList.toggle('oculto', !nuevas);
+  const el = document.getElementById('l-ent');
+  el.innerHTML = lista.length ? lista.map(x => `<div class="item"><div class="txt">
+    <h3>${esc(TIPO_ENTREGA[x.tipo] || 'Material')}</h3>
+    ${x.nota ? `<p class="meta">${esc(x.nota)}</p>` : ''}
+    <p class="meta">Enviado el ${fecha(x.creado_en)}</p></div>
+    <div class="acciones"><a class="btn sec chico" href="${esc(x.url)}" target="_blank" rel="noopener">Abrir liga</a>
+    ${x.estado === 'nuevo' ? `<button class="btn chico" data-rec="${x.id}">Marcar recibido</button>` : '<span class="chip ok">Recibido</span>'}</div></div>`).join('')
+    : '<div class="vacio">El cliente todavía no nos manda material.</div>';
+  el.querySelectorAll('[data-rec]').forEach(b => b.onclick = async () => {
+    b.disabled = true;
+    await sb.from('entregas').update({ estado: 'recibido' }).eq('id', b.dataset.rec);
+    cargarTodo(); cargarClientes();
+  });
 }
 
 /* ---------- redes ---------- */

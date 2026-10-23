@@ -27,6 +27,7 @@
     <button class="tab" role="tab" data-t="inicio" aria-selected="true">Inicio</button>
     <button class="tab" role="tab" data-t="pendientes" aria-selected="false">Pendientes <span class="n oculto" id="n-pendientes"></span></button>
     <button class="tab" role="tab" data-t="aprobaciones" aria-selected="false">Aprobaciones <span class="n oculto" id="n-aprobaciones"></span></button>
+    <button class="tab" role="tab" data-t="entregas" aria-selected="false">Envíanos material</button>
     <button class="tab" role="tab" data-t="materiales" aria-selected="false">Materiales</button>
     <button class="tab" role="tab" data-t="reportes" aria-selected="false">Reportes</button>
   </div>
@@ -34,6 +35,7 @@
   <section id="t-inicio"></section>
   <section id="t-pendientes" class="oculto"></section>
   <section id="t-aprobaciones" class="oculto"></section>
+  <section id="t-entregas" class="oculto"></section>
   <section id="t-materiales" class="oculto"></section>
   <section id="t-reportes" class="oculto"></section>
 </div>
@@ -69,6 +71,8 @@ const EJEMPLO = {
     { id: 'p3', titulo: 'Editar videos de la semana 1', detalle: null, responsable: 'abyc', estado: 'en_proceso', fecha_limite: dia(7) },
     { id: 'p4', titulo: 'Diseñar carruseles del mes', detalle: null, responsable: 'abyc', estado: 'por_hacer', fecha_limite: dia(10) },
     { id: 'p5', titulo: 'Estrategia de marca personal', detalle: null, responsable: 'abyc', estado: 'listo', fecha_limite: dia(-3) } ],
+  entregas: [
+    { id: 'e1', tipo: 'fotos', url: 'https://drive.google.com/', nota: 'Fotos del evento del jueves', estado: 'recibido', creado_en: dia(-4) } ],
   piezas: [
     { id: 'a1', titulo: 'Reel: 3 errores al negociar', descripcion: 'Texto del post: Negociar bien no es ganar…', ruta: 'demo', fecha_publicacion: dia(3), estado: 'pendiente' },
     { id: 'a2', titulo: 'Carrusel: checklist de investigación interna', descripcion: null, ruta: 'demo', fecha_publicacion: dia(5), estado: 'pendiente' },
@@ -87,14 +91,16 @@ async function obtener() {
     document.querySelector('.top .in').insertAdjacentHTML('beforeend', '<a class="btn chico" href="../admin/">Panel admin</a>');
   }
   if (!S.perfil.cliente_id) return { sinCliente: true, correo: S.user.email, nombre: S.perfil.nombre };
-  const [c, p, a, f] = await Promise.all([
+  const [c, p, a, f, e] = await Promise.all([
     sb.from('clientes').select('nombre,redes').eq('id', S.perfil.cliente_id).single(),
     sb.from('pendientes').select('*').eq('cliente_id', S.perfil.cliente_id).order('fecha_limite', { ascending: true, nullsFirst: false }),
     sb.from('piezas').select('*').eq('cliente_id', S.perfil.cliente_id).order('creado_en', { ascending: false }),
-    sb.from('archivos').select('*').eq('cliente_id', S.perfil.cliente_id).order('creado_en', { ascending: false })
+    sb.from('archivos').select('*').eq('cliente_id', S.perfil.cliente_id).order('creado_en', { ascending: false }),
+    sb.from('entregas').select('*').eq('cliente_id', S.perfil.cliente_id).order('creado_en', { ascending: false })
   ]);
   return { cliente: c.data || {}, nombre: S.perfil.nombre, correo: S.user.email,
-           pendientes: p.data || [], piezas: a.data || [], archivos: f.data || [] };
+           pendientes: p.data || [], piezas: a.data || [], archivos: f.data || [],
+           entregas: e.data || [], clienteId: S.perfil.cliente_id };
 }
 
 async function cargar() {
@@ -112,6 +118,7 @@ async function cargar() {
   pintarPendientes(D.pendientes);
   pintarAprobaciones(D.piezas);
   pintarArchivos(D.archivos);
+  pintarEntregas(D);
 }
 
 const abrirArchivo = (ruta) => DEMO ? alert('Vista de ejemplo: aquí se descargaría el archivo.') : descargar(ruta);
@@ -154,6 +161,8 @@ function pintarInicio(D) {
         <div class="mini">${[...porAprobar.slice(0, 2), ...tuyos.slice(0, 3)].map(linea).join('') || '<p class="sub">Nada por ahora. ¡Vas al día!</p>'}</div>
         ${porAprobar.length ? '<button class="ir" data-ir="aprobaciones">Revisar aprobaciones →</button>' : ''}
         ${tuyos.length ? '<button class="ir" data-ir="pendientes" style="margin-left:14px">Ver mis pendientes →</button>' : ''}
+        <div class="aviso-envio"><b>¿Ya grabaste tus videos o tienes fotos?</b><span>Mándanos la liga de tu Drive y empezamos a editar.</span>
+        <button class="btn chico" data-ir="entregas">Envíanos material</button></div>
       </div>
       <div class="card"><h2>Lo que estamos haciendo</h2>
         <div class="mini">${nuestros.slice(0, 4).map(linea).join('') || '<p class="sub">Todo al día.</p>'}</div>
@@ -238,6 +247,46 @@ function pintarAprobaciones(lista) {
     if (error) { alert('No se pudo enviar. Intenta de nuevo.'); b.disabled = false; return; }
     cargar();
   });
+}
+
+/* ---------- envíanos material ---------- */
+const TIPO_ENTREGA = { videos: 'Videos grabados', fotos: 'Fotos', otros: 'Otros materiales' };
+function pintarEntregas(D) {
+  const lista = D.entregas || [];
+  const el = document.getElementById('t-entregas');
+  el.innerHTML = `
+    <form class="card" id="f-entrega">
+      <h2>Envíanos material</h2>
+      <p class="sub">Sube tus archivos a Google Drive (o Dropbox, WeTransfer…), comparte la carpeta con permiso de ver y pega aquí la liga. Nos llega al instante.</p>
+      <div class="fila">
+        <div style="flex:0 0 200px"><label for="e-tipo">¿Qué nos mandas?</label>
+          <select id="e-tipo">${Object.entries(TIPO_ENTREGA).map(([k, t]) => `<option value="${k}">${t}</option>`).join('')}</select></div>
+        <div><label for="e-url">Liga de la carpeta o archivo</label><input id="e-url" type="url" placeholder="https://drive.google.com/…" required></div>
+      </div>
+      <label for="e-nota">Nota (opcional)</label>
+      <textarea id="e-nota" placeholder="Ej. Videos 1 a 4 de los guiones de la semana 1"></textarea>
+      <button class="btn negro" type="submit" style="margin-top:12px">Enviar a AbyC</button>
+      <p class="msg oculto" id="e-msg"></p>
+    </form>
+    ${lista.length ? `<p class="grupo-t">Lo que nos has enviado</p><div class="lista">${lista.map(x => `<div class="item"><div class="txt">
+      <h3>${esc(TIPO_ENTREGA[x.tipo] || 'Material')}</h3>
+      ${x.nota ? `<p class="meta">${esc(x.nota)}</p>` : ''}
+      <p class="meta">Enviado el ${fecha(x.creado_en)} · <a href="${esc(x.url)}" target="_blank" rel="noopener">abrir liga</a></p></div>
+      <div class="acciones"><span class="chip ${x.estado === 'recibido' ? 'ok' : 'warn'}">${x.estado === 'recibido' ? 'Recibido por AbyC' : 'Enviado'}</span></div></div>`).join('')}</div>` : ''}`;
+  el.querySelector('#f-entrega').onsubmit = async (ev) => {
+    ev.preventDefault();
+    const m = el.querySelector('#e-msg');
+    if (DEMO) { Portal.aviso(m, 'Vista de ejemplo: aquí la liga le llega a AbyC.', 'ok'); return; }
+    const b = ev.target.querySelector('button'); b.disabled = true;
+    const { error } = await sb.from('entregas').insert({
+      cliente_id: D.clienteId, tipo: el.querySelector('#e-tipo').value,
+      url: el.querySelector('#e-url').value.trim(), nota: el.querySelector('#e-nota').value.trim() || null
+    });
+    b.disabled = false;
+    if (error) { Portal.aviso(m, 'No se pudo enviar. Revisa que la liga empiece con https://', 'mal'); return; }
+    Portal.aviso(m, '¡Listo! Ya nos llegó tu liga.', 'ok');
+    setTimeout(cargar, 900);
+  };
 }
 
 /* ---------- materiales y reportes ---------- */
