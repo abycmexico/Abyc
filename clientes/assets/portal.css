@@ -193,3 +193,31 @@ details.card summary{cursor:pointer;font-weight:800;}
   .dato b{font-size:24px;}
   .dato span{font-size:11px;}
 }
+
+/* ===== Tipografía armónica: DM Sans para leer, Montserrat solo en títulos ===== */
+body{font-family:'DM Sans','Montserrat',Arial,sans-serif;font-weight:400;font-size:15.5px;line-height:1.55;color:#1E1E1E;}
+h1,h2,.logo,.dato b,.tarea .num{font-family:'Montserrat',Arial,sans-serif;}
+h1{font-weight:700;letter-spacing:-.3px;}
+h2{font-weight:600;letter-spacing:-.1px;}
+h3{font-weight:600;}
+.logo{font-weight:600;}
+.sub,.meta{font-weight:400;}
+.top .quien b{font-weight:600;}
+.btn{font-weight:600;letter-spacing:.1px;}
+label{font-weight:500;color:#3A3832;}
+.tab{font-weight:500;}
+.tab[aria-selected="true"]{font-weight:600;}
+.tab .n{font-weight:600;}
+.chip,.plazo,.estado-t,.bloque-cab .cuantos{font-weight:600;}
+.grupo-t,.sub-t{font-weight:600;letter-spacing:1px;}
+.tarea .tipo,.arch .tipo{font-weight:600;letter-spacing:.8px;}
+.tarea .num{font-weight:700;}
+.dato b{font-weight:700;}
+.dato span{font-weight:500;}
+.red b,.enviar-cta b,.al-dia b{font-weight:600;}
+.msg{font-weight:500;}
+.ir,.enlace{font-weight:600;}
+.cli{font-weight:500;}
+.cli[aria-pressed="true"]{font-weight:600;}
+.demo-banda{font-weight:600;}
+details.card summary{font-weight:600;}
