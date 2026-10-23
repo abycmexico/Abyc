@@ -55,6 +55,7 @@
     <button class="tab" data-t="pendientes" aria-selected="true">Pendientes</button>
     <button class="tab" data-t="aprobaciones" aria-selected="false">Aprobaciones</button>
     <button class="tab" data-t="archivos" aria-selected="false">Materiales y reportes</button>
+    <button class="tab" data-t="redes" aria-selected="false">Redes</button>
     <button class="tab" data-t="usuarios" aria-selected="false">Usuarios</button>
   </div>
 
@@ -101,6 +102,19 @@
       <p class="msg oculto" id="m-arch"></p>
     </form>
     <div class="lista secc" id="l-arch"></div>
+  </section>
+
+  <section id="a-redes" class="oculto">
+    <form class="card" id="f-redes">
+      <h3>Redes del cliente</h3>
+      <p class="sub">Aparecen en la pantalla de Inicio de su portal.</p>
+      <div id="redes-filas"></div>
+      <div class="fila" style="margin-top:12px">
+        <button class="btn sec" type="button" id="red-mas">+ Agregar red</button>
+        <button class="btn" type="submit">Guardar redes</button>
+      </div>
+      <p class="msg oculto" id="m-redes"></p>
+    </form>
   </section>
 
   <section id="a-usuarios" class="oculto">
@@ -186,17 +200,21 @@ function abrir(c) {
   d.querySelector('#f-pieza').onsubmit = subirPieza;
   d.querySelector('#f-arch').onsubmit = subirArchivo;
   d.querySelector('#f-user').onsubmit = invitarUsuario;
+  d.querySelector('#f-redes').onsubmit = guardarRedes;
+  d.querySelector('#red-mas').onclick = () => filaRed({});
   cargarTodo();
 }
 
 async function cargarTodo() {
   const id = actual.id;
-  const [p, a, f, u] = await Promise.all([
+  const [p, a, f, u, r] = await Promise.all([
     sb.from('pendientes').select('*').eq('cliente_id', id).order('creado_en', { ascending: false }),
     sb.from('piezas').select('*').eq('cliente_id', id).order('creado_en', { ascending: false }),
     sb.from('archivos').select('*').eq('cliente_id', id).order('creado_en', { ascending: false }),
-    sb.from('perfiles').select('nombre,correo').eq('cliente_id', id)
+    sb.from('perfiles').select('nombre,correo').eq('cliente_id', id),
+    sb.from('clientes').select('redes').eq('id', id).single()
   ]);
+  pintarRedes((r.data && r.data.redes) || []);
   pintarPendientes(p.data || []);
   pintarPiezas(a.data || []);
   pintarArchivos(f.data || []);
@@ -307,6 +325,35 @@ function pintarArchivos(lista) {
     : '<div class="vacio">Sin archivos.</div>';
   el.querySelectorAll('[data-ver]').forEach(b => b.onclick = () => descargar(b.dataset.ver));
   el.querySelectorAll('[data-del]').forEach(b => b.onclick = () => borrar('archivos', b.dataset.del, b.dataset.ruta));
+}
+
+/* ---------- redes ---------- */
+const REDES = ['Instagram', 'LinkedIn', 'Facebook', 'TikTok', 'YouTube', 'X', 'Sitio web', 'Otra'];
+function filaRed(r) {
+  const cont = document.getElementById('redes-filas');
+  const div = document.createElement('div');
+  div.className = 'fila red-fila';
+  div.innerHTML = `<div><label>Red</label><select name="red">${REDES.map(x =>
+      `<option ${x === r.red ? 'selected' : ''}>${x}</option>`).join('')}</select></div>
+    <div><label>Usuario</label><input name="usuario" placeholder="@usuario" value="${esc(r.usuario || '')}"></div>
+    <div><label>Liga</label><input name="url" type="url" placeholder="https://" value="${esc(r.url || '')}"></div>
+    <div style="flex:none;min-width:0"><button class="btn sec chico" type="button">Quitar</button></div>`;
+  div.querySelector('button').onclick = () => div.remove();
+  cont.appendChild(div);
+}
+function pintarRedes(lista) {
+  document.getElementById('redes-filas').innerHTML = '';
+  (lista.length ? lista : [{}]).forEach(filaRed);
+}
+async function guardarRedes(e) {
+  e.preventDefault();
+  const redes = [...document.querySelectorAll('.red-fila')].map(f => ({
+    red: f.querySelector('[name=red]').value,
+    usuario: f.querySelector('[name=usuario]').value.trim(),
+    url: f.querySelector('[name=url]').value.trim()
+  })).filter(x => x.usuario || x.url);
+  const { error } = await sb.from('clientes').update({ redes }).eq('id', actual.id);
+  aviso(document.getElementById('m-redes'), error ? 'No se pudo guardar: ' + error.message : 'Redes guardadas.', error ? 'mal' : 'ok');
 }
 
 /* ---------- usuarios ---------- */

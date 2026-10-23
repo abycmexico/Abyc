@@ -15,6 +15,7 @@
 <script src="../assets/portal.js"></script>
 </head>
 <body>
+<div class="demo-banda oculto" id="demo-banda">Vista de ejemplo · así se ve el portal de un cliente</div>
 <div class="top"><div class="in">
   <a class="logo" href="../../"><img src="../../assets/imagen-1.png" alt="AbyC"> ABYC</a>
   <div class="quien"><b id="cliente">Cargando…</b><span id="correo"></span></div>
@@ -22,17 +23,16 @@
 </div></div>
 
 <div class="wrap">
-  <h1 id="hola">Hola</h1>
-  <p class="sub">Aquí ves todo lo que estamos trabajando contigo.</p>
-
-  <div class="tabs" role="tablist">
-    <button class="tab" role="tab" data-t="pendientes" aria-selected="true">Pendientes <span class="n oculto" id="n-pendientes"></span></button>
+  <div class="tabs" role="tablist" style="margin-top:4px">
+    <button class="tab" role="tab" data-t="inicio" aria-selected="true">Inicio</button>
+    <button class="tab" role="tab" data-t="pendientes" aria-selected="false">Pendientes <span class="n oculto" id="n-pendientes"></span></button>
     <button class="tab" role="tab" data-t="aprobaciones" aria-selected="false">Aprobaciones <span class="n oculto" id="n-aprobaciones"></span></button>
     <button class="tab" role="tab" data-t="materiales" aria-selected="false">Materiales</button>
     <button class="tab" role="tab" data-t="reportes" aria-selected="false">Reportes</button>
   </div>
 
-  <section id="t-pendientes"></section>
+  <section id="t-inicio"></section>
+  <section id="t-pendientes" class="oculto"></section>
   <section id="t-aprobaciones" class="oculto"></section>
   <section id="t-materiales" class="oculto"></section>
   <section id="t-reportes" class="oculto"></section>
@@ -40,51 +40,137 @@
 
 <script>
 const { sb, esc, fecha, mes, sesion, salir, descargar } = Portal;
-document.getElementById('salir').onclick = salir;
-
-document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
-  document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === t));
-  document.querySelectorAll('section[id^="t-"]').forEach(s => s.classList.toggle('oculto', s.id !== 't-' + t.dataset.t));
-});
-
+const DEMO = new URLSearchParams(location.search).has('demo');
 const ESTADO = { por_hacer: ['Por hacer', ''], en_proceso: ['En proceso', 'warn'], listo: ['Listo', 'ok'] };
-let S;
+const ICO = { instagram: ['ig', 'IG'], linkedin: ['li', 'in'], facebook: ['fb', 'f'], tiktok: ['tt', 'TT'], youtube: ['yt', 'YT'], x: ['x', 'X'] };
 
-async function iniciar() {
-  S = await sesion();
-  if (!S) return;
+document.getElementById('salir').onclick = () => DEMO ? location.href = '../' : salir();
+
+function abrirTab(nombre) {
+  document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x.dataset.t === nombre));
+  document.querySelectorAll('section[id^="t-"]').forEach(s => s.classList.toggle('oculto', s.id !== 't-' + nombre));
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => abrirTab(t.dataset.t));
+
+/* ---------- datos ---------- */
+const hoy = new Date();
+const dia = (n) => new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + n).toISOString().slice(0, 10);
+const EJEMPLO = {
+  cliente: { nombre: 'Tu marca', redes: [
+    { red: 'Instagram', usuario: '@tumarca', url: 'https://instagram.com/' },
+    { red: 'LinkedIn', usuario: 'Tu nombre', url: 'https://linkedin.com/' },
+    { red: 'TikTok', usuario: '@tumarca', url: 'https://tiktok.com/' } ] },
+  nombre: 'Cliente',
+  correo: 'cliente@ejemplo.com',
+  pendientes: [
+    { id: 'p1', titulo: 'Grabar los videos del mes', detalle: 'Sigue la guía de grabación y súbelos a la carpeta compartida.', responsable: 'cliente', estado: 'por_hacer', fecha_limite: dia(4) },
+    { id: 'p2', titulo: 'Mandar 3 fotos de tu día a día', detalle: null, responsable: 'cliente', estado: 'por_hacer', fecha_limite: dia(6) },
+    { id: 'p3', titulo: 'Editar videos de la semana 1', detalle: null, responsable: 'abyc', estado: 'en_proceso', fecha_limite: dia(7) },
+    { id: 'p4', titulo: 'Diseñar carruseles del mes', detalle: null, responsable: 'abyc', estado: 'por_hacer', fecha_limite: dia(10) },
+    { id: 'p5', titulo: 'Estrategia de marca personal', detalle: null, responsable: 'abyc', estado: 'listo', fecha_limite: dia(-3) } ],
+  piezas: [
+    { id: 'a1', titulo: 'Reel: 3 errores al negociar', descripcion: 'Texto del post: Negociar bien no es ganar…', ruta: 'demo', fecha_publicacion: dia(3), estado: 'pendiente' },
+    { id: 'a2', titulo: 'Carrusel: checklist de investigación interna', descripcion: null, ruta: 'demo', fecha_publicacion: dia(5), estado: 'pendiente' },
+    { id: 'a3', titulo: 'Post de bienvenida', descripcion: null, ruta: 'demo', fecha_publicacion: dia(-1), estado: 'aprobada', respondido_en: dia(-2) } ],
+  archivos: [
+    { id: 'f1', tipo: 'material', titulo: 'Estrategia de marca personal (PDF)', descripcion: 'Posicionamiento, voz, pilares e identidad.', ruta: 'demo', creado_en: dia(-3) },
+    { id: 'f2', tipo: 'material', titulo: 'Guiones del mes 1', descripcion: '7 guiones con guía de grabación.', ruta: 'demo', creado_en: dia(-2) },
+    { id: 'f3', tipo: 'reporte', titulo: 'Reporte', ruta: 'demo', mes: dia(-25).slice(0, 8) + '01', creado_en: dia(-1) } ]
+};
+
+async function obtener() {
+  if (DEMO) return window.EJEMPLO_PORTAL || EJEMPLO;
+  const S = await sesion();
+  if (!S) return null;
   if (S.perfil.rol === 'admin') {
     document.querySelector('.top .in').insertAdjacentHTML('beforeend', '<a class="btn chico" href="../admin/">Panel admin</a>');
   }
-  document.getElementById('correo').textContent = S.user.email;
-  const nombre = (S.perfil.nombre || '').split(' ')[0];
-  document.getElementById('hola').textContent = nombre ? `Hola, ${nombre}` : 'Hola';
-  if (!S.perfil.cliente_id) {
-    document.getElementById('cliente').textContent = 'Sin cliente asignado';
-    document.getElementById('t-pendientes').innerHTML = '<div class="vacio">Tu cuenta todavía no está ligada a un cliente. Escríbenos y lo arreglamos.</div>';
-    return;
-  }
-  const { data: c } = await sb.from('clientes').select('nombre').eq('id', S.perfil.cliente_id).single();
-  document.getElementById('cliente').textContent = c ? c.nombre : '';
-  cargar();
+  if (!S.perfil.cliente_id) return { sinCliente: true, correo: S.user.email, nombre: S.perfil.nombre };
+  const [c, p, a, f] = await Promise.all([
+    sb.from('clientes').select('nombre,redes').eq('id', S.perfil.cliente_id).single(),
+    sb.from('pendientes').select('*').eq('cliente_id', S.perfil.cliente_id).order('fecha_limite', { ascending: true, nullsFirst: false }),
+    sb.from('piezas').select('*').eq('cliente_id', S.perfil.cliente_id).order('creado_en', { ascending: false }),
+    sb.from('archivos').select('*').eq('cliente_id', S.perfil.cliente_id).order('creado_en', { ascending: false })
+  ]);
+  return { cliente: c.data || {}, nombre: S.perfil.nombre, correo: S.user.email,
+           pendientes: p.data || [], piezas: a.data || [], archivos: f.data || [] };
 }
 
 async function cargar() {
-  const [p, a, f] = await Promise.all([
-    sb.from('pendientes').select('*').order('fecha_limite', { ascending: true, nullsFirst: false }),
-    sb.from('piezas').select('*').order('creado_en', { ascending: false }),
-    sb.from('archivos').select('*').order('creado_en', { ascending: false })
-  ]);
-  pintarPendientes(p.data || []);
-  pintarAprobaciones(a.data || []);
-  pintarArchivos(f.data || []);
+  const D = await obtener();
+  if (!D) return;
+  document.getElementById('demo-banda').classList.toggle('oculto', !DEMO);
+  document.getElementById('correo').textContent = D.correo || '';
+  if (D.sinCliente) {
+    document.getElementById('cliente').textContent = 'Sin cliente asignado';
+    document.getElementById('t-inicio').innerHTML = '<div class="vacio" style="margin-top:18px">Tu cuenta todavía no está ligada a un cliente. Escríbenos y lo arreglamos.</div>';
+    return;
+  }
+  document.getElementById('cliente').textContent = D.cliente.nombre || '';
+  pintarInicio(D);
+  pintarPendientes(D.pendientes);
+  pintarAprobaciones(D.piezas);
+  pintarArchivos(D.archivos);
 }
 
-function contador(id, n) {
-  const el = document.getElementById(id);
-  el.textContent = n; el.classList.toggle('oculto', !n);
+const abrirArchivo = (ruta) => DEMO ? alert('Vista de ejemplo: aquí se descargaría el archivo.') : descargar(ruta);
+function contador(id, n) { const el = document.getElementById(id); el.textContent = n; el.classList.toggle('oculto', !n); }
+
+/* ---------- inicio ---------- */
+function tarjetaRed(r) {
+  const k = String(r.red || '').toLowerCase().replace(/\s|\(.*\)/g, '');
+  const [cls, txt] = ICO[k] || ['web', (r.red || 'W').slice(0, 2).toUpperCase()];
+  const cuerpo = `<div class="ico ${cls}">${esc(txt)}</div><div><b>${esc(r.red)}</b><span>${esc(r.usuario || r.url || '')}</span></div>`;
+  return r.url ? `<a class="red" href="${esc(r.url)}" target="_blank" rel="noopener">${cuerpo}</a>` : `<div class="red">${cuerpo}</div>`;
 }
 
+function pintarInicio(D) {
+  const nombre = (D.nombre || '').split(' ')[0];
+  const tuyos = D.pendientes.filter(x => x.responsable === 'cliente' && x.estado !== 'listo');
+  const nuestros = D.pendientes.filter(x => x.responsable === 'abyc' && x.estado !== 'listo');
+  const porAprobar = D.piezas.filter(x => x.estado === 'pendiente');
+  const reportes = D.archivos.filter(x => x.tipo === 'reporte').sort((a, b) => String(b.mes).localeCompare(String(a.mes)));
+  const ultimo = D.archivos[0];
+  const redes = Array.isArray(D.cliente.redes) ? D.cliente.redes : [];
+  const linea = (x) => `<div class="item"><div class="txt"><h3>${esc(x.titulo)}</h3>
+      <p class="meta">${x.fecha_limite ? 'Para el ' + fecha(x.fecha_limite) : (x.fecha_publicacion ? 'Se publicaría el ' + fecha(x.fecha_publicacion) : '')}</p></div></div>`;
+
+  document.getElementById('t-inicio').innerHTML = `
+    <div class="bienvenida">
+      <div><h1>${nombre ? 'Hola, ' + esc(nombre) : 'Hola'}</h1>
+      <p class="sub">Aquí ves todo lo que estamos construyendo para ${esc(D.cliente.nombre || 'tu marca')}.</p></div>
+      <div class="resumen">
+        <div class="dato"><b>${tuyos.length}</b><span>te tocan a ti</span></div>
+        <div class="dato"><b>${porAprobar.length}</b><span>por aprobar</span></div>
+        <div class="dato"><b>${nuestros.length}</b><span>en manos de AbyC</span></div>
+      </div>
+    </div>
+
+    ${redes.length ? `<p class="grupo-t">Tus redes</p><div class="redes">${redes.map(tarjetaRed).join('')}</div>` : ''}
+
+    <div class="dos-col secc">
+      <div class="card"><h2>Lo que necesitamos de ti</h2>
+        <div class="mini">${[...porAprobar.slice(0, 2), ...tuyos.slice(0, 3)].map(linea).join('') || '<p class="sub">Nada por ahora. ¡Vas al día!</p>'}</div>
+        ${porAprobar.length ? '<button class="ir" data-ir="aprobaciones">Revisar aprobaciones →</button>' : ''}
+        ${tuyos.length ? '<button class="ir" data-ir="pendientes" style="margin-left:14px">Ver mis pendientes →</button>' : ''}
+      </div>
+      <div class="card"><h2>Lo que estamos haciendo</h2>
+        <div class="mini">${nuestros.slice(0, 4).map(linea).join('') || '<p class="sub">Todo al día.</p>'}</div>
+      </div>
+    </div>
+
+    ${ultimo || reportes.length ? `<div class="card secc"><h2>Lo más reciente</h2><div class="mini">
+      ${reportes[0] ? `<div class="item"><div class="txt"><h3>Reporte de ${mes(reportes[0].mes)}</h3><p class="meta">Tus resultados del mes</p></div><div class="acciones"><button class="btn chico" data-d="${esc(reportes[0].ruta)}">Descargar</button></div></div>` : ''}
+      ${ultimo && ultimo.tipo === 'material' ? `<div class="item"><div class="txt"><h3>${esc(ultimo.titulo)}</h3><p class="meta">Subido el ${fecha(ultimo.creado_en)}</p></div><div class="acciones"><button class="btn chico" data-d="${esc(ultimo.ruta)}">Descargar</button></div></div>` : ''}
+    </div></div>` : ''}`;
+
+  const el = document.getElementById('t-inicio');
+  el.querySelectorAll('[data-ir]').forEach(b => b.onclick = () => abrirTab(b.dataset.ir));
+  el.querySelectorAll('[data-d]').forEach(b => b.onclick = () => abrirArchivo(b.dataset.d));
+}
+
+/* ---------- pendientes ---------- */
 function pintarPendientes(lista) {
   const el = document.getElementById('t-pendientes');
   const abiertos = lista.filter(x => x.estado !== 'listo');
@@ -112,6 +198,7 @@ function pintarPendientes(lista) {
     (nuestros.length ? `<p class="grupo-t">Lo estamos haciendo nosotros</p><div class="lista">${nuestros.map(fila).join('')}</div>` : '') +
     (hechos.length ? `<p class="grupo-t">Terminados</p><div class="lista">${hechos.map(fila).join('')}</div>` : '');
   el.querySelectorAll('[data-p]').forEach(b => b.onclick = async () => {
+    if (DEMO) { alert('Vista de ejemplo: aquí el cliente marca su pendiente como listo.'); return; }
     b.disabled = true;
     const { error } = await sb.rpc('marcar_pendiente', { p_id: b.dataset.p, p_estado: b.dataset.e });
     if (error) { alert('No se pudo actualizar. Intenta de nuevo.'); b.disabled = false; return; }
@@ -119,6 +206,7 @@ function pintarPendientes(lista) {
   });
 }
 
+/* ---------- aprobaciones ---------- */
 function pintarAprobaciones(lista) {
   const el = document.getElementById('t-aprobaciones');
   const porRevisar = lista.filter(x => x.estado === 'pendiente');
@@ -140,10 +228,11 @@ function pintarAprobaciones(lista) {
   el.innerHTML =
     (pend ? `<p class="grupo-t">Por revisar</p><div class="lista">${pend}</div>` : '') +
     (resp ? `<p class="grupo-t">Ya respondidas</p><div class="lista">${resp}</div>` : '');
-  el.querySelectorAll('[data-ver]').forEach(b => b.onclick = () => descargar(b.dataset.ver));
+  el.querySelectorAll('[data-ver]').forEach(b => b.onclick = () => abrirArchivo(b.dataset.ver));
   el.querySelectorAll('[data-r]').forEach(b => b.onclick = async () => {
     const comentario = document.getElementById('c-' + b.dataset.r).value;
     if (b.dataset.e === 'cambios' && !comentario.trim()) { alert('Cuéntanos qué cambios quieres en el cuadro de comentarios.'); return; }
+    if (DEMO) { alert('Vista de ejemplo: aquí el cliente aprueba o pide cambios.'); return; }
     b.disabled = true;
     const { error } = await sb.rpc('responder_pieza', { p_id: b.dataset.r, p_estado: b.dataset.e, p_comentario: comentario });
     if (error) { alert('No se pudo enviar. Intenta de nuevo.'); b.disabled = false; return; }
@@ -151,6 +240,7 @@ function pintarAprobaciones(lista) {
   });
 }
 
+/* ---------- materiales y reportes ---------- */
 function pintarArchivos(lista) {
   const fila = (x, titulo) => `<div class="item"><div class="txt"><h3>${esc(titulo)}</h3>
       ${x.descripcion ? `<p class="meta">${esc(x.descripcion)}</p>` : ''}
@@ -164,10 +254,11 @@ function pintarArchivos(lista) {
   document.getElementById('t-reportes').innerHTML = reps.length
     ? `<div class="lista">${reps.map(x => fila(x, x.mes ? 'Reporte de ' + mes(x.mes) : x.titulo)).join('')}</div>`
     : '<div class="vacio">Tu primer reporte mensual aparecerá aquí.</div>';
-  document.querySelectorAll('[data-d]').forEach(b => b.onclick = () => descargar(b.dataset.d));
+  ['t-materiales', 't-reportes'].forEach(id =>
+    document.getElementById(id).querySelectorAll('[data-d]').forEach(b => b.onclick = () => abrirArchivo(b.dataset.d)));
 }
 
-iniciar();
+cargar();
 </script>
 </body>
 </html>

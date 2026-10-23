@@ -13,6 +13,9 @@ create table if not exists public.clientes (
   creado_en  timestamptz not null default now()
 );
 
+-- Redes del cliente para la pantalla de Inicio: [{"red":"Instagram","usuario":"@...","url":"https://..."}]
+alter table public.clientes add column if not exists redes jsonb not null default '[]'::jsonb;
+
 create table if not exists public.perfiles (
   id          uuid primary key references auth.users on delete cascade,
   cliente_id  uuid references public.clientes on delete set null,
