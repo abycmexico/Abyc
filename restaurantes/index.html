@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AbyC · Marketing para cafeterías, bares y restaurantes</title>
+<meta name="description" content="Más reseñas en Google, redes que se antojan, menú digital y anuncios para tu zona. Diagnóstico gratis.">
+<!-- Página para negocios de comida (prospección): no se indexa. Igual que /brief/: no se indexa, no va en sitemap ni en llms.txt -->
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AbyC · Haz que tu lugar sea el primero que encuentran">
+<meta property="og:description" content="Reseñas, redes, menú digital y anuncios para cafeterías, bares y restaurantes. Diagnóstico gratis.">
+<meta property="og:image" content="https://abycagency.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/imagen-1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  /* Mismo sistema que abycagency.com: blanco, tinta y amarillo panal; Montserrat; una columna que se lee de arriba abajo en celular */
+  :root{
+    --yellow:#FFCC33;
+    --yellow-soft:#FFE38A;
+    --ink:#111111;
+    --gray:#7a7a7a;
+    --line:#ececec;
+    --paper:#ffffff;
+    --font:'Montserrat',Arial,sans-serif;
+    color-scheme:light;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--font);font-weight:500;line-height:1.6;overflow-x:hidden;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--yellow);outline-offset:3px;border-radius:100px;}
+
+  /* Cabecera, igual que el sitio */
+  header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 32px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;letter-spacing:1px;}
+  .logo img{height:28px;width:auto;}
+  .wa-btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;padding:11px 20px;border-radius:100px;font-size:13.5px;font-weight:600;transition:transform .2s ease,background .2s ease;white-space:nowrap;}
+  .wa-btn:hover{background:#000;transform:translateY(-2px);}
+  .wa-btn svg{width:16px;height:16px;fill:var(--yellow);flex:none;}
+  .wa-btn.y{background:var(--yellow);color:var(--ink);}
+  .wa-btn.y svg{fill:var(--ink);}
+  .wa-btn.y:hover{background:#ffd54f;}
+  .ghost{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:100px;font-size:13.5px;font-weight:600;border:1.5px solid var(--line);transition:border-color .2s ease;}
+  .ghost:hover{border-color:var(--ink);}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+  section{padding:84px 0;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);}
+  .eyebrow::before{content:"";width:22px;height:3px;border-radius:3px;background:var(--yellow);}
+  h2{font-size:clamp(28px,4vw,42px);line-height:1.1;letter-spacing:-.02em;font-weight:800;margin:12px 0 14px;text-wrap:balance;}
+  .sub{font-size:17px;color:var(--gray);max-width:58ch;}
+
+  /* Portada */
+  .hero{position:relative;padding:88px 0 76px;overflow:hidden;}
+  .hero h1{font-size:clamp(40px,7vw,78px);line-height:1;letter-spacing:-.04em;font-weight:800;max-width:14ch;text-wrap:balance;}
+  .hero h1 mark{background:linear-gradient(transparent 62%,var(--yellow) 62%);color:inherit;padding:0 .05em;}
+  .hero p.lead{font-size:clamp(17px,2vw,20px);max-width:52ch;margin:24px 0 32px;}
+  .ctas{display:flex;flex-wrap:wrap;gap:12px;}
+  .motto{display:flex;align-items:center;gap:4px;margin-top:34px;font-size:15px;font-weight:700;}
+  .cursor{display:inline-block;width:2px;height:18px;background:var(--yellow);animation:blink .9s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .comb{position:absolute;right:-60px;top:40px;width:520px;max-width:60vw;opacity:.9;pointer-events:none;}
+  .comb path{fill:none;stroke:var(--ink);stroke-width:2;opacity:.12;}
+  .comb path.on{stroke:var(--yellow);opacity:1;stroke-width:3;animation:pulse 3.6s ease-in-out infinite;}
+  .comb path.on:nth-of-type(2n){animation-delay:1.2s;}
+  .comb path.on:nth-of-type(3n){animation-delay:2.4s;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+  /* Franja de datos */
+  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .strip .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));}
+  .strip div.it{padding:22px 18px;border-left:1px solid var(--line);}
+  .strip div.it:first-child{border-left:0;padding-left:0;}
+  .strip b{display:block;font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.15;}
+  .strip span{font-size:13px;color:var(--gray);}
+
+  /* ¿Te suena? */
+  .pains{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px;}
+  .pain{background:#faf9f5;border-radius:16px;padding:24px;font-size:16px;font-weight:600;line-height:1.4;position:relative;}
+  .pain::before{content:"“";display:block;font-size:44px;line-height:.8;font-weight:800;color:var(--yellow);margin-bottom:6px;}
+  .answer{margin-top:22px;font-size:18px;font-weight:700;}
+  .answer span{background:var(--yellow);padding:2px 8px;border-radius:6px;}
+
+  /* Servicios */
+  .svcs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:34px;}
+  .svc{border:1.5px solid var(--line);border-radius:18px;padding:26px 24px;display:flex;flex-direction:column;gap:10px;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;background:#fff;}
+  .svc:hover{transform:translateY(-4px);border-color:var(--ink);box-shadow:0 14px 30px rgba(0,0,0,.06);}
+  .svc .ic{width:46px;height:46px;border-radius:12px;background:var(--yellow);display:grid;place-items:center;}
+  .svc .ic svg{width:24px;height:24px;stroke:var(--ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  .svc h3{font-size:19px;font-weight:700;letter-spacing:-.01em;}
+  .svc p{font-size:14.5px;color:var(--gray);}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px;}
+  .chips span{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:100px;background:#f4f3ee;}
+
+  /* Plan */
+  .plan{background:var(--ink);color:#fff;border-radius:26px;padding:48px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:center;}
+  .plan .eyebrow{color:#bdbdbd;}
+  .plan h2{color:#fff;}
+  .plan .sub{color:#bdbdbd;}
+  .badge{display:inline-block;background:var(--yellow);color:var(--ink);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:100px;}
+  .incl{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+  .incl li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.4;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;}
+  .incl li::before{content:"";flex:none;width:18px;height:18px;margin-top:1px;border-radius:50%;background:var(--yellow) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12 4 4 8-8'/%3E%3C/svg%3E") center/12px no-repeat;}
+  .plan small{display:block;margin-top:16px;font-size:13px;color:#bdbdbd;}
+
+  /* Proceso */
+  .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:34px;counter-reset:s;position:relative;}
+  .step{counter-increment:s;position:relative;padding-top:58px;}
+  .step::before{content:counter(s);position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;font-weight:800;display:grid;place-items:center;font-variant-numeric:tabular-nums;}
+  .step::after{content:"";position:absolute;top:20px;left:54px;right:-6px;height:2px;background:repeating-linear-gradient(90deg,var(--yellow) 0 8px,transparent 8px 14px);}
+  .step:last-child::after{display:none;}
+  .step h3{font-size:17px;font-weight:700;margin-bottom:6px;}
+  .step p{font-size:14.5px;color:var(--gray);}
+  .step .free{display:inline-block;margin-top:8px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--yellow);padding:3px 8px;border-radius:100px;}
+
+  /* Por qué */
+  .why{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:34px;}
+  .why div{border-top:3px solid var(--ink);padding-top:16px;}
+  .why div:nth-child(odd){border-top-color:var(--yellow);}
+  .why h3{font-size:17px;font-weight:700;margin-bottom:6px;}
+  .why p{font-size:14.5px;color:var(--gray);}
+
+  /* Marcas en movimiento */
+  .brands{padding:60px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .brands p{text-align:center;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:26px;}
+  .marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);}
+  .track{display:flex;gap:64px;width:max-content;align-items:center;animation:slide 32s linear infinite;}
+  .track img{height:46px;width:auto;object-fit:contain;filter:grayscale(1);opacity:.75;transition:filter .2s,opacity .2s;}
+  .track img:hover{filter:none;opacity:1;}
+  .txtlogo{font-size:22px;font-weight:800;letter-spacing:-.01em;color:#9a9a9a;white-space:nowrap;}
+  @keyframes slide{to{transform:translateX(-50%);}}
+  .marquee:hover .track{animation-play-state:paused;}
+
+  /* Preguntas */
+  .faq{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px;}
+  .faq div{background:#faf9f5;border-radius:16px;padding:22px;}
+  .faq h3{font-size:15.5px;font-weight:700;margin-bottom:8px;}
+  .faq p{font-size:14.5px;color:var(--gray);}
+
+  /* Cierre */
+  .final{background:var(--yellow);border-radius:26px;padding:56px 48px;text-align:center;position:relative;overflow:hidden;}
+  .final h2{max-width:20ch;margin:0 auto 12px;}
+  .final p{max-width:48ch;margin:0 auto 26px;font-size:17px;}
+  .final .ctas{justify-content:center;}
+  .final .contact{margin-top:22px;font-size:14px;font-weight:600;}
+  .final .ghost{border-color:rgba(0,0,0,.25);}
+  .final .ghost:hover{border-color:var(--ink);}
+
+  .micro{margin-top:12px;font-size:13px;color:var(--gray);font-weight:600;}
+  .promise{margin-top:30px;display:flex;gap:18px;align-items:center;border:2px solid var(--yellow);border-radius:18px;padding:22px 24px;background:#fffbea;}
+  .promise .seal{flex:none;width:54px;height:54px;border-radius:50%;background:var(--yellow);display:grid;place-items:center;}
+  .promise .seal svg{width:28px;height:28px;stroke:var(--ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  .promise h3{font-size:18px;font-weight:800;margin-bottom:4px;}
+  .promise p{font-size:15px;color:#4a4a4a;max-width:70ch;}
+  .brands{border-top:0;}
+  footer{padding:36px 0 46px;}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;font-size:13px;color:var(--gray);}
+
+  @media (max-width:900px){
+    .svcs,.pains,.faq{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+    .why,.steps{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 14px;}
+    .step::after{display:none;}
+    .plan{grid-template-columns:minmax(0,1fr);padding:36px 28px;}
+    .strip .wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+    .strip div.it:nth-child(3){border-left:0;padding-left:0;}
+    .strip div.it:nth-child(n+3){border-top:1px solid var(--line);}
+    .comb{opacity:.35;}
+  }
+  @media (max-width:600px){
+    header{padding:14px 16px;}
+    header .wa-btn span{display:none;}
+    .wrap{padding:0 16px;}
+    section{padding:60px 0;}
+    .hero{padding:56px 0 54px;}
+    .svcs,.pains,.faq,.why,.steps,.incl{grid-template-columns:minmax(0,1fr);}
+    .final{padding:40px 22px;}
+    .comb{right:-160px;top:10px;opacity:.25;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .track,.cursor,.comb path.on{animation:none;}
+    .track{flex-wrap:wrap;width:auto;justify-content:center;}
+    .track .dup{display:none;}
+    .svc,.wa-btn{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="https://abycagency.com"><img src="../assets/imagen-1.png" alt="AbyC"> ABYC</a>
+  <a class="wa-btn" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20tengo%20un%20negocio%20de%20comida%20y%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg><span>Hablemos</span>
+  </a>
+</header>
+
+<main>
+  <!-- Portada: resultado deseado (mesas llenas) + paso pequeño y gratis -->
+  <div class="hero">
+    <svg class="comb" viewBox="0 0 520 460" aria-hidden="true">
+      <path d="M160 40l52 30v60l-52 30-52-30V70z"/>
+      <path class="on" d="M264 40l52 30v60l-52 30-52-30V70z"/>
+      <path d="M368 40l52 30v60l-52 30-52-30V70z"/>
+      <path d="M108 130l52 30v60l-52 30-52-30v-60z"/>
+      <path d="M212 130l52 30v60l-52 30-52-30v-60z"/>
+      <path class="on" d="M316 130l52 30v60l-52 30-52-30v-60z"/>
+      <path d="M420 130l52 30v60l-52 30-52-30v-60z"/>
+      <path class="on" d="M160 220l52 30v60l-52 30-52-30v-60z"/>
+      <path d="M264 220l52 30v60l-52 30-52-30v-60z"/>
+      <path d="M368 220l52 30v60l-52 30-52-30v-60z"/>
+      <path d="M212 310l52 30v60l-52 30-52-30v-60z"/>
+      <path d="M316 310l52 30v60l-52 30-52-30v-60z"/>
+    </svg>
+    <div class="wrap" style="position:relative">
+      <span class="eyebrow">Marketing para cafeterías, bares y restaurantes</span>
+      <h1 style="margin-top:16px">Haz que tu lugar sea <mark>el primero que encuentran</mark>.</h1>
+      <p class="lead">Ayudamos a negocios de comida a llenar más mesas: más reseñas en Google, redes que se antojan, un menú digital fácil y anuncios para tu zona.</p>
+      <div class="ctas">
+        <a class="wa-btn y" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20tengo%20un%20negocio%20de%20comida%20y%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>Quiero mi diagnóstico gratis</a>
+        <a class="ghost" href="#servicios">Ver qué hacemos ↓</a>
+      </div>
+      <p class="micro">Sin costo y sin compromiso · Te atendemos por WhatsApp</p>
+      <p class="motto">Nada se comunica al azar<span class="cursor" aria-hidden="true"></span></p>
+    </div>
+  </div>
+
+  <div class="brands">
+    <p>Marcas que ya confían en nosotros</p>
+    <div class="marquee">
+      <div class="track">
+        <img src="../assets/adidas.png" alt="Adidas">
+        <img src="../assets/bancolombia.png" alt="Bancolombia">
+        <img src="../assets/wohaw.png" alt="WOHAW">
+        <img src="../assets/capsi.png" alt="CAPSI">
+        <img src="../assets/sendengo.png" alt="Sendengo">
+        <span class="txtlogo">Casa Glick</span>
+        <span class="txtlogo">Nancy Martínez</span>
+        <img class="dup" src="../assets/adidas.png" alt="" aria-hidden="true">
+        <img class="dup" src="../assets/bancolombia.png" alt="" aria-hidden="true">
+        <img class="dup" src="../assets/wohaw.png" alt="" aria-hidden="true">
+        <img class="dup" src="../assets/capsi.png" alt="" aria-hidden="true">
+        <img class="dup" src="../assets/sendengo.png" alt="" aria-hidden="true">
+        <span class="txtlogo dup" aria-hidden="true">Casa Glick</span>
+        <span class="txtlogo dup" aria-hidden="true">Nancy Martínez</span>
+      </div>
+    </div>
+  </div>
+  <div class="strip">
+    <div class="wrap">
+      <div class="it"><b>7 años</b><span>haciendo crecer marcas</span></div>
+      <div class="it"><b>3 países</b><span>México, Colombia y El Salvador</span></div>
+      <div class="it"><b>De pymes a gobierno</b><span>proyectos de todos los tamaños</span></div>
+      <div class="it"><b>Cada 15 días</b><span>sabes exactamente cómo vamos</span></div>
+    </div>
+  </div>
+
+  <!-- Identificación -->
+  <section>
+    <div class="wrap">
+      <span class="eyebrow">Sabemos cómo es tu día</span>
+      <h2>Tu comida ya es buena. Ahora hagamos que se vea.</h2>
+      <div class="pains">
+        <div class="pain">Tienes clientes fieles, pero te gustaría que más gente nueva te descubriera.</div>
+        <div class="pain">Cuando alguien te busca en Google, tus reseñas y fotos no le hacen justicia a tu lugar.</div>
+        <div class="pain">Subir contenido se queda pendiente entre la cocina, la caja y los proveedores.</div>
+      </div>
+      <p class="answer">Tú atiende a tus clientes: <span>nosotros nos encargamos de que lleguen más.</span></p>
+    </div>
+  </section>
+
+  <!-- Servicios para negocios de comida -->
+  <section id="servicios" style="padding-top:0">
+    <div class="wrap">
+      <span class="eyebrow">Lo que hacemos por tu negocio</span>
+      <h2>Todo lo que necesitas para que te encuentren y te elijan.</h2>
+      <div class="svcs">
+        <div class="svc">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+          <h3>Google Maps y reseñas</h3>
+          <p>Dejamos tu perfil de Google impecable y te damos un sistema sencillo para que tus clientes te dejen más reseñas.</p>
+          <div class="chips"><span>Perfil de Google</span><span>QR en mesa</span><span>Respuesta a reseñas</span></div>
+        </div>
+        <div class="svc">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></div>
+          <h3>Menú digital interactivo</h3>
+          <p>Un menú con fotos que se abre con un QR, se actualiza en minutos y lleva a tus clientes directo a pedir o reservar.</p>
+          <div class="chips"><span>QR</span><span>Fotos</span><span>Pedidos por WhatsApp</span></div>
+        </div>
+        <div class="svc">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></div>
+          <h3>Redes que se antojan</h3>
+          <p>Planeamos y publicamos tu contenido para que tu lugar se vea tan bien como sabe.</p>
+          <div class="chips"><span>Instagram</span><span>Facebook</span><span>TikTok</span></div>
+        </div>
+        <div class="svc">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="13" height="14" rx="2"/><path d="m16 10 5-3v10l-5-3"/></svg></div>
+          <h3>Videos y edición rápida</h3>
+          <p>Te damos ideas y guiones; tú grabas con tu celular y nosotros lo convertimos en videos que dan hambre.</p>
+          <div class="chips"><span>Reels</span><span>Guiones</span><span>Edición</span></div>
+        </div>
+        <div class="svc">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h5M7 16h8"/></svg></div>
+          <h3>Página web sencilla</h3>
+          <p>Tu menú, horarios, ubicación y reservas en una página rápida que se ve bien en el celular.</p>
+          <div class="chips"><span>Ubicación</span><span>Horarios</span><span>Reservas</span></div>
+        </div>
+        <div class="svc">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 11l15-7v16L3 13z"/><path d="M7 13v5a2 2 0 0 0 4 0v-3"/></svg></div>
+          <h3>Anuncios en tu zona</h3>
+          <p>Campañas sencillas para que la gente cerca de ti descubra tu lugar y tus promociones.</p>
+          <div class="chips"><span>Meta</span><span>Google</span><span>Promociones</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plan: contraste (un equipo completo) + simplicidad -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="plan">
+        <div>
+          <span class="badge">Hecho para negocios de comida</span>
+          <h2 style="margin-top:16px">Plan Mesa Llena</h2>
+          <p class="sub">Todo lo que tu lugar necesita para atraer clientes, en una sola mensualidad. Sin contratar fotógrafo, diseñador, community manager y programador por separado.</p>
+          <div class="ctas" style="margin-top:24px"><a class="wa-btn y" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20me%20interesa%20el%20plan%20Mesa%20Llena" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>Quiero mi propuesta</a></div>
+        </div>
+        <div>
+          <ul class="incl">
+            <li>Perfil de Google optimizado</li>
+            <li>Sistema para conseguir más reseñas</li>
+            <li>Menú digital con QR</li>
+            <li>Página web sencilla</li>
+            <li>Contenido para tus redes cada mes</li>
+            <li>Edición de tus videos</li>
+            <li>Anuncios para tu zona</li>
+            <li>Reporte claro cada mes</li>
+          </ul>
+          <small>Armamos el plan a la medida de tu negocio. La inversión en anuncios la pagas directo a la plataforma y siempre la ves por separado.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proceso -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <span class="eyebrow">Así empezamos</span>
+      <h2>En cuatro pasos tu lugar está en marcha.</h2>
+      <div class="steps">
+        <div class="step"><h3>Platicamos</h3><p>Conocemos tu negocio, tu zona y a tus clientes.</p><span class="free">Gratis</span></div>
+        <div class="step"><h3>Revisamos tu presencia</h3><p>Google, reseñas, redes y menú: qué ayuda y qué se puede mejorar.</p></div>
+        <div class="step"><h3>Te presentamos el plan</h3><p>Qué hacer primero para que lleguen más clientes, con números claros.</p></div>
+        <div class="step"><h3>Arrancamos</h3><p>Ponemos todo en marcha y revisamos contigo los resultados.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compromiso -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="promise">
+        <div class="seal" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><h3>Nuestro compromiso contigo</h3><p>Hablas directo con tu estratega, sabes en qué se invierte cada peso y, si algo no da resultado, lo ajustamos sin costo extra.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Objeciones -->
+  <section style="padding-top:20px">
+    <div class="wrap">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <h2>Lo que nos preguntan los dueños de negocio.</h2>
+      <div class="faq">
+        <div><h3>¿Cuánto tiempo me va a quitar?</h3><p>Muy poco. Te damos ideas e indicaciones claras para grabar con tu celular, y nosotros hacemos el resto.</p></div>
+        <div><h3>¿Sirve si mi negocio es pequeño?</h3><p>Sí. Justo los negocios de barrio son los que más crecen cuando la gente de la zona los encuentra en Google.</p></div>
+        <div><h3>¿Cuándo veo resultados?</h3><p>Las reseñas y el perfil de Google mejoran desde las primeras semanas; los clientes nuevos suelen notarse entre el primer y el tercer mes.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cierre -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="final">
+        <h2>Tu próxima mesa llena empieza con una plática.</h2>
+        <p>Agenda tu diagnóstico gratis y te decimos qué haríamos primero para que más gente encuentre tu lugar.</p>
+        <div class="ctas">
+          <a class="wa-btn" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20tengo%20un%20negocio%20de%20comida%20y%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>Agenda tu diagnóstico gratis</a>
+          <a class="ghost" href="https://abycagency.com">Conoce más de AbyC</a>
+        </div>
+        <p class="contact">WhatsApp +52 56 1505 6334 · abycmexico@gmail.com</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="https://abycagency.com"><img src="../assets/imagen-1.png" alt="AbyC"> ABYC</a>
+    <span>© 2026 AbyC · Nada se comunica al azar.</span>
+  </div>
+</footer>
+</body>
+</html>
