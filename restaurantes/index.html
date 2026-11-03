@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AbyC · Marketing para cafeterías, bares y restaurantes</title>
-<meta name="description" content="Más reseñas en Google, redes que se antojan, menú digital y anuncios para tu zona. Diagnóstico gratis.">
-<!-- Página para negocios de comida (prospección): no se indexa. Igual que /brief/: no se indexa, no va en sitemap ni en llms.txt -->
+<title>AbyC · Más mesas llenas para tu restaurante</title>
+<meta name="description" content="Menú digital, tarjeta de lealtad, reseñas en Google, redes y anuncios para cafeterías, bares y restaurantes. Diagnóstico gratis.">
+<!-- Página para negocios de comida (prospección): no se indexa, no va en sitemap ni en llms.txt -->
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta property="og:type" content="website">
-<meta property="og:title" content="AbyC · Haz que tu lugar sea el primero que encuentran">
-<meta property="og:description" content="Reseñas, redes, menú digital y anuncios para cafeterías, bares y restaurantes. Diagnóstico gratis.">
+<meta property="og:title" content="AbyC · Más mesas llenas. Clientes que regresan.">
+<meta property="og:description" content="Menú digital, tarjeta de lealtad y reseñas en Google para cafeterías, bares y restaurantes. Diagnóstico gratis.">
 <meta property="og:image" content="https://abycagency.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../assets/imagen-1.png">
@@ -17,369 +17,298 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
 <style>
-  /* Mismo sistema que abycagency.com: blanco, tinta y amarillo panal; Montserrat; una columna que se lee de arriba abajo en celular */
+  /* Sistema AbyC (blanco, tinta, amarillo panal, Montserrat). Bloques cortos y ejemplos dentro de un celular, pensado para leerse en el teléfono */
   :root{
-    --yellow:#FFCC33;
-    --yellow-soft:#FFE38A;
-    --ink:#111111;
-    --gray:#7a7a7a;
-    --line:#ececec;
-    --paper:#ffffff;
-    --font:'Montserrat',Arial,sans-serif;
-    color-scheme:light;
+    --yellow:#FFCC33; --yellow-soft:#FFE38A; --ink:#111111; --gray:#6f6f6f; --line:#ececec;
+    --paper:#ffffff; --cream:#faf8f2; --green:#1e8e3e;
+    --font:'Montserrat',Arial,sans-serif; color-scheme:light;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
-  body{background:var(--paper);color:var(--ink);font-family:var(--font);font-weight:500;line-height:1.6;overflow-x:hidden;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--font);font-weight:500;line-height:1.55;overflow-x:hidden;}
   a{color:inherit;text-decoration:none;}
   img{max-width:100%;display:block;}
-  a:focus-visible,button:focus-visible{outline:3px solid var(--yellow);outline-offset:3px;border-radius:100px;}
+  button{font-family:inherit;cursor:pointer;}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--yellow);outline-offset:3px;border-radius:12px;}
 
-  /* Cabecera, igual que el sitio */
-  header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 32px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 32px;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
   .logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;letter-spacing:1px;}
   .logo img{height:28px;width:auto;}
-  .wa-btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;padding:11px 20px;border-radius:100px;font-size:13.5px;font-weight:600;transition:transform .2s ease,background .2s ease;white-space:nowrap;}
-  .wa-btn:hover{background:#000;transform:translateY(-2px);}
-  .wa-btn svg{width:16px;height:16px;fill:var(--yellow);flex:none;}
-  .wa-btn.y{background:var(--yellow);color:var(--ink);}
-  .wa-btn.y svg{fill:var(--ink);}
-  .wa-btn.y:hover{background:#ffd54f;}
-  .ghost{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:100px;font-size:13.5px;font-weight:600;border:1.5px solid var(--line);transition:border-color .2s ease;}
-  .ghost:hover{border-color:var(--ink);}
-
-  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
-  section{padding:84px 0;}
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);}
-  .eyebrow::before{content:"";width:22px;height:3px;border-radius:3px;background:var(--yellow);}
-  h2{font-size:clamp(28px,4vw,42px);line-height:1.1;letter-spacing:-.02em;font-weight:800;margin:12px 0 14px;text-wrap:balance;}
-  .sub{font-size:17px;color:var(--gray);max-width:58ch;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:100px;font-size:14.5px;font-weight:700;transition:transform .2s ease,background .2s ease;white-space:nowrap;border:0;}
+  .btn svg{width:17px;height:17px;flex:none;}
+  .btn.ink{background:var(--ink);color:#fff;} .btn.ink svg{fill:var(--yellow);}
+  .btn.y{background:var(--yellow);color:var(--ink);} .btn.y svg{fill:var(--ink);}
+  .btn:hover{transform:translateY(-2px);}
+  .btn.sm{padding:10px 18px;font-size:13px;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 32px;}
+  section{padding:80px 0;}
+  .kick{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;background:var(--yellow);padding:5px 11px;border-radius:100px;}
+  h2{font-size:clamp(28px,4.2vw,44px);line-height:1.08;letter-spacing:-.025em;font-weight:800;margin:14px 0 12px;text-wrap:balance;}
+  .sub{font-size:17px;color:var(--gray);max-width:52ch;}
 
   /* Portada */
-  .hero{position:relative;padding:88px 0 76px;overflow:hidden;}
-  .hero h1{font-size:clamp(40px,7vw,78px);line-height:1;letter-spacing:-.04em;font-weight:800;max-width:14ch;text-wrap:balance;}
-  .hero h1 mark{background:linear-gradient(transparent 62%,var(--yellow) 62%);color:inherit;padding:0 .05em;}
-  .hero p.lead{font-size:clamp(17px,2vw,20px);max-width:52ch;margin:24px 0 32px;}
-  .ctas{display:flex;flex-wrap:wrap;gap:12px;}
-  .motto{display:flex;align-items:center;gap:4px;margin-top:34px;font-size:15px;font-weight:700;}
-  .cursor{display:inline-block;width:2px;height:18px;background:var(--yellow);animation:blink .9s step-end infinite;}
-  @keyframes blink{50%{opacity:0;}}
-  .comb{position:absolute;right:-60px;top:40px;width:520px;max-width:60vw;opacity:.9;pointer-events:none;}
-  .comb path{fill:none;stroke:var(--ink);stroke-width:2;opacity:.12;}
-  .comb path.on{stroke:var(--yellow);opacity:1;stroke-width:3;animation:pulse 3.6s ease-in-out infinite;}
-  .comb path.on:nth-of-type(2n){animation-delay:1.2s;}
-  .comb path.on:nth-of-type(3n){animation-delay:2.4s;}
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+  .hero{padding:64px 0 70px;background:var(--cream);overflow:hidden;}
+  .hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:40px;align-items:center;}
+  .hero h1{font-size:clamp(42px,6.6vw,76px);line-height:.98;letter-spacing:-.04em;font-weight:800;text-wrap:balance;}
+  .hero h1 span{display:block;}
+  .hero h1 mark{background:linear-gradient(transparent 60%,var(--yellow) 60%);color:inherit;}
+  .hero p{font-size:clamp(17px,2vw,19px);margin:22px 0 28px;max-width:44ch;}
+  .ctas{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+  .hero p.micro,.micro{margin:12px 0 0;font-size:13px;color:var(--gray);font-weight:600;}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;}
+  .badges span{font-size:13px;font-weight:700;background:#fff;border:1.5px solid var(--line);padding:7px 12px;border-radius:100px;}
 
-  /* Franja de datos */
-  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-  .strip .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));}
-  .strip div.it{padding:22px 18px;border-left:1px solid var(--line);}
-  .strip div.it:first-child{border-left:0;padding-left:0;}
-  .strip b{display:block;font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.15;}
-  .strip span{font-size:13px;color:var(--gray);}
+  /* Celular */
+  .phone{width:290px;max-width:100%;margin:0 auto;background:#111;border-radius:40px;padding:12px;box-shadow:0 30px 60px rgba(0,0,0,.18);position:relative;}
+  .phone::before{content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);width:90px;height:22px;background:#111;border-radius:0 0 14px 14px;z-index:2;}
+  .screen{background:#fff;border-radius:30px;overflow:hidden;height:560px;display:flex;flex-direction:column;}
+  .tilt{transform:rotate(3deg);}
 
-  /* ¿Te suena? */
-  .pains{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px;}
-  .pain{background:#faf9f5;border-radius:16px;padding:24px;font-size:16px;font-weight:600;line-height:1.4;position:relative;}
-  .pain::before{content:"“";display:block;font-size:44px;line-height:.8;font-weight:800;color:var(--yellow);margin-bottom:6px;}
-  .answer{margin-top:22px;font-size:18px;font-weight:700;}
-  .answer span{background:var(--yellow);padding:2px 8px;border-radius:6px;}
+  /* Menú demo */
+  .m-top{background:var(--ink);color:#fff;padding:36px 18px 16px;}
+  .m-top b{font-size:19px;font-weight:800;display:block;}
+  .m-top small{font-size:11px;color:#cfcfcf;}
+  .m-tabs{display:flex;gap:6px;padding:12px 14px;overflow-x:auto;border-bottom:1px solid var(--line);}
+  .m-tabs button{flex:none;border:1.5px solid var(--line);background:#fff;padding:6px 12px;border-radius:100px;font-size:12px;font-weight:700;}
+  .m-tabs button[aria-pressed="true"]{background:var(--yellow);border-color:var(--yellow);}
+  .m-list{flex:1;overflow:auto;padding:6px 14px;}
+  .dish{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);}
+  .dish i{flex:none;width:52px;height:52px;border-radius:12px;display:grid;place-items:center;font-style:normal;font-size:26px;background:var(--cream);}
+  .dish div{flex:1;min-width:0;}
+  .dish b{display:block;font-size:13.5px;}
+  .dish small{display:block;font-size:11.5px;color:var(--gray);line-height:1.3;}
+  .dish em{font-style:normal;font-weight:800;font-size:13.5px;}
+  .m-cta{margin:10px 14px 16px;background:#25D366;color:#fff;border-radius:14px;padding:12px;text-align:center;font-weight:800;font-size:13px;}
 
-  /* Servicios */
-  .svcs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:34px;}
-  .svc{border:1.5px solid var(--line);border-radius:18px;padding:26px 24px;display:flex;flex-direction:column;gap:10px;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;background:#fff;}
-  .svc:hover{transform:translateY(-4px);border-color:var(--ink);box-shadow:0 14px 30px rgba(0,0,0,.06);}
-  .svc .ic{width:46px;height:46px;border-radius:12px;background:var(--yellow);display:grid;place-items:center;}
-  .svc .ic svg{width:24px;height:24px;stroke:var(--ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-  .svc h3{font-size:19px;font-weight:700;letter-spacing:-.01em;}
-  .svc p{font-size:14.5px;color:var(--gray);}
-  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px;}
-  .chips span{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:100px;background:#f4f3ee;}
+  /* Bloques de valor */
+  .three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px;}
+  .three div{border-radius:20px;padding:26px 24px;background:var(--cream);}
+  .three div:nth-child(2){background:var(--yellow);}
+  .three div:nth-child(3){background:var(--ink);color:#fff;}
+  .three div:nth-child(3) p{color:#cfcfcf;}
+  .three b.n{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.7;}
+  .three h3{font-size:24px;font-weight:800;letter-spacing:-.02em;margin:8px 0 8px;}
+  .three p{font-size:15px;color:#4d4d4d;}
 
-  /* Plan */
-  .plan{background:var(--ink);color:#fff;border-radius:26px;padding:48px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:center;}
-  .plan .eyebrow{color:#bdbdbd;}
-  .plan h2{color:#fff;}
-  .plan .sub{color:#bdbdbd;}
-  .badge{display:inline-block;background:var(--yellow);color:var(--ink);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:100px;}
-  .incl{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
-  .incl li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.4;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;}
-  .incl li::before{content:"";flex:none;width:18px;height:18px;margin-top:1px;border-radius:50%;background:var(--yellow) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12 4 4 8-8'/%3E%3C/svg%3E") center/12px no-repeat;}
-  .plan small{display:block;margin-top:16px;font-size:13px;color:#bdbdbd;}
+  /* Demos */
+  .demo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:50px;align-items:center;}
+  .demo.rev .copy{order:2;}
+  .demo ul{list-style:none;margin-top:18px;display:grid;gap:10px;}
+  .demo li{display:flex;gap:10px;font-size:15.5px;font-weight:600;align-items:flex-start;}
+  .demo li::before{content:"";flex:none;width:22px;height:22px;border-radius:50%;margin-top:1px;background:var(--yellow) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12 4 4 8-8'/%3E%3C/svg%3E") center/13px no-repeat;}
+  .tag-ex{display:inline-block;margin-top:14px;font-size:12px;color:var(--gray);font-weight:600;}
 
-  /* Proceso */
-  .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:34px;counter-reset:s;position:relative;}
-  .step{counter-increment:s;position:relative;padding-top:58px;}
-  .step::before{content:counter(s);position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;font-weight:800;display:grid;place-items:center;font-variant-numeric:tabular-nums;}
-  .step::after{content:"";position:absolute;top:20px;left:54px;right:-6px;height:2px;background:repeating-linear-gradient(90deg,var(--yellow) 0 8px,transparent 8px 14px);}
-  .step:last-child::after{display:none;}
-  .step h3{font-size:17px;font-weight:700;margin-bottom:6px;}
-  .step p{font-size:14.5px;color:var(--gray);}
-  .step .free{display:inline-block;margin-top:8px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--yellow);padding:3px 8px;border-radius:100px;}
+  /* Tarjeta de lealtad */
+  .loyal{width:330px;max-width:100%;margin:0 auto;border-radius:24px;padding:24px;background:var(--ink);color:#fff;box-shadow:0 30px 60px rgba(0,0,0,.18);position:relative;overflow:hidden;}
+  .loyal::after{content:"";position:absolute;right:-50px;top:-50px;width:170px;height:170px;border-radius:50%;background:var(--yellow);opacity:.18;}
+  .loyal .lt{display:flex;justify-content:space-between;align-items:center;}
+  .loyal .lt b{font-size:18px;font-weight:800;}
+  .loyal .lt small{font-size:11px;color:#bdbdbd;}
+  .loyal p.who{font-size:12.5px;color:#cfcfcf;margin:14px 0 16px;}
+  .stamps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  .stamp{aspect-ratio:1;border-radius:50%;border:2px dashed #555;display:grid;place-items:center;font-size:24px;transition:transform .25s ease,background .25s ease,border-color .25s ease;}
+  .stamp.on{background:var(--yellow);border:2px solid var(--yellow);transform:scale(1.05);}
+  .stamp.gift{border-color:var(--yellow);}
+  .loyal .prog{margin-top:16px;font-size:13px;font-weight:700;}
+  .loyal .prog span{color:var(--yellow);}
+  .loyal .acts{display:flex;gap:8px;margin-top:16px;}
+  .loyal .acts button{flex:1;border-radius:12px;padding:11px;font-weight:800;font-size:13px;border:0;}
+  .add{background:var(--yellow);color:var(--ink);}
+  .reset{background:#2a2a2a;color:#fff;flex:0 0 auto !important;padding:11px 14px !important;}
+  .won{margin-top:12px;background:#fff;color:var(--ink);border-radius:12px;padding:10px 12px;font-size:13px;font-weight:700;display:none;}
+  .won.show{display:block;animation:pop .35s ease;}
+  @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
 
-  /* Por qué */
-  .why{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:34px;}
-  .why div{border-top:3px solid var(--ink);padding-top:16px;}
-  .why div:nth-child(odd){border-top-color:var(--yellow);}
-  .why h3{font-size:17px;font-weight:700;margin-bottom:6px;}
-  .why p{font-size:14.5px;color:var(--gray);}
+  /* Google */
+  .gcard{width:340px;max-width:100%;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 30px 60px rgba(0,0,0,.1);overflow:hidden;}
+  .gcard .gh{padding:16px 18px;border-bottom:1px solid var(--line);}
+  .gcard .gh b{font-size:17px;}
+  .gcard .gh small{display:block;font-size:12px;color:var(--gray);}
+  .compare{display:grid;grid-template-columns:1fr 1fr;}
+  .compare div{padding:16px 18px;text-align:center;}
+  .compare div + div{border-left:1px solid var(--line);background:#fffbea;}
+  .compare small{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);}
+  .compare b{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em;margin-top:4px;}
+  .compare .st{color:#f5a623;font-size:14px;letter-spacing:1px;}
+  .compare span{font-size:12px;color:var(--gray);}
+  .greview{padding:14px 18px;border-top:1px solid var(--line);font-size:13px;}
+  .greview b{font-size:13px;}
+  .greview .st{color:#f5a623;}
+  .qr{display:flex;gap:12px;align-items:center;padding:14px 18px;background:var(--cream);font-size:12.5px;font-weight:600;}
+  .qr svg{flex:none;width:44px;height:44px;}
 
-  /* Marcas en movimiento */
-  .brands{padding:60px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-  .brands p{text-align:center;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:26px;}
-  .marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);}
-  .track{display:flex;gap:64px;width:max-content;align-items:center;animation:slide 32s linear infinite;}
-  .track img{height:46px;width:auto;object-fit:contain;filter:grayscale(1);opacity:.75;transition:filter .2s,opacity .2s;}
-  .track img:hover{filter:none;opacity:1;}
-  .txtlogo{font-size:22px;font-weight:800;letter-spacing:-.01em;color:#9a9a9a;white-space:nowrap;}
-  @keyframes slide{to{transform:translateX(-50%);}}
-  .marquee:hover .track{animation-play-state:paused;}
+  /* Qué incluye */
+  .inc{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:28px;}
+  .inc div{border:1.5px solid var(--line);border-radius:16px;padding:18px;}
+  .inc .e{font-size:26px;}
+  .inc b{display:block;font-size:15px;margin-top:8px;}
+  .inc span{font-size:13.5px;color:var(--gray);}
 
-  /* Preguntas */
-  .faq{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px;}
-  .faq div{background:#faf9f5;border-radius:16px;padding:22px;}
-  .faq h3{font-size:15.5px;font-weight:700;margin-bottom:8px;}
-  .faq p{font-size:14.5px;color:var(--gray);}
+  .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:28px;counter-reset:s;}
+  .steps div{counter-increment:s;position:relative;padding:22px 22px 22px 70px;border-radius:18px;background:var(--cream);}
+  .steps div::before{content:counter(s);position:absolute;left:20px;top:22px;width:36px;height:36px;border-radius:50%;background:var(--ink);color:#fff;font-weight:800;display:grid;place-items:center;}
+  .steps b{display:block;font-size:16px;}
+  .steps span{font-size:14px;color:var(--gray);}
 
-  /* Cierre */
-  .final{background:var(--yellow);border-radius:26px;padding:56px 48px;text-align:center;position:relative;overflow:hidden;}
-  .final h2{max-width:20ch;margin:0 auto 12px;}
-  .final p{max-width:48ch;margin:0 auto 26px;font-size:17px;}
+  .final{background:var(--yellow);border-radius:28px;padding:56px 40px;text-align:center;}
+  .final h2{max-width:18ch;margin:0 auto 10px;}
+  .final p{max-width:46ch;margin:0 auto 24px;font-size:17px;}
   .final .ctas{justify-content:center;}
-  .final .contact{margin-top:22px;font-size:14px;font-weight:600;}
-  .final .ghost{border-color:rgba(0,0,0,.25);}
-  .final .ghost:hover{border-color:var(--ink);}
+  .final small{display:block;margin-top:18px;font-size:13.5px;font-weight:700;}
+  .promise{margin-top:14px;font-size:14px;font-weight:600;}
 
-  .micro{margin-top:12px;font-size:13px;color:var(--gray);font-weight:600;}
-  .promise{margin-top:30px;display:flex;gap:18px;align-items:center;border:2px solid var(--yellow);border-radius:18px;padding:22px 24px;background:#fffbea;}
-  .promise .seal{flex:none;width:54px;height:54px;border-radius:50%;background:var(--yellow);display:grid;place-items:center;}
-  .promise .seal svg{width:28px;height:28px;stroke:var(--ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-  .promise h3{font-size:18px;font-weight:800;margin-bottom:4px;}
-  .promise p{font-size:15px;color:#4a4a4a;max-width:70ch;}
-  .brands{border-top:0;}
-  footer{padding:36px 0 46px;}
+  footer{padding:34px 0 44px;}
   footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;font-size:13px;color:var(--gray);}
 
   @media (max-width:900px){
-    .svcs,.pains,.faq{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
-    .why,.steps{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 14px;}
-    .step::after{display:none;}
-    .plan{grid-template-columns:minmax(0,1fr);padding:36px 28px;}
-    .strip .wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
-    .strip div.it:nth-child(3){border-left:0;padding-left:0;}
-    .strip div.it:nth-child(n+3){border-top:1px solid var(--line);}
-    .comb{opacity:.35;}
+    .hero .wrap,.demo{grid-template-columns:minmax(0,1fr);}
+    .demo.rev .copy{order:0;}
+    .three,.steps{grid-template-columns:minmax(0,1fr);}
+    .inc{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .tilt{transform:none;}
   }
   @media (max-width:600px){
-    header{padding:14px 16px;}
-    header .wa-btn span{display:none;}
+    header{padding:12px 16px;}
+    header .btn span{display:none;}
     .wrap{padding:0 16px;}
-    section{padding:60px 0;}
-    .hero{padding:56px 0 54px;}
-    .svcs,.pains,.faq,.why,.steps,.incl{grid-template-columns:minmax(0,1fr);}
-    .final{padding:40px 22px;}
-    .comb{right:-160px;top:10px;opacity:.25;}
+    section{padding:56px 0;}
+    .hero{padding:40px 0 50px;}
+    .final{padding:40px 20px;}
   }
-  @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto;}
-    .track,.cursor,.comb path.on{animation:none;}
-    .track{flex-wrap:wrap;width:auto;justify-content:center;}
-    .track .dup{display:none;}
-    .svc,.wa-btn{transition:none;}
-  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.btn,.stamp{transition:none;}.won.show{animation:none;}}
 </style>
 </head>
 <body>
 
 <header>
   <a class="logo" href="https://abycagency.com"><img src="../assets/imagen-1.png" alt="AbyC"> ABYC</a>
-  <a class="wa-btn" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20tengo%20un%20negocio%20de%20comida%20y%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg><span>Hablemos</span>
-  </a>
+  <a class="btn ink sm" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20tengo%20un%20negocio%20de%20comida%20y%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg><span>Hablemos</span></a>
 </header>
 
 <main>
-  <!-- Portada: resultado deseado (mesas llenas) + paso pequeño y gratis -->
+  <!-- Portada -->
   <div class="hero">
-    <svg class="comb" viewBox="0 0 520 460" aria-hidden="true">
-      <path d="M160 40l52 30v60l-52 30-52-30V70z"/>
-      <path class="on" d="M264 40l52 30v60l-52 30-52-30V70z"/>
-      <path d="M368 40l52 30v60l-52 30-52-30V70z"/>
-      <path d="M108 130l52 30v60l-52 30-52-30v-60z"/>
-      <path d="M212 130l52 30v60l-52 30-52-30v-60z"/>
-      <path class="on" d="M316 130l52 30v60l-52 30-52-30v-60z"/>
-      <path d="M420 130l52 30v60l-52 30-52-30v-60z"/>
-      <path class="on" d="M160 220l52 30v60l-52 30-52-30v-60z"/>
-      <path d="M264 220l52 30v60l-52 30-52-30v-60z"/>
-      <path d="M368 220l52 30v60l-52 30-52-30v-60z"/>
-      <path d="M212 310l52 30v60l-52 30-52-30v-60z"/>
-      <path d="M316 310l52 30v60l-52 30-52-30v-60z"/>
-    </svg>
-    <div class="wrap" style="position:relative">
-      <span class="eyebrow">Marketing para cafeterías, bares y restaurantes</span>
-      <h1 style="margin-top:16px">Haz que tu lugar sea <mark>el primero que encuentran</mark>.</h1>
-      <p class="lead">Ayudamos a negocios de comida a llenar más mesas y a que sus clientes regresen: reseñas en Google, redes que se antojan, menú digital, tarjeta de lealtad y anuncios para tu zona.</p>
-      <div class="ctas">
-        <a class="wa-btn y" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20tengo%20un%20negocio%20de%20comida%20y%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>Quiero mi diagnóstico gratis</a>
-        <a class="ghost" href="#servicios">Ver qué hacemos ↓</a>
-      </div>
-      <p class="micro">Sin costo y sin compromiso · Te atendemos por WhatsApp</p>
-      <p class="motto">Nada se comunica al azar<span class="cursor" aria-hidden="true"></span></p>
-    </div>
-  </div>
-
-  <div class="brands">
-    <p>Marcas que ya confían en nosotros</p>
-    <div class="marquee">
-      <div class="track">
-        <img src="../assets/adidas.png" alt="Adidas">
-        <img src="../assets/bancolombia.png" alt="Bancolombia">
-        <img src="../assets/wohaw.png" alt="WOHAW">
-        <img src="../assets/capsi.png" alt="CAPSI">
-        <img src="../assets/sendengo.png" alt="Sendengo">
-        <span class="txtlogo">Casa Glick</span>
-        <span class="txtlogo">Nancy Martínez</span>
-        <img class="dup" src="../assets/adidas.png" alt="" aria-hidden="true">
-        <img class="dup" src="../assets/bancolombia.png" alt="" aria-hidden="true">
-        <img class="dup" src="../assets/wohaw.png" alt="" aria-hidden="true">
-        <img class="dup" src="../assets/capsi.png" alt="" aria-hidden="true">
-        <img class="dup" src="../assets/sendengo.png" alt="" aria-hidden="true">
-        <span class="txtlogo dup" aria-hidden="true">Casa Glick</span>
-        <span class="txtlogo dup" aria-hidden="true">Nancy Martínez</span>
-      </div>
-    </div>
-  </div>
-  <div class="strip">
     <div class="wrap">
-      <div class="it"><b>7 años</b><span>haciendo crecer marcas</span></div>
-      <div class="it"><b>3 países</b><span>México, Colombia y El Salvador</span></div>
-      <div class="it"><b>De pymes a gobierno</b><span>proyectos de todos los tamaños</span></div>
-      <div class="it"><b>Cada 15 días</b><span>sabes exactamente cómo vamos</span></div>
+      <div>
+        <span class="kick">Para cafeterías, bares y restaurantes</span>
+        <h1 style="margin-top:18px"><span>Más mesas llenas.</span><span><mark>Clientes que regresan.</mark></span></h1>
+        <p>Te ayudamos a que te encuentren en Google, se les antoje tu comida y vuelvan una y otra vez. Tú cocina; del resto nos encargamos nosotros.</p>
+        <div class="ctas">
+          <a class="btn y" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20tengo%20un%20negocio%20de%20comida%20y%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>Quiero mi diagnóstico gratis</a>
+          <a class="btn" style="border:1.5px solid var(--line);background:#fff" href="#ejemplos">Ver ejemplos ↓</a>
+        </div>
+        <p class="micro">Sin costo y sin compromiso · Te atendemos por WhatsApp</p>
+        <div class="badges"><span>⭐ Reseñas en Google</span><span>📱 Menú digital</span><span>🎟️ Tarjeta de lealtad</span><span>🎬 Videos</span></div>
+      </div>
+      <div class="phone tilt" aria-label="Ejemplo de menú digital">
+        <div class="screen" id="menuDemo">
+          <div class="m-top"><b>Café La Abeja</b><small>Abierto · Cierra a las 9 p.m. · ⭐ 4.9</small></div>
+          <div class="m-tabs" role="group" aria-label="Categorías del menú">
+            <button type="button" aria-pressed="true" data-cat="cafe">Café</button>
+            <button type="button" aria-pressed="false" data-cat="desayunos">Desayunos</button>
+            <button type="button" aria-pressed="false" data-cat="postres">Postres</button>
+          </div>
+          <div class="m-list" id="menuList"></div>
+          <div class="m-cta">Pedir por WhatsApp</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Identificación -->
+  <!-- Las 3 cosas -->
   <section>
     <div class="wrap">
-      <span class="eyebrow">Sabemos cómo es tu día</span>
-      <h2>Tu comida ya es buena. Ahora hagamos que se vea.</h2>
-      <div class="pains">
-        <div class="pain">Tienes clientes fieles, pero te gustaría que más gente nueva te descubriera.</div>
-        <div class="pain">Cuando alguien te busca en Google, tus reseñas y fotos no le hacen justicia a tu lugar.</div>
-        <div class="pain">Subir contenido se queda pendiente entre la cocina, la caja y los proveedores.</div>
-      </div>
-      <p class="answer">Tú atiende a tus clientes: <span>nosotros nos encargamos de que lleguen más.</span></p>
-    </div>
-  </section>
-
-  <!-- Servicios para negocios de comida -->
-  <section id="servicios" style="padding-top:0">
-    <div class="wrap">
-      <span class="eyebrow">Lo que hacemos por tu negocio</span>
-      <h2>Todo lo que necesitas para que te encuentren y te elijan.</h2>
-      <div class="svcs">
-        <div class="svc">
-          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
-          <h3>Google Maps y reseñas</h3>
-          <p>Dejamos tu perfil de Google impecable y pedimos la reseña en el momento en que tu cliente está más contento, para que te califiquen a gusto.</p>
-          <div class="chips"><span>Perfil de Google</span><span>QR en mesa</span><span>Respuesta a reseñas</span></div>
-        </div>
-        <div class="svc">
-          <div class="ic"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="7" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="17" cy="12" r="1.5"/></svg></div>
-          <h3>Tarjeta de lealtad digital</h3>
-          <p>Tus clientes se registran, suman un sello en cada compra y ganan premios. Así regresan más seguido y tú conoces a quién te visita.</p>
-          <div class="chips"><span>Sellos</span><span>Premios</span><span>Base de clientes</span></div>
-        </div>
-        <div class="svc">
-          <div class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></div>
-          <h3>Menú digital y página web</h3>
-          <p>Un menú con fotos que se abre con un QR y una página sencilla con horarios, ubicación y reservas, para que pedir sea fácil.</p>
-          <div class="chips"><span>QR</span><span>Página web</span><span>Pedidos por WhatsApp</span></div>
-        </div>
-        <div class="svc">
-          <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></div>
-          <h3>Redes que se antojan</h3>
-          <p>Planeamos y publicamos tu contenido para que tu lugar se vea tan bien como sabe.</p>
-          <div class="chips"><span>Instagram</span><span>Facebook</span><span>TikTok</span></div>
-        </div>
-        <div class="svc">
-          <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="13" height="14" rx="2"/><path d="m16 10 5-3v10l-5-3"/></svg></div>
-          <h3>Videos y edición rápida</h3>
-          <p>Te damos ideas y guiones; tú grabas con tu celular y nosotros lo convertimos en videos que dan hambre.</p>
-          <div class="chips"><span>Reels</span><span>Guiones</span><span>Edición</span></div>
-        </div>
-        <div class="svc">
-          <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 11l15-7v16L3 13z"/><path d="M7 13v5a2 2 0 0 0 4 0v-3"/></svg></div>
-          <h3>Anuncios en tu zona</h3>
-          <p>Campañas sencillas para que la gente cerca de ti descubra tu lugar y tus promociones.</p>
-          <div class="chips"><span>Meta</span><span>Google</span><span>Promociones</span></div>
-        </div>
+      <span class="kick">Así de simple</span>
+      <h2>Hacemos tres cosas por tu negocio.</h2>
+      <div class="three">
+        <div><b class="n">1 · Te encuentran</b><h3>Sales primero en Google</h3><p>Perfil de Google impecable, más reseñas y anuncios para la gente que está cerca de ti.</p></div>
+        <div><b class="n">2 · Te eligen</b><h3>Se les antoja tu lugar</h3><p>Fotos, videos y un menú digital que dan ganas de ir hoy mismo.</p></div>
+        <div><b class="n">3 · Regresan</b><h3>Vuelven una y otra vez</h3><p>Una tarjeta de lealtad con premios que convierte visitas en clientes frecuentes.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- Plan: contraste (un equipo completo) + simplicidad -->
+  <!-- Ejemplo 1: tarjeta de lealtad -->
+  <section id="ejemplos" style="padding-top:0">
+    <div class="wrap demo">
+      <div class="copy">
+        <span class="kick">Ejemplo · Tarjeta de lealtad</span>
+        <h2>Tu cuponera, pero en el celular de tu cliente.</h2>
+        <p class="sub">Se registra con su número, junta un sello en cada compra y gana un premio. Sin tarjetas de cartón que se pierden.</p>
+        <ul>
+          <li>Tus clientes regresan para completar su tarjeta</li>
+          <li>Sabes quién te visita y cada cuándo</li>
+          <li>Les mandas promociones a los que ya te conocen</li>
+        </ul>
+      </div>
+      <div>
+        <div class="loyal">
+          <div class="lt"><b>Café La Abeja</b><small>Tarjeta de cliente</small></div>
+          <p class="who">Hola, Mariana 👋 · Junta 8 sellos y tu café es gratis</p>
+          <div class="stamps" id="stamps"></div>
+          <p class="prog" id="prog"></p>
+          <div class="acts"><button type="button" class="add" id="addStamp">☕ Tocar para sumar sello</button><button type="button" class="reset" id="resetStamp" aria-label="Reiniciar tarjeta">↺</button></div>
+          <div class="won" id="won">🎉 ¡Ganaste un café gratis! Muestra esta tarjeta en caja.</div>
+        </div>
+        <p class="tag-ex" style="text-align:center;display:block">Pruébalo: toca el botón para sumar sellos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ejemplo 2: reseñas -->
+  <section style="padding-top:0">
+    <div class="wrap demo rev">
+      <div class="copy">
+        <span class="kick">Ejemplo · Reseñas en Google</span>
+        <h2>Más reseñas, más clientes nuevos.</h2>
+        <p class="sub">Pedimos la reseña en el mejor momento: cuando tu cliente está contento, con un QR en la mesa o al recibir su premio. Así te califican a gusto.</p>
+        <ul>
+          <li>Apareces más arriba cuando alguien busca dónde comer</li>
+          <li>Respondemos tus reseñas para que se vea que cuidas a tus clientes</li>
+          <li>Todo dentro de las reglas de Google</li>
+        </ul>
+      </div>
+      <div class="gcard" aria-label="Ejemplo de perfil de Google">
+        <div class="gh"><b>Café La Abeja</b><small>Cafetería · 300 m de ti</small></div>
+        <div class="compare">
+          <div><small>Antes</small><b>4.6</b><div class="st">★★★★☆</div><span>12 reseñas</span></div>
+          <div><small>Después (ejemplo)</small><b>4.8</b><div class="st">★★★★★</div><span>120 reseñas</span></div>
+        </div>
+        <div class="greview"><b>Daniela R.</b> <span class="st">★★★★★</span><br>"El mejor café de la zona y la atención súper amable. Ya voy por mi tercer sello 😄"</div>
+        <div class="qr"><svg viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="6" fill="#fff"/><path d="M5 5h12v12H5zM27 5h12v12H27zM5 27h12v12H5z" fill="none" stroke="#111" stroke-width="3"/><path d="M9 9h4v4H9zM31 9h4v4h-4zM9 31h4v4H9zM24 24h4v4h-4zM30 28h4v4h-4zM24 32h4v4h-4zM34 34h5v5h-5zM28 22h3v3h-3z" fill="#111"/></svg>“¿Te gustó? Escanea y cuéntanos.” · QR en cada mesa</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Qué incluye -->
   <section style="padding-top:0">
     <div class="wrap">
-      <div class="plan">
-        <div>
-          <span class="badge">Hecho para negocios de comida</span>
-          <h2 style="margin-top:16px">Plan Mesa Llena</h2>
-          <p class="sub">Todo lo que tu lugar necesita para atraer clientes, en una sola mensualidad. Sin contratar fotógrafo, diseñador, community manager y programador por separado.</p>
-          <div class="ctas" style="margin-top:24px"><a class="wa-btn y" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20me%20interesa%20el%20plan%20Mesa%20Llena" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>Quiero mi propuesta</a></div>
-        </div>
-        <div>
-          <ul class="incl">
-            <li>Perfil de Google optimizado</li>
-            <li>Sistema para conseguir más reseñas</li>
-            <li>Tarjeta de lealtad con premios</li>
-            <li>Menú digital con QR</li>
-            <li>Página web sencilla</li>
-            <li>Contenido para tus redes cada mes</li>
-            <li>Edición de tus videos</li>
-            <li>Anuncios para tu zona</li>
-            
-          </ul>
-          <small>Armamos el plan a la medida de tu negocio. La inversión en anuncios la pagas directo a la plataforma y siempre la ves por separado.</small>
-        </div>
+      <span class="kick">Plan Mesa Llena</span>
+      <h2>Todo lo que tu lugar necesita, en una mensualidad.</h2>
+      <p class="sub">Sin contratar fotógrafo, diseñador, community manager y programador por separado.</p>
+      <div class="inc">
+        <div><span class="e">📍</span><b>Google Maps</b><span>Perfil optimizado y estrategia de reseñas</span></div>
+        <div><span class="e">📱</span><b>Menú digital</b><span>Con QR, fotos y pedidos por WhatsApp</span></div>
+        <div><span class="e">🎟️</span><b>Tarjeta de lealtad</b><span>Sellos, premios y base de clientes</span></div>
+        <div><span class="e">🌐</span><b>Página web</b><span>Horarios, ubicación y reservas</span></div>
+        <div><span class="e">📸</span><b>Redes sociales</b><span>Contenido que se antoja cada mes</span></div>
+        <div><span class="e">🎬</span><b>Videos</b><span>Guiones e ideas; tú grabas, nosotros editamos</span></div>
+        <div><span class="e">📣</span><b>Anuncios en tu zona</b><span>Para la gente que está cerca</span></div>
+        <div><span class="e">📊</span><b>Reporte mensual</b><span>Qué funcionó y qué sigue</span></div>
       </div>
+      <p class="promise">🛡️ Si algo no da resultado, lo ajustamos sin costo extra. La inversión en anuncios la pagas directo a la plataforma.</p>
     </div>
   </section>
 
-  <!-- Proceso -->
+  <!-- Cómo empezamos -->
   <section style="padding-top:0">
     <div class="wrap">
-      <span class="eyebrow">Así empezamos</span>
-      <h2>En cuatro pasos tu lugar está en marcha.</h2>
+      <span class="kick">Cómo empezamos</span>
+      <h2>Tres pasos y arrancamos.</h2>
       <div class="steps">
-        <div class="step"><h3>Platicamos</h3><p>Conocemos tu negocio, tu zona y a tus clientes.</p><span class="free">Gratis</span></div>
-        <div class="step"><h3>Revisamos tu presencia</h3><p>Google, reseñas, redes y menú: qué ayuda y qué se puede mejorar.</p></div>
-        <div class="step"><h3>Te presentamos el plan</h3><p>Qué hacer primero para que lleguen más clientes, con números claros.</p></div>
-        <div class="step"><h3>Arrancamos</h3><p>Ponemos todo en marcha y revisamos contigo los resultados.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Compromiso -->
-  <section style="padding-top:0">
-    <div class="wrap">
-      <div class="promise">
-        <div class="seal" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
-        <div><h3>Nuestro compromiso contigo</h3><p>Hablas directo con tu estratega, sabes en qué se invierte cada peso y, si algo no da resultado, lo ajustamos sin costo extra.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Objeciones -->
-  <section style="padding-top:20px">
-    <div class="wrap">
-      <span class="eyebrow">Preguntas frecuentes</span>
-      <h2>Lo que nos preguntan los dueños de negocio.</h2>
-      <div class="faq">
-        <div><h3>¿Cuánto tiempo me va a quitar?</h3><p>Muy poco. Te damos ideas e indicaciones claras para grabar con tu celular, y nosotros hacemos el resto.</p></div>
-        <div><h3>¿Sirve si mi negocio es pequeño?</h3><p>Sí. Justo los negocios de barrio son los que más crecen cuando la gente de la zona los encuentra en Google.</p></div>
-        <div><h3>¿Cuándo veo resultados?</h3><p>Las reseñas y el perfil de Google mejoran desde las primeras semanas; los clientes nuevos suelen notarse entre el primer y el tercer mes.</p></div>
+        <div><b>Platicamos 15 minutos</b><span>Por WhatsApp o llamada. Sin costo.</span></div>
+        <div><b>Revisamos tu lugar</b><span>Google, reseñas, redes y menú: qué ayuda y qué falta.</span></div>
+        <div><b>Te mostramos el plan</b><span>Qué hacer primero para que lleguen más clientes.</span></div>
       </div>
     </div>
   </section>
@@ -388,24 +317,48 @@
   <section style="padding-top:0">
     <div class="wrap">
       <div class="final">
-        <h2>Tu próxima mesa llena empieza con una plática.</h2>
-        <p>Agenda tu diagnóstico gratis y te decimos qué haríamos primero para que más gente encuentre tu lugar.</p>
-        <div class="ctas">
-          <a class="wa-btn" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20tengo%20un%20negocio%20de%20comida%20y%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>Agenda tu diagnóstico gratis</a>
-          <a class="ghost" href="https://abycagency.com">Conoce más de AbyC</a>
-        </div>
-        <p class="contact">WhatsApp +52 56 1505 6334 · abycmexico@gmail.com</p>
+        <h2>¿Listo para llenar más mesas?</h2>
+        <p>Escríbenos y te decimos, sin costo, qué haríamos primero con tu lugar.</p>
+        <div class="ctas"><a class="btn ink" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20tengo%20un%20negocio%20de%20comida%20y%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>Quiero mi diagnóstico gratis</a></div>
+        <small>WhatsApp +52 56 1505 6334 · abycmexico@gmail.com</small>
       </div>
     </div>
   </section>
 </main>
 
-
 <footer>
   <div class="wrap">
     <a class="logo" href="https://abycagency.com"><img src="../assets/imagen-1.png" alt="AbyC"> ABYC</a>
-    <span>© 2026 AbyC · Nada se comunica al azar.</span>
+    <span>© 2026 AbyC · Nada se comunica al azar. · Los ejemplos de esta página son ilustrativos.</span>
   </div>
 </footer>
+
+<script>
+  // Menú de ejemplo
+  const menu={
+    cafe:[["☕","Latte de la casa","Espresso doble con leche cremosa","$55"],["🧋","Frappé de caramelo","Con crema batida","$72"],["🍵","Matcha latte","Matcha japonés y leche de almendra","$68"],["☕","Americano","Grano de Veracruz, tostado medio","$40"]],
+    desayunos:[["🥐","Croissant de jamón y queso","Recién horneado","$75"],["🍳","Chilaquiles verdes","Con pollo, crema y queso","$110"],["🥞","Hot cakes","Con miel de maple y fruta","$85"]],
+    postres:[["🍰","Pay de queso","Con mermelada de frutos rojos","$60"],["🍫","Brownie","Con helado de vainilla","$65"],["🍪","Galleta de chispas","Grande y suavecita","$35"]]
+  };
+  const list=document.getElementById('menuList');
+  function pinta(cat){
+    list.innerHTML=menu[cat].map(d=>`<div class="dish"><i>${d[0]}</i><div><b>${d[1]}</b><small>${d[2]}</small></div><em>${d[3]}</em></div>`).join('');
+    document.querySelectorAll('.m-tabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.cat===cat));
+  }
+  document.querySelectorAll('.m-tabs button').forEach(b=>b.addEventListener('click',()=>pinta(b.dataset.cat)));
+  pinta('cafe');
+
+  // Tarjeta de lealtad de ejemplo
+  const total=8; let n=5;
+  const st=document.getElementById('stamps'), prog=document.getElementById('prog'), won=document.getElementById('won');
+  function sellos(){
+    st.innerHTML=Array.from({length:total},(_,i)=>`<div class="stamp ${i<n?'on':''} ${i===total-1?'gift':''}" aria-hidden="true">${i<n?'☕':(i===total-1?'🎁':'')}</div>`).join('');
+    prog.innerHTML = n<total ? `Llevas <span>${n} de ${total}</span> sellos · te faltan ${total-n}` : `<span>¡Tarjeta completa!</span>`;
+    won.classList.toggle('show', n>=total);
+  }
+  document.getElementById('addStamp').addEventListener('click',()=>{ if(n<total){n++;sellos();} });
+  document.getElementById('resetStamp').addEventListener('click',()=>{n=0;sellos();});
+  sellos();
+</script>
 </body>
 </html>
