@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AbyC · Marketing que te trae clientes</title>
+<meta name="description" content="Estrategia, contenido y campañas medibles para negocios, profesionales y figuras públicas. Diagnóstico sin costo.">
+<!-- Página para enviar a prospectos: no se indexa, no va en sitemap ni en llms.txt -->
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AbyC · Marketing que te trae clientes, no solo likes">
+<meta property="og:description" content="Estrategia, contenido y campañas medibles. Pide tu diagnóstico gratis.">
+<meta property="og:image" content="https://abycagency.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/imagen-1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  /* Mismo sistema que abycagency.com: blanco, tinta y amarillo panal; Montserrat; una columna que se lee de arriba abajo en celular */
+  :root{
+    --yellow:#FFCC33;
+    --yellow-soft:#FFE38A;
+    --ink:#111111;
+    --gray:#7a7a7a;
+    --line:#ececec;
+    --paper:#ffffff;
+    --font:'Montserrat',Arial,sans-serif;
+    color-scheme:light;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--font);font-weight:500;line-height:1.6;overflow-x:hidden;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--yellow);outline-offset:3px;border-radius:100px;}
+
+  /* Cabecera, igual que el sitio */
+  header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 32px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;letter-spacing:1px;}
+  .logo img{height:28px;width:auto;}
+  .wa-btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;padding:11px 20px;border-radius:100px;font-size:13.5px;font-weight:600;transition:transform .2s ease,background .2s ease;white-space:nowrap;}
+  .wa-btn:hover{background:#000;transform:translateY(-2px);}
+  .wa-btn svg{width:16px;height:16px;fill:var(--yellow);flex:none;}
+  .wa-btn.y{background:var(--yellow);color:var(--ink);}
+  .wa-btn.y svg{fill:var(--ink);}
+  .wa-btn.y:hover{background:#ffd54f;}
+  .ghost{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:100px;font-size:13.5px;font-weight:600;border:1.5px solid var(--line);transition:border-color .2s ease;}
+  .ghost:hover{border-color:var(--ink);}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+  section{padding:84px 0;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);}
+  .eyebrow::before{content:"";width:22px;height:3px;border-radius:3px;background:var(--yellow);}
+  h2{font-size:clamp(28px,4vw,42px);line-height:1.1;letter-spacing:-.02em;font-weight:800;margin:12px 0 14px;text-wrap:balance;}
+  .sub{font-size:17px;color:var(--gray);max-width:58ch;}
+
+  /* Portada */
+  .hero{position:relative;padding:88px 0 76px;overflow:hidden;}
+  .hero h1{font-size:clamp(40px,7vw,78px);line-height:1;letter-spacing:-.04em;font-weight:800;max-width:14ch;text-wrap:balance;}
+  .hero h1 mark{background:linear-gradient(transparent 62%,var(--yellow) 62%);color:inherit;padding:0 .05em;}
+  .hero p.lead{font-size:clamp(17px,2vw,20px);max-width:52ch;margin:24px 0 32px;}
+  .ctas{display:flex;flex-wrap:wrap;gap:12px;}
+  .motto{display:flex;align-items:center;gap:4px;margin-top:34px;font-size:15px;font-weight:700;}
+  .cursor{display:inline-block;width:2px;height:18px;background:var(--yellow);animation:blink .9s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .comb{position:absolute;right:-60px;top:40px;width:520px;max-width:60vw;opacity:.9;pointer-events:none;}
+  .comb path{fill:none;stroke:var(--ink);stroke-width:2;opacity:.12;}
+  .comb path.on{stroke:var(--yellow);opacity:1;stroke-width:3;animation:pulse 3.6s ease-in-out infinite;}
+  .comb path.on:nth-of-type(2n){animation-delay:1.2s;}
+  .comb path.on:nth-of-type(3n){animation-delay:2.4s;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+  /* Franja de datos */
+  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .strip .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));}
+  .strip div.it{padding:22px 18px;border-left:1px solid var(--line);}
+  .strip div.it:first-child{border-left:0;padding-left:0;}
+  .strip b{display:block;font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.15;}
+  .strip span{font-size:13px;color:var(--gray);}
+
+  /* ¿Te suena? */
+  .pains{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px;}
+  .pain{background:#faf9f5;border-radius:16px;padding:24px;font-size:16px;font-weight:600;line-height:1.4;position:relative;}
+  .pain::before{content:"“";display:block;font-size:44px;line-height:.8;font-weight:800;color:var(--yellow);margin-bottom:6px;}
+  .answer{margin-top:22px;font-size:18px;font-weight:700;}
+  .answer span{background:var(--yellow);padding:2px 8px;border-radius:6px;}
+
+  /* Servicios */
+  .svcs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:34px;}
+  .svc{border:1.5px solid var(--line);border-radius:18px;padding:26px 24px;display:flex;flex-direction:column;gap:10px;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;background:#fff;}
+  .svc:hover{transform:translateY(-4px);border-color:var(--ink);box-shadow:0 14px 30px rgba(0,0,0,.06);}
+  .svc .ic{width:46px;height:46px;border-radius:12px;background:var(--yellow);display:grid;place-items:center;}
+  .svc .ic svg{width:24px;height:24px;stroke:var(--ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  .svc h3{font-size:19px;font-weight:700;letter-spacing:-.01em;}
+  .svc p{font-size:14.5px;color:var(--gray);}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px;}
+  .chips span{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:100px;background:#f4f3ee;}
+
+  /* Plan */
+  .plan{background:var(--ink);color:#fff;border-radius:26px;padding:48px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:center;}
+  .plan .eyebrow{color:#bdbdbd;}
+  .plan h2{color:#fff;}
+  .plan .sub{color:#bdbdbd;}
+  .badge{display:inline-block;background:var(--yellow);color:var(--ink);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:100px;}
+  .incl{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+  .incl li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.4;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px;}
+  .incl li::before{content:"";flex:none;width:18px;height:18px;margin-top:1px;border-radius:50%;background:var(--yellow) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12 4 4 8-8'/%3E%3C/svg%3E") center/12px no-repeat;}
+  .plan small{display:block;margin-top:16px;font-size:13px;color:#bdbdbd;}
+
+  /* Proceso */
+  .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:34px;counter-reset:s;position:relative;}
+  .step{counter-increment:s;position:relative;padding-top:58px;}
+  .step::before{content:counter(s);position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;font-weight:800;display:grid;place-items:center;font-variant-numeric:tabular-nums;}
+  .step::after{content:"";position:absolute;top:20px;left:54px;right:-6px;height:2px;background:repeating-linear-gradient(90deg,var(--yellow) 0 8px,transparent 8px 14px);}
+  .step:last-child::after{display:none;}
+  .step h3{font-size:17px;font-weight:700;margin-bottom:6px;}
+  .step p{font-size:14.5px;color:var(--gray);}
+  .step .free{display:inline-block;margin-top:8px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:var(--yellow);padding:3px 8px;border-radius:100px;}
+
+  /* Por qué */
+  .why{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:34px;}
+  .why div{border-top:3px solid var(--ink);padding-top:16px;}
+  .why div:nth-child(odd){border-top-color:var(--yellow);}
+  .why h3{font-size:17px;font-weight:700;margin-bottom:6px;}
+  .why p{font-size:14.5px;color:var(--gray);}
+
+  /* Marcas en movimiento */
+  .brands{padding:60px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .brands p{text-align:center;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:26px;}
+  .marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);}
+  .track{display:flex;gap:64px;width:max-content;align-items:center;animation:slide 32s linear infinite;}
+  .track img{height:46px;width:auto;object-fit:contain;filter:grayscale(1);opacity:.75;transition:filter .2s,opacity .2s;}
+  .track img:hover{filter:none;opacity:1;}
+  .txtlogo{font-size:22px;font-weight:800;letter-spacing:-.01em;color:#9a9a9a;white-space:nowrap;}
+  @keyframes slide{to{transform:translateX(-50%);}}
+  .marquee:hover .track{animation-play-state:paused;}
+
+  /* Preguntas */
+  .faq{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px;}
+  .faq div{background:#faf9f5;border-radius:16px;padding:22px;}
+  .faq h3{font-size:15.5px;font-weight:700;margin-bottom:8px;}
+  .faq p{font-size:14.5px;color:var(--gray);}
+
+  /* Cierre */
+  .final{background:var(--yellow);border-radius:26px;padding:56px 48px;text-align:center;position:relative;overflow:hidden;}
+  .final h2{max-width:20ch;margin:0 auto 12px;}
+  .final p{max-width:48ch;margin:0 auto 26px;font-size:17px;}
+  .final .ctas{justify-content:center;}
+  .final .contact{margin-top:22px;font-size:14px;font-weight:600;}
+  .final .ghost{border-color:rgba(0,0,0,.25);}
+  .final .ghost:hover{border-color:var(--ink);}
+
+  footer{padding:36px 0 46px;}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;font-size:13px;color:var(--gray);}
+
+  @media (max-width:900px){
+    .svcs,.pains,.faq{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+    .why,.steps{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 14px;}
+    .step::after{display:none;}
+    .plan{grid-template-columns:minmax(0,1fr);padding:36px 28px;}
+    .strip .wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+    .strip div.it:nth-child(3){border-left:0;padding-left:0;}
+    .strip div.it:nth-child(n+3){border-top:1px solid var(--line);}
+    .comb{opacity:.35;}
+  }
+  @media (max-width:600px){
+    header{padding:14px 16px;}
+    header .wa-btn span{display:none;}
+    .wrap{padding:0 16px;}
+    section{padding:60px 0;}
+    .hero{padding:56px 0 54px;}
+    .svcs,.pains,.faq,.why,.steps,.incl{grid-template-columns:minmax(0,1fr);}
+    .final{padding:40px 22px;}
+    .comb{right:-160px;top:10px;opacity:.25;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .track,.cursor,.comb path.on{animation:none;}
+    .track{flex-wrap:wrap;width:auto;justify-content:center;}
+    .track .dup{display:none;}
+    .svc,.wa-btn{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="https://abycagency.com"><img src="../assets/imagen-1.png" alt="AbyC"> ABYC</a>
+  <a class="wa-btn" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20vi%20su%20brief%20y%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg><span>Hablemos</span>
+  </a>
+</header>
+
+<main>
+  <!-- Portada -->
+  <div class="hero">
+    <svg class="comb" viewBox="0 0 520 460" aria-hidden="true">
+      <path d="M160 40l52 30v60l-52 30-52-30V70z"/>
+      <path class="on" d="M264 40l52 30v60l-52 30-52-30V70z"/>
+      <path d="M368 40l52 30v60l-52 30-52-30V70z"/>
+      <path d="M108 130l52 30v60l-52 30-52-30v-60z"/>
+      <path d="M212 130l52 30v60l-52 30-52-30v-60z"/>
+      <path class="on" d="M316 130l52 30v60l-52 30-52-30v-60z"/>
+      <path d="M420 130l52 30v60l-52 30-52-30v-60z"/>
+      <path class="on" d="M160 220l52 30v60l-52 30-52-30v-60z"/>
+      <path d="M264 220l52 30v60l-52 30-52-30v-60z"/>
+      <path d="M368 220l52 30v60l-52 30-52-30v-60z"/>
+      <path d="M212 310l52 30v60l-52 30-52-30v-60z"/>
+      <path d="M316 310l52 30v60l-52 30-52-30v-60z"/>
+    </svg>
+    <div class="wrap" style="position:relative">
+      <span class="eyebrow">Agencia de marketing y comunicación</span>
+      <h1 style="margin-top:16px">Marketing que te trae <mark>clientes</mark>, no solo likes.</h1>
+      <p class="lead">Estrategia, contenido y campañas medibles para negocios, profesionales y figuras públicas. Empezamos con un diagnóstico sin costo.</p>
+      <div class="ctas">
+        <a class="wa-btn y" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20vi%20su%20brief%20y%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>Quiero mi diagnóstico gratis</a>
+        <a class="ghost" href="#servicios">Ver servicios ↓</a>
+      </div>
+      <p class="motto">Nada se comunica al azar<span class="cursor" aria-hidden="true"></span></p>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div class="wrap">
+      <div class="it"><b>7 años</b><span>trabajando con marcas</span></div>
+      <div class="it"><b>3 países</b><span>México, Colombia y El Salvador</span></div>
+      <div class="it"><b>6 plataformas</b><span>Meta, Google, TikTok, LinkedIn y más</span></div>
+      <div class="it"><b>Cada 15 días</b><span>reporte de lo que te trajo clientes</span></div>
+    </div>
+  </div>
+
+  <!-- Problema -->
+  <section>
+    <div class="wrap">
+      <span class="eyebrow">¿Te suena?</span>
+      <h2>Inviertes en marketing y no sabes qué te está funcionando.</h2>
+      <div class="pains">
+        <div class="pain">Publico seguido, tengo likes, pero no me escriben clientes.</div>
+        <div class="pain">Pago anuncios y no sé si me están trayendo ventas.</div>
+        <div class="pain">Sé mucho de lo mío, pero nadie me encuentra en internet.</div>
+      </div>
+      <p class="answer">Eso tiene solución: <span>estrategia primero, y medir en clientes.</span></p>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section id="servicios" style="padding-top:0">
+    <div class="wrap">
+      <span class="eyebrow">Lo que hacemos</span>
+      <h2>Todo tu marketing, en una sola dirección.</h2>
+      <div class="svcs">
+        <div class="svc">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+          <h3>Marketing digital</h3>
+          <p>Estrategia, contenido y campañas para que tu negocio venda más, con números claros.</p>
+          <div class="chips"><span>Estrategia</span><span>Contenido</span><span>Medición</span></div>
+        </div>
+        <div class="svc">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="m10 9 4 2-4 2z"/></svg></div>
+          <h3>Redes y campañas</h3>
+          <p>Operamos tus perfiles y tu pauta como una sola estrategia, no como cuentas sueltas.</p>
+          <div class="chips"><span>Meta</span><span>Google</span><span>TikTok</span><span>LinkedIn</span></div>
+        </div>
+        <div class="svc">
+          <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></div>
+          <h3>Marca personal</h3>
+          <p>Que cuando alguien busque tu nombre, encuentre lo que tiene que encontrar.</p>
+          <div class="chips"><span>Posicionamiento</span><span>Contenido</span><span>Medios</span></div>
+        </div>
+        <div class="svc">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M12 8v5M12 16h.01"/></svg></div>
+          <h3>Comunicación en crisis</h3>
+          <p>Control del mensaje cuando un rumor o una queja empiezan a crecer. Respondemos en horas.</p>
+          <div class="chips"><span>Respuesta</span><span>Protocolo</span><span>Monitoreo</span></div>
+        </div>
+        <div class="svc">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/><path d="M4 21h16"/></svg></div>
+          <h3>Comunicación política</h3>
+          <p>Campañas, posicionamiento de figuras públicas y comunicación de gobierno, con discreción.</p>
+          <div class="chips"><span>Narrativa</span><span>Vocería</span><span>Medios</span></div>
+        </div>
+        <div class="svc">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h3>IA y capacitación</h3>
+          <p>Enseñamos a tu equipo a usar inteligencia artificial para producir más, sin perder calidad.</p>
+          <div class="chips"><span>Talleres</span><span>Procesos</span><span>Automatización</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plan -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="plan">
+        <div>
+          <span class="badge">El más pedido</span>
+          <h2 style="margin-top:16px">Plan Presencia</h2>
+          <p class="sub">Para negocios y marcas personales que quieren aparecer con constancia y recibir clientes. Un solo pago mensual, todo incluido.</p>
+          <div class="ctas" style="margin-top:24px"><a class="wa-btn y" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20me%20interesa%20el%20Plan%20Presencia" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>Pide tu propuesta</a></div>
+        </div>
+        <div>
+          <ul class="incl">
+            <li>Test ADN de marca y estrategia</li>
+            <li>Identidad visual</li>
+            <li>Guiones listos para grabar</li>
+            <li>Edición de tus videos</li>
+            <li>8 piezas al mes: 4 videos y 4 diseños</li>
+            <li>Campaña para conseguir clientes</li>
+            <li>Reporte de resultados</li>
+            <li>Ajustes sin costo extra</li>
+          </ul>
+          <small>La inversión en anuncios es tuya: la pagas directo a la plataforma y la ves por separado.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proceso -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <span class="eyebrow">Cómo trabajamos</span>
+      <h2>Cuatro pasos, sin complicarte.</h2>
+      <div class="steps">
+        <div class="step"><h3>Diagnóstico</h3><p>Revisamos tu marca, tu competencia y lo que hoy te funciona.</p><span class="free">Gratis</span></div>
+        <div class="step"><h3>Test ADN</h3><p>Respondes un test en línea sobre tu marca, tu público y tus objetivos.</p></div>
+        <div class="step"><h3>Estrategia</h3><p>Te presentamos el plan: qué decir, a quién, dónde y cuánto invertir.</p></div>
+        <div class="step"><h3>Resultados</h3><p>Producimos, publicamos y te reportamos cada 15 días qué te trajo clientes.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Por qué -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <span class="eyebrow">Por qué AbyC</span>
+      <h2>Lo que nos hace distintos.</h2>
+      <div class="why">
+        <div><h3>Trato directo</h3><p>Hablas con quien diseña tu estrategia, sin intermediarios.</p></div>
+        <div><h3>Medimos en clientes</h3><p>Te decimos qué generó ventas y qué solo generó likes.</p></div>
+        <div><h3>IA con criterio</h3><p>Producimos más rápido, sin que la máquina decida por ti.</p></div>
+        <div><h3>Transparencia</h3><p>Sabes en qué vamos, qué falta y en qué se invierte cada peso.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marcas -->
+  <div class="brands">
+    <p>Marcas con las que hemos trabajado</p>
+    <div class="marquee">
+      <div class="track">
+        <img src="../assets/adidas.png" alt="Adidas">
+        <img src="../assets/bancolombia.png" alt="Bancolombia">
+        <img src="../assets/wohaw.png" alt="WOHAW">
+        <img src="../assets/capsi.png" alt="CAPSI">
+        <img src="../assets/sendengo.png" alt="Sendengo">
+        <span class="txtlogo">Casa Glick</span>
+        <span class="txtlogo">Nancy Martínez</span>
+        <img class="dup" src="../assets/adidas.png" alt="" aria-hidden="true">
+        <img class="dup" src="../assets/bancolombia.png" alt="" aria-hidden="true">
+        <img class="dup" src="../assets/wohaw.png" alt="" aria-hidden="true">
+        <img class="dup" src="../assets/capsi.png" alt="" aria-hidden="true">
+        <img class="dup" src="../assets/sendengo.png" alt="" aria-hidden="true">
+        <span class="txtlogo dup" aria-hidden="true">Casa Glick</span>
+        <span class="txtlogo dup" aria-hidden="true">Nancy Martínez</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preguntas -->
+  <section>
+    <div class="wrap">
+      <span class="eyebrow">Preguntas rápidas</span>
+      <h2>Antes de que preguntes.</h2>
+      <div class="faq">
+        <div><h3>¿En cuánto tiempo veo resultados?</h3><p>Normalmente entre 1 y 3 meses, según tu industria, tu presupuesto y el objetivo.</p></div>
+        <div><h3>¿Garantizan resultados?</h3><p>No prometemos números exactos; nadie serio puede. Sí ajustamos sin costo extra hasta encontrar lo que funciona.</p></div>
+        <div><h3>¿Trabajan con negocios pequeños?</h3><p>Sí. Desde emprendedores y pymes hasta grandes marcas y gobierno.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cierre -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="final">
+        <h2>Tu diagnóstico es gratis. Empieza hoy.</h2>
+        <p>Escríbenos, agendamos una llamada y te decimos qué le falta a tu marketing para traerte clientes.</p>
+        <div class="ctas">
+          <a class="wa-btn" href="https://wa.me/525615056334?text=Hola%20AbyC%2C%20vi%20su%20brief%20y%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-3 .79.8-2.92-.19-.3A7.93 7.93 0 1 1 20 12a8 8 0 0 1-8 8Z"/></svg>Escríbenos por WhatsApp</a>
+          <a class="ghost" href="https://abycagency.com">Conoce el sitio</a>
+        </div>
+        <p class="contact">WhatsApp +52 56 1505 6334 · abycmexico@gmail.com</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="https://abycagency.com"><img src="../assets/imagen-1.png" alt="AbyC"> ABYC</a>
+    <span>© 2026 AbyC · Nada se comunica al azar.</span>
+  </div>
+</footer>
+</body>
+</html>
