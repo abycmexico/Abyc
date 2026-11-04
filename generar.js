@@ -89,6 +89,7 @@ const fijas = [
   { loc: `${SITIO}/`, fecha: hoy, freq: 'weekly', pri: '1.0' },
   // La versión en inglés del inicio, para quien entra desde Estados Unidos.
   { loc: `${SITIO}/en/`, fecha: hoy, freq: 'weekly', pri: '0.9' },
+  { loc: `${SITIO}/en/servicios.html`, fecha: hoy, freq: 'monthly', pri: '0.8' },
   // Los servicios van con prioridad alta: son las páginas que atienden a
   // quien está buscando contratar, no a quien está leyendo.
   { loc: `${SITIO}/servicios.html`, fecha: hoy, freq: 'monthly', pri: '0.9' },
